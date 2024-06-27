@@ -2,9 +2,13 @@ import Image from "next/image";
 import PatientStatus from "@/app/ui/patients/status";
 import { formatDateToLocal, formatPhoneNumber } from "@/app/lib/utils";
 import { UpdatePatient, DeletePatient } from "@/app/ui/patients/buttons";
+import { fetchPatients } from "@/app/lib/data/queries";
+import Link from "next/link";
 
-export default function PatientsTable() {
-    const patients = [
+export default async function PatientsTable() {
+    const patients = await fetchPatients();
+    
+/*    [
         {
             id: 1234,
             name: 'Bo Hue Phuong',
@@ -22,7 +26,7 @@ export default function PatientsTable() {
             status: 'in_progress'
         },
     ];
-
+*/
     return (
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle">
@@ -33,15 +37,18 @@ export default function PatientsTable() {
                             <div className="flex items-center justify-between border-b pb-4">
                             <div>
                                 <div className="mb-2 flex items-center">
-                                <p className="text-xl">{patient.name}</p>
+                                <p className="text-xl"><Link href={`/dashboard/patients/${patient.id}/view`} className="over:bg-sky-100 hover:text-blue-600">{patient.name}</Link></p>
                                 </div>
-                                <p className="text-sm text-gray-500">{patient.birth_year}</p>
+                                <p className="text-sm text-gray-500">{patient.birth_year}, {patient.gender}</p>
                             </div>
+                            {/*
                             <PatientStatus status={patient.status} />
+                            */
+                            }
                         </div>
                         <div className="flex w-full items-center justify-between pt-4">
                         <div>
-                            <p>{formatDateToLocal(patient.lastest_date, 'vi-VN')}</p>
+                            <p>{/*formatDateToLocal(patient.lastest_date, 'vi-VN')*/}</p>
                             <p>{formatPhoneNumber(patient.phone)}</p>
                         </div>
                         <div className="flex justify-end gap-2">
@@ -68,7 +75,7 @@ export default function PatientsTable() {
                             Latest Date
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium">
-                            Status
+                            Gender
                             </th>
                             <th scope="col" className="relative py-3 pl-6 pr-3">
                             <span className="sr-only">Edit</span>
@@ -81,7 +88,7 @@ export default function PatientsTable() {
                             className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                     <div className="flex items-center gap-3">
-                                    <p>{patient.name}</p>
+                                    <p><Link href={`/dashboard/patients/${patient.id}/view`} className="over:bg-sky-100 hover:text-blue-600">{patient.name}</Link></p>
                                     </div>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3">
@@ -91,10 +98,14 @@ export default function PatientsTable() {
                                     {formatPhoneNumber(patient.phone)}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3">
-                                    {formatDateToLocal(patient.lastest_date, 'vi-VN')}
+                                    {/*formatDateToLocal(patient.lastest_date, 'vi-VN')*/}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3">
+                                    { (patient.gender == 'female' ? 'Female' : 'Male')
+                                     /*
                                     <PatientStatus status={patient.status} />
+                                    */
+                                    }
                                 </td>
                                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                     <div className="flex justify-end gap-3">
