@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { separateFullName, toTitleCase } from '@/app/lib/utils';
 
 const thisYear = (new Date()).getFullYear();
 
@@ -40,7 +41,7 @@ export type State = {
     message?: string | null;
   }; 
 
-export async function createPatient(prevState: State, formData: FormData) {
+export async function createPatient_TBD(prevState: State, formData: FormData) {
 
     const validatedFields = CreatePatient.safeParse({
         name: formData.get('name'),
@@ -59,10 +60,12 @@ export async function createPatient(prevState: State, formData: FormData) {
 
     const { name, birth_year, gender, phone, address } = validatedFields.data;
 
+    const names = separateFullName(name);
+
     try {
         await sql`
-            INSERT INTO patients (name, birth_year, gender, phone, address)
-            VALUES (${name}, ${birth_year}, ${gender}, ${phone}, ${address})
+            INSERT INTO patients (first_name, middle_name, last_name, birth_year, gender, phone, address)
+            VALUES (${names[0]}, ${names[1]}, ${names[2]}, ${birth_year}, ${gender}, ${phone}, ${address})
         `;
     }catch (error) {
         return {
@@ -95,24 +98,13 @@ export async function updatePatient(prevState: State, formData: FormData) {
 
 
   const { id, name, birth_year, gender, phone, address } = validatedFields.data;
+  const names = separateFullName(toTitleCase(name));
   
-  /*({
-    id: formData.get('pid'),
-    name: formData.get('name'),
-    birth_year: formData.get('birth_year'),
-    gender: formData.get('gender'),
-    phone: formData.get('phone'),
-    address: formData.get('address'),
-
-  });*/
-
-  console.log(`id=${id}, phone=${phone}`);
-
   if (id.trim() === '') { // create
     try {
         await sql`
-            INSERT INTO patients (name, birth_year, gender, phone, address)
-            VALUES (${name}, ${birth_year}, ${gender}, ${phone}, ${address})
+            INSERT INTO patients (first_name, middle_name, last_name, birth_year, gender, phone, address)
+            VALUES (${names[0]}, ${names[1]}, ${names[2]}, ${birth_year}, ${gender}, ${phone}, ${address})
         `;
     }catch (error) {
         return {
@@ -123,12 +115,12 @@ export async function updatePatient(prevState: State, formData: FormData) {
     try {
         await sql`
             UPDATE patients
-            SET name = ${name}, birth_year = ${birth_year}, gender = ${gender}, phone = ${phone}, address = ${address}
+            SET first_name = ${names[0]}, middle_name = ${names[1]}, last_name = ${names[2]}, birth_year = ${birth_year}, gender = ${gender}, phone = ${phone}, address = ${address}
             WHERE id = ${id}
         `;
     }catch (error) {
         return {
-            message: 'Database error: Failed to Update Invoice',
+            message: 'Database error: Failed to Update Patient',
         };
     }
   }

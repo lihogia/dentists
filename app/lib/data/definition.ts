@@ -7,7 +7,9 @@ export type User = {
 
 export type PatientsTable = {
     id: string;
-    name: string;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
     birth_year: number;
     gender: 'male' | 'female';
     phone: string;
@@ -16,7 +18,9 @@ export type PatientsTable = {
 
 export type PatientForm = {
     id: string;
-    name: string;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
     birth_year: number;
     gender: 'male' | 'female';
     address: string;

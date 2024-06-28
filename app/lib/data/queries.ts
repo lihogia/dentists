@@ -14,12 +14,14 @@ export async function fetchPatients() {
         const patients = await sql<PatientsTable>`
             SELECT 
                 p.id,
-                p.name,
+                p.first_name,
+                p.middle_name,
+                p.last_name,
                 p.birth_year,
                 p.gender,
                 p.phone
             FROM patients as p
-            ORDER BY p.name ASC
+            ORDER BY p.last_name ASC
         `;   
 
         return patients.rows;
@@ -35,7 +37,9 @@ export async function fetchPatientById(id: string) {
       const data = await sql<PatientForm>`
         SELECT
           p.id,
-          p.name,
+          p.first_name,
+          p.middle_name,
+          p.last_name,
           p.birth_year,
           p.gender,
           p.address,
@@ -50,7 +54,7 @@ export async function fetchPatientById(id: string) {
       return patients[0];
     } catch (error) {
       console.error('Database Error:', error);
-      throw new Error('Failed to fetch invoice.');
+      throw new Error('Failed to fetch patient.');
     }
   }
   

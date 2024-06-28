@@ -1,6 +1,6 @@
 import Image from "next/image";
 import PatientStatus from "@/app/ui/patients/status";
-import { formatDateToLocal, formatPhoneNumber } from "@/app/lib/utils";
+import { formatDateToLocal, formatPhoneNumber, toTitleCase, mergeToFullName } from "@/app/lib/utils";
 import { UpdatePatient, DeletePatient } from "@/app/ui/patients/buttons";
 import { fetchPatients } from "@/app/lib/data/queries";
 import Link from "next/link";
@@ -8,25 +8,6 @@ import Link from "next/link";
 export default async function PatientsTable() {
     const patients = await fetchPatients();
     
-/*    [
-        {
-            id: 1234,
-            name: 'Bo Hue Phuong',
-            birth_year: 1956,
-            phone: '0903068892',
-            lastest_date: '05/14/2024',
-            status: 'done'
-        },
-        {
-            id: 1235,
-            name: 'Tran Tue Lam',
-            birth_year: 1964,
-            phone: '0907967892',
-            lastest_date: '06/11/2024',
-            status: 'in_progress'
-        },
-    ];
-*/
     return (
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle">
@@ -37,7 +18,7 @@ export default async function PatientsTable() {
                             <div className="flex items-center justify-between border-b pb-4">
                             <div>
                                 <div className="mb-2 flex items-center">
-                                <p className="text-xl"><Link href={`/dashboard/patients/${patient.id}/view`} className="over:bg-sky-100 hover:text-blue-600">{patient.name}</Link></p>
+                                <p className="text-xl"><Link href={`/dashboard/patients/${patient.id}/view`} className="over:bg-sky-100 hover:text-blue-600">{mergeToFullName([patient.first_name,patient.middle_name, patient.last_name])}</Link></p>
                                 </div>
                                 <p className="text-sm text-gray-500">{patient.birth_year}, {patient.gender}</p>
                             </div>
@@ -88,7 +69,7 @@ export default async function PatientsTable() {
                             className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                     <div className="flex items-center gap-3">
-                                    <p><Link href={`/dashboard/patients/${patient.id}/view`} className="over:bg-sky-100 hover:text-blue-600">{patient.name}</Link></p>
+                                    <p><Link href={`/dashboard/patients/${patient.id}/view`} className="over:bg-sky-100 hover:text-blue-600">{mergeToFullName([patient.first_name,patient.middle_name, patient.last_name])}</Link></p>
                                     </div>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3">

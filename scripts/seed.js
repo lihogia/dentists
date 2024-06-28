@@ -1,6 +1,7 @@
 const { db } = require('@vercel/postgres');
 const bcrypt = require('bcrypt');
 const { users, patients } = require('../app/lib/data/placeholderData.js');
+const { separateFullName, toTitleCase } = require('../app/lib/utils-module.js');
  
 async function createUsers(client) {
     try {
@@ -42,10 +43,13 @@ async function createUsers(client) {
 
 async function createPatients(client) {
     try {
+        // drop table patients;
         const createTable = await client.sql`
         CREATE TABLE IF NOT EXISTS patients (
           id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-          name VARCHAR(255) NOT NULL,
+          first_name VARCHAR(100) NOT NULL,
+          middle_name VARCHAR(255) NOT NULL,
+          last_name VARCHAR(100) NOT NULL,
           birth_year INT NOT NULL,
           gender VARCHAR(255) NOT NULL,
           address VARCHAR(255) NOT NULL,
@@ -57,10 +61,14 @@ async function createPatients(client) {
         // Insert data into the "patients" table
         const insertedPatients = await Promise.all(
             patients.map(
-                (patient) => client.sql`
-                INSERT INTO patients (id, name, birth_year, gender, address, phone)
-                VALUES (${patient.id}, ${patient.name}, ${patient.birth_year}, ${patient.gender}, ${patient.address}, ${patient.phone});
-            `,
+                (patient) => {
+                    const nNames = separateFullName(patient.name);
+                    console.log(nNames);
+                    return client.sql`
+                        INSERT INTO patients (id, first_name, middle_name, last_name, birth_year, gender, address, phone)
+                        VALUES (${patient.id}, ${nNames[0]}, ${nNames[1]}, ${nNames[2]}, ${patient.birth_year}, ${patient.gender}, ${patient.address}, ${patient.phone});
+                    `
+                }
             ),
         );
         console.log(`Seeded ${insertedPatients.length} patients`);
@@ -117,7 +125,25 @@ async function createMedicalInfo(client) {
     }
 }
 
+function test() {
+    const nNames = separateFullName("Tran Tue Lam");
+    console.log(nNames);
+    const [firstname, middlename, lastname] = [nNames[0], nNames[1], nNames[2]];    
+}
+
+function test1() {
+    const strs = ['TRAN'];
+    const strss = strs.filter((str) => str != '');
+    console.log(toTitleCase(strss.join('')));
+    console.log(toTitleCase("HONG gia lINH"));
+}
+
 async function main() {
+    //test();
+    test1();
+}
+
+async function main1() {
     const client = await db.connect();
     
     //await createUsers(client);
