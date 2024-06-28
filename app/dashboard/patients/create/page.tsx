@@ -7,7 +7,9 @@ export default async function Page({ params }: { params : { id: string }}) {
     const id = params.id;
     const patient: PatientForm = {
         id: '',
-        name: '',
+        first_name: '',
+        middle_name: '',
+        last_name: '',
         birth_year: 1971,
         gender: 'female',
         phone: '',
