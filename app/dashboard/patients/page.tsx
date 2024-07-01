@@ -2,6 +2,8 @@ import { lusitana } from '@/app/ui/fonts';
 import PatientsTable from '@/app/ui/patients/table';
 import Search from '@/app/ui/search';
 import { CreatePatient } from '@/app/ui/patients/buttons';
+import { PatientsTableSkeleton } from '@/app/ui/skeletons';
+import { Suspense } from 'react';
 
 export default function Page() {
 
@@ -14,7 +16,9 @@ export default function Page() {
                 {/*<Search placeholder="Search patients..." />*/}
                 <CreatePatient />
             </div>
-            <PatientsTable />
+            <Suspense fallback={<PatientsTableSkeleton />}>
+                <PatientsTable />
+            </Suspense>            
         </div>
     );
 }

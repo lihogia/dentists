@@ -10,7 +10,7 @@ const users = [
 const patients = [
     {
         id: 'b0bc25ef-5d0b-4a49-ab35-625377525d6f',
-        name: 'Bo Hue Phuong',
+        name: 'Bô Huệ Phương',
         birth_year: 1956,
         gender: 'female',
         address: '11 Nguyen Trai P9 Q5, tp HCM',
@@ -50,7 +50,7 @@ const patients = [
     },
     {
         id: 'fd9bb2d4-e7f5-49e7-8efa-d7e6c958db94',
-        name: 'Tran Tue Lam',
+        name: 'Trần Tuệ Lâm',
         birth_year: 1964,
         gender: 'female',
         address: '308 Hong Bang P2 Q11, tp HCM',
@@ -66,6 +66,30 @@ const patients = [
             suffered: 'false;false;false;false;false;false;false;false;false;false;'
         }
 
+    },
+    {
+        id: 'e248ef17-befd-473b-934a-d4ae0d0900e6',
+        name: 'Hồ Lê Em',
+        birth_year: 1984,
+        gender: 'Male',
+        address: '',
+        phone: '0949203004',
+    },
+    {
+        id: 'cded6676-a040-463e-bde9-30b432bdc9c4',
+        name: 'Nguyễn Kim Nhung',
+        birth_year: 1981,
+        gender: 'female',
+        address: '',
+        phone: '0378925573',
+    },
+    {
+        id: '6c8933e1-9f05-4100-b33c-c9d3a8637851',
+        name: 'Phạm Nguyễn Ngọc Tuân',
+        birth_year: 1980,
+        gender: 'male',
+        address: '',
+        phone: '0933210480',
     },
     
 ];
