@@ -1,27 +1,58 @@
+'use client';
 
+import { useFormState } from 'react-dom';
+import { useState } from 'react';
 import Link from "next/link";
+import clsx from "clsx";
 import { Button } from "@/app/ui/buttons";
-import { MedicalRecordsForm } from "@/app/lib/data/definition";
-import { formatPhoneNumber, mergeToFullName } from "@/app/lib/utils";
+import { PatientForm, MedicalRecordsForm } from "@/app/lib/data/definition";
 import {
     MinusIcon,
     PlusIcon,
-    InformationCircleIcon,
+    ClockIcon,
     PhoneIcon,
-    HeartIcon,
+    HomeIcon,
     UserCircleIcon,
+    InformationCircleIcon,
+    HeartIcon,
     ArrowUpIcon,
     ScaleIcon
   } from '@heroicons/react/24/outline';
-import clsx from "clsx";
+import { updateMedicalReords, MedicalState } from '@/app/lib/data/actions';
+import { formatPhoneNumber, mergeToFullName } from "@/app/lib/utils";
 
+export default function UpdateMedicalForm({
+    medicalRecords, status
+}: {medicalRecords: MedicalRecordsForm, status: string}) {
 
-export default function ViewMedicalForm({
-    medicalRecords
-}: {medicalRecords: MedicalRecordsForm}) {
+    const isCreate = (status == 'create');
+
+    const initialState: MedicalState = {
+        errors: {},
+        message: null
+      };
+    const [state, dispatch] = useFormState(updateMedicalReords, initialState);
+
+    const initCheckedValues = {
+        hospitalized: medicalRecords.hospitalized,
+        high_blood: medicalRecords.suffered.high_blood,
+        ischemic_heart: medicalRecords.suffered.ischemic_heart,
+        diabetes: medicalRecords.suffered.diabetes,
+        bleeding_disorders: medicalRecords.suffered.bleeding_disorders,
+        allergies: medicalRecords.suffered.allergies,
+        asthma: medicalRecords.suffered.asthma,
+        epileptic: medicalRecords.suffered.epileptic,
+        hepatitisB: medicalRecords.suffered.hepatitisB,
+        pregnancy: medicalRecords.suffered.pregnancy,
+        other_diseases: medicalRecords.suffered.other_diseases,   
+    }
+    const [checkedValues, setCheckedValues] = useState(initCheckedValues);
+
 
     return (
-        <form>
+        <form action={dispatch}>
+            <input type='hidden' name='status' value={status} />
+            <input type='hidden' name='id' value={medicalRecords.pid} />
             <div className="rounded-md bg-gray-50 p-4 md:p-6">
                 {/* Patient Height */}
                 <div className="mb-4">
@@ -32,13 +63,21 @@ export default function ViewMedicalForm({
                         <input
                             id="height"
                             name="height"
-                            type="number"
+                            type="text"
                             placeholder="1.6"
                             className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            readOnly
-                            value={medicalRecords.height}
+                            defaultValue={isCreate ? '' : medicalRecords.height}
+                            required
                         />
                         <ArrowUpIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                    </div>
+                    <div id="patient-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.height &&
+                        state.errors.height.map((error: string) => (
+                            <p className="mt-2 text-sm text-red-500" key={error}>
+                            {error}
+                            </p>
+                        ))}
                     </div>
                 </div>
                 {/* Patient Weight */}
@@ -50,13 +89,21 @@ export default function ViewMedicalForm({
                         <input
                             id="weight"
                             name="weight"
-                            type="number"
+                            type="text"
                             placeholder="60"
                             className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            readOnly
-                            value={medicalRecords.weight}
+                            defaultValue={isCreate ? '' : medicalRecords.weight}
+                            required
                         />
                         <ScaleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                    </div>
+                    <div id="patient-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.weight &&
+                        state.errors.weight.map((error: string) => (
+                            <p className="mt-2 text-sm text-red-500" key={error}>
+                            {error}
+                            </p>
+                        ))}
                     </div>
                 </div>
                 {/* Patient Blood Pressure */}
@@ -71,18 +118,33 @@ export default function ViewMedicalForm({
                             type="number"
                             placeholder="120"
                             className="w-20 rounded-md border border-gray-100 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
-                            readOnly
-                            value={medicalRecords.blood_pressure_sys}
+                            defaultValue={isCreate ? '' : medicalRecords.blood_pressure_sys}
+                            required
                         /> /&nbsp; 
                         <input 
                             id="blood_pressure_dia" 
                             name="blood_pressure_dia" 
                             type="number" 
                             className="w-20 rounded-md border border-gray-100 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500" 
-                            readOnly
-                            value={medicalRecords.blood_pressure_dia} 
+                            defaultValue={isCreate ? '' : medicalRecords.blood_pressure_dia} 
+                            required
                             />
-
+                    </div>
+                    <div id="patient-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.blood_pressure_sys &&
+                        state.errors.blood_pressure_sys.map((error: string) => (
+                            <p className="mt-2 text-sm text-red-500" key={error}>
+                            {error}
+                            </p>
+                        ))}
+                    </div>
+                    <div id="patient-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.blood_pressure_dia &&
+                        state.errors.blood_pressure_dia.map((error: string) => (
+                            <p className="mt-2 text-sm text-red-500" key={error}>
+                            {error}
+                            </p>
+                        ))}
                     </div>
                 </div>
                 {/* Patient Pulse */}
@@ -95,12 +157,20 @@ export default function ViewMedicalForm({
                             id="pulse"
                             name="pulse"
                             type="text"
-                            placeholder="Enter Patient's Phone Number"
+                            placeholder="85"
                             className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            value={medicalRecords.pulse}
-                            readOnly
+                            defaultValue={isCreate ? '' : medicalRecords.pulse}
+                            required
                         />
                         <HeartIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                    </div>
+                    <div id="patient-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.pulse &&
+                        state.errors.pulse.map((error: string) => (
+                            <p className="mt-2 text-sm text-red-500" key={error}>
+                            {error}
+                            </p>
+                        ))}
                     </div>
                 </div>
                 {/* Patient Hospitalized */}
@@ -115,21 +185,26 @@ export default function ViewMedicalForm({
                                     id="hospitalized" 
                                     name="hospitalized" 
                                     type="checkbox" 
-                                    value="true" 
-                                    checked={medicalRecords.hospitalized}
+                                    value="true"
+                                    defaultChecked={medicalRecords.hospitalized}
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                    readOnly
+                                    onChange={(e) => {
+                                        setCheckedValues({
+                                            ...checkedValues,
+                                            hospitalized: e.currentTarget.checked
+                                        });
+                                    }}
                                     />
                                 <label 
                                     htmlFor="hospitalized" 
-                                    className={clsx(medicalRecords.hospitalized ? "bg-red-200" : "bg-green-200","ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}
+                                    className={clsx(checkedValues.hospitalized ? "bg-red-200" : "bg-green-200","ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}
                                     >
-                                {medicalRecords.hospitalized ? 'Yes' : 'No'}
+                                {checkedValues.hospitalized ? 'Yes' : 'No'}
                                 </label>
                             </div>
                         </div>
                     </div>
-                    {medicalRecords.hospitalized && 
+                    {checkedValues.hospitalized && 
                         <div className="rounded-md border border-gray-100 bg-white px-[14px] py-3 w-full">
                             <label htmlFor="hospitalized_declare" className="mb-2 block text-sm font-medium">
                                 Hospitalized declaration
@@ -139,8 +214,7 @@ export default function ViewMedicalForm({
                                     id="hospitalized_declare"
                                     name="hospitalized_declare"
                                     className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                    value={medicalRecords.hospitalized_declare}
-                                    readOnly
+                                    defaultValue={medicalRecords.hospitalized_declare}
                                 />
                                 <InformationCircleIcon className="pointer-events-none absolute left-3 top-1/3 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                             </div>
@@ -157,20 +231,24 @@ export default function ViewMedicalForm({
                             <div className="flex items-center">
                                 &nbsp;&nbsp;
                                 <input 
-                                    id="high_blood_pressure" 
-                                    name="high_blood_pressure" 
+                                    id="high_blood" 
+                                    name="high_blood" 
                                     type="checkbox" 
                                     value="true"
-                                    checked={medicalRecords.suffered.high_blood} 
+                                    defaultChecked={medicalRecords.suffered.high_blood} 
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                    readOnly
-                                    disabled
-                                    />
+                                    onChange={(e) => {
+                                        setCheckedValues({
+                                            ...checkedValues,
+                                            high_blood: e.currentTarget.checked
+                                        });
+                                    }}
+                                />
                                 <label 
-                                    htmlFor="high_blood_pressure" 
-                                    className={clsx(medicalRecords.suffered.high_blood ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}
+                                    htmlFor="high_blood" 
+                                    className={clsx(checkedValues.high_blood ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}
                                     >
-                                    1. High Blood Pressure: {medicalRecords.suffered.high_blood ? 'Yes' : 'No'}
+                                    1. High Blood Pressure: {checkedValues.high_blood ? 'Yes' : 'No'}
                                 </label>
 
                             </div>
@@ -183,16 +261,20 @@ export default function ViewMedicalForm({
                                     name="ischemic_heart" 
                                     type="checkbox" 
                                     value="true"
-                                    checked={medicalRecords.suffered.ischemic_heart} 
+                                    defaultChecked={medicalRecords.suffered.ischemic_heart} 
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                    readOnly
-                                    disabled
-                                    />
+                                    onChange={(e) => {
+                                        setCheckedValues({
+                                            ...checkedValues,
+                                            ischemic_heart: e.currentTarget.checked
+                                        });
+                                    }}
+                                />
                                 <label 
                                     htmlFor="ischemic_heart" 
-                                    className={clsx(medicalRecords.suffered.ischemic_heart ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}
+                                    className={clsx(checkedValues.ischemic_heart ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}
                                     >
-                                    2. Ischemic Heart Disease: {medicalRecords.suffered.ischemic_heart ? 'Yes' : 'No'}
+                                    2. Ischemic Heart Disease: {checkedValues.ischemic_heart ? 'Yes' : 'No'}
                                 </label>
 
                             </div>
@@ -205,15 +287,19 @@ export default function ViewMedicalForm({
                                     name="diabetes" 
                                     type="checkbox" 
                                     value="true"
-                                    checked={medicalRecords.suffered.diabetes} 
+                                    defaultChecked={medicalRecords.suffered.diabetes} 
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                    readOnly
-                                    disabled
-                                    />
+                                    onChange={(e) => {
+                                        setCheckedValues({
+                                            ...checkedValues,
+                                            diabetes: e.currentTarget.checked
+                                        });
+                                    }}
+                                />
                                 <label 
                                     htmlFor="diabetes" 
-                                    className={clsx(medicalRecords.suffered.diabetes ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    3. Diabetes: {medicalRecords.suffered.diabetes ? 'Yes' : 'No'}
+                                    className={clsx(checkedValues.diabetes ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
+                                    3. Diabetes: {checkedValues.diabetes ? 'Yes' : 'No'}
                                 </label>
 
                             </div>
@@ -226,15 +312,19 @@ export default function ViewMedicalForm({
                                     name="bleeding_disorders" 
                                     type="checkbox" 
                                     value="true"
-                                    checked={medicalRecords.suffered.bleeding_disorders} 
+                                    defaultChecked={medicalRecords.suffered.bleeding_disorders} 
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                    readOnly
-                                    disabled
-                                    />
+                                    onChange={(e) => {
+                                        setCheckedValues({
+                                            ...checkedValues,
+                                            bleeding_disorders: e.currentTarget.checked
+                                        });
+                                    }}
+                                />
                                 <label 
                                     htmlFor="bleeding_disorders" 
-                                    className={clsx(medicalRecords.suffered.bleeding_disorders ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    4. Bleeding Disorders: {medicalRecords.suffered.bleeding_disorders ? 'Yes' : 'No'}
+                                    className={clsx(checkedValues.bleeding_disorders ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
+                                    4. Bleeding Disorders: {checkedValues.bleeding_disorders ? 'Yes' : 'No'}
                                 </label>
                             </div>
                         </div>
@@ -246,15 +336,19 @@ export default function ViewMedicalForm({
                                     name="allergies" 
                                     type="checkbox" 
                                     value="true"
-                                    checked={medicalRecords.suffered.allergies} 
+                                    defaultChecked={medicalRecords.suffered.allergies} 
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                    readOnly
-                                    disabled
-                                    />
+                                    onChange={(e) => {
+                                        setCheckedValues({
+                                            ...checkedValues,
+                                            allergies: e.currentTarget.checked
+                                        });
+                                    }}
+                                />
                                 <label 
                                     htmlFor="allergies" 
-                                    className={clsx(medicalRecords.suffered.allergies ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    5. Allergies (Medication, Food): {medicalRecords.suffered.allergies ? 'Yes' : 'No'}
+                                    className={clsx(checkedValues.allergies ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
+                                    5. Allergies (Medication, Food): {checkedValues.allergies ? 'Yes' : 'No'}
                                 </label>
                             </div>
                         </div>
@@ -266,15 +360,19 @@ export default function ViewMedicalForm({
                                     name="asthma" 
                                     type="checkbox" 
                                     value="true"
-                                    checked={medicalRecords.suffered.asthma} 
+                                    defaultChecked={medicalRecords.suffered.asthma} 
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                    readOnly
-                                    disabled
-                                    />
+                                    onChange={(e) => {
+                                        setCheckedValues({
+                                            ...checkedValues,
+                                            asthma: e.currentTarget.checked
+                                        });
+                                    }}
+                                />
                                 <label 
                                     htmlFor="asthma" 
-                                    className={clsx(medicalRecords.suffered.asthma ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    6. Asthma: {medicalRecords.suffered.asthma ? 'Yes' : 'No'}
+                                    className={clsx(checkedValues.asthma ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
+                                    6. Asthma: {checkedValues.asthma ? 'Yes' : 'No'}
                                 </label>
                             </div>
                         </div>
@@ -286,15 +384,19 @@ export default function ViewMedicalForm({
                                     name="epileptic" 
                                     type="checkbox" 
                                     value="true"
-                                    checked={medicalRecords.suffered.epileptic} 
+                                    defaultChecked={medicalRecords.suffered.epileptic} 
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                    readOnly
-                                    disabled
-                                    />
+                                    onChange={(e) => {
+                                        setCheckedValues({
+                                            ...checkedValues,
+                                            epileptic: e.currentTarget.checked
+                                        });
+                                    }}
+                                />
                                 <label 
                                     htmlFor="epileptic" 
-                                    className={clsx(medicalRecords.suffered.epileptic ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    7. Epileptic: {medicalRecords.suffered.epileptic ? 'Yes' : 'No'}
+                                    className={clsx(checkedValues.epileptic ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
+                                    7. Epileptic: {checkedValues.epileptic ? 'Yes' : 'No'}
                                 </label>
                             </div>
                         </div>
@@ -306,15 +408,19 @@ export default function ViewMedicalForm({
                                     name="hepatitisB" 
                                     type="checkbox" 
                                     value="true"
-                                    checked={medicalRecords.suffered.hepatitisB} 
+                                    defaultChecked={medicalRecords.suffered.hepatitisB} 
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                    readOnly
-                                    disabled
-                                    />
+                                    onChange={(e) => {
+                                        setCheckedValues({
+                                            ...checkedValues,
+                                            hepatitisB: e.currentTarget.checked
+                                        });
+                                    }}
+                                />
                                 <label 
                                     htmlFor="hepatitisB" 
-                                    className={clsx(medicalRecords.suffered.hepatitisB ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    8. Hepatitis B: {medicalRecords.suffered.hepatitisB ? 'Yes' : 'No'}
+                                    className={clsx(checkedValues.hepatitisB ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
+                                    8. Hepatitis B: {checkedValues.hepatitisB ? 'Yes' : 'No'}
                                 </label>
                             </div>
                         </div>
@@ -326,15 +432,19 @@ export default function ViewMedicalForm({
                                     name="pregnancy" 
                                     type="checkbox" 
                                     value="true"
-                                    checked={medicalRecords.suffered.pregnancy} 
+                                    defaultChecked={medicalRecords.suffered.pregnancy} 
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                    readOnly
-                                    disabled
-                                    />
+                                    onChange={(e) => {
+                                        setCheckedValues({
+                                            ...checkedValues,
+                                            pregnancy: e.currentTarget.checked
+                                        });
+                                    }}
+                                />
                                 <label 
                                     htmlFor="pregnancy" 
-                                    className={clsx(medicalRecords.suffered.pregnancy ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    9. Pregnancy: {medicalRecords.suffered.pregnancy ? 'Yes' : 'No'}
+                                    className={clsx(checkedValues.pregnancy ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
+                                    9. Pregnancy: {checkedValues.pregnancy ? 'Yes' : 'No'}
                                 </label>
                             </div>
                         </div>
@@ -346,20 +456,24 @@ export default function ViewMedicalForm({
                                     name="other_diseases" 
                                     type="checkbox" 
                                     value="true"
-                                    checked={medicalRecords.suffered.other_diseases} 
+                                    defaultChecked={medicalRecords.suffered.other_diseases} 
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                                    readOnly
-                                    disabled
-                                    />
+                                    onChange={(e) => {
+                                        setCheckedValues({
+                                            ...checkedValues,
+                                            other_diseases: e.currentTarget.checked
+                                        });
+                                    }}
+                                />
                                 <label 
                                     htmlFor="other_diseases" 
-                                    className={clsx(medicalRecords.suffered.other_diseases ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    10. Other Diseases: {medicalRecords.suffered.other_diseases ? 'Yes' : 'No'}
+                                    className={clsx(checkedValues.other_diseases ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
+                                    10. Other Diseases: {checkedValues.other_diseases ? 'Yes' : 'No'}
                                 </label>
                             </div>
                         </div>
                     </div>
-                    {medicalRecords.suffered.other_diseases && 
+                    {checkedValues.other_diseases && 
                         <div className="rounded-md border border-gray-100 bg-white px-[14px] py-3 w-full">
                             <label htmlFor="other_declare" className="mb-2 block text-sm font-medium">
                                 Other diseases declaration
@@ -369,8 +483,7 @@ export default function ViewMedicalForm({
                                     id="other_declare"
                                     name="other_declare"
                                     className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                    value={medicalRecords.suffered.other_declare}
-                                    readOnly
+                                    defaultValue={medicalRecords.suffered.other_declare}
                                 />
                                 <InformationCircleIcon className="pointer-events-none absolute left-3 top-1/3 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                             </div>
@@ -381,16 +494,11 @@ export default function ViewMedicalForm({
             <div className="mt-6 flex justify-start gap-4">
                 <Link
                 href="/dashboard/patients"
-                className="flex h-10 items-center rounded-lg bg-blue-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+                className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                 >
-                Back
+                Cancel
                 </Link>
-                <Link
-                href={`/dashboard/patients/${medicalRecords.pid}/edit/medicalRecords`}
-                className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                >
-                Edit Medical Records
-                </Link>
+                <Button type="submit">Save Medical Records</Button>
             </div>
         </form>
     );

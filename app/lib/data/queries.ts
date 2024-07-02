@@ -66,14 +66,44 @@ export async function fetchMedicalRecordsById(id: string) {
   try {
     const data = await sql<MedicalRecordsForm>`
       SELECT *
-      FROM medical_info as m
+      FROM medical_records as m
       WHERE m.pid = ${id};
     `;
 
     const medicalList = data.rows;
+    let foundMedicalItem;
+
+    if (medicalList.length == 0) {
+      foundMedicalItem = {
+        pid: id,
+        height: 0,
+        weight: 0,
+        blood_pressure_sys: 0,
+        blood_pressure_dia:0,
+        pulse: 0,
+        hospitalized: false,
+        hospitalized_declare: '',
+        suffered: {
+          high_blood: false,
+          ischemic_heart: false,
+          diabetes: false,
+          bleeding_disorders: false,
+          allergies: false,
+          asthma: false,
+          epileptic: false,
+          hepatitisB: false,
+          pregnancy: false,
+          other_diseases: false,
+          other_declare: ''
+        }
+      }
+    }else {
+      foundMedicalItem = medicalList[0];
+    }
 
     //return convertToMedicalRecordsForm(medicalList[0]);
-    return medicalList[0];
+    
+    return foundMedicalItem;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch medical records.');
