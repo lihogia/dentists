@@ -23,7 +23,20 @@ const patients = [
             pulse: 80,
             hospitalized: false,
             hospitalized_declare: '',
-            suffered: 'false;false;false;false;false;false;false;false;false;false;'
+            suffered: {
+                high_blood: false,
+                ischemic_heart: false,
+                diabetes: false,
+                bleeding_disorders: false,
+                allergies: false,
+                asthma: false,
+                epileptic: false,
+                hepatitisB: false,
+                pregnancy: false,
+                other_diseases: false,
+                other_declare: ''        
+            }
+            
         },
         dentalRecords: {
             teeth_diagram: {
@@ -63,10 +76,21 @@ const patients = [
             pulse: 90,
             hospitalized: false,
             hospitalized_declare: '',
-            suffered: 'false;false;false;false;false;false;false;false;false;false;'
+            suffered: {
+                high_blood: false,
+                ischemic_heart: false,
+                diabetes: false,
+                bleeding_disorders: false,
+                allergies: false,
+                asthma: false,
+                epileptic: false,
+                hepatitisB: false,
+                pregnancy: false,
+                other_diseases: false,
+                other_declare: ''        
+            }
         }
-
-    },
+    },/*
     {
         id: 'e248ef17-befd-473b-934a-d4ae0d0900e6',
         name: 'Hồ Lê Em',
@@ -90,7 +114,7 @@ const patients = [
         gender: 'male',
         address: '',
         phone: '0933210480',
-    },
+    },*/
     
 ];
 

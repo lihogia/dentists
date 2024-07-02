@@ -1,13 +1,12 @@
-import { fetchPatientById } from "@/app/lib/data/queries";
+import { fetchMedicalRecordsById } from "@/app/lib/data/queries";
 import Breadcrumbs from '@/app/ui/patients/breadcrumbs';
 import Tabs from '@/app/ui/patients/tabs';
-import ViewPatientForm from '@/app/ui/patients/viewForm';
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import ViewMedicalForm from '@/app/ui/patients/viewMedicalForm';
 
 export default async function Page({ params }: { params : { id: string }}) {
     const id = params.id;
-    const [ patient ] = await Promise.all([
-        fetchPatientById(id)
+    const [ medicalRecords ] = await Promise.all([
+        fetchMedicalRecordsById(id)
     ]);
 
     return (
@@ -24,13 +23,13 @@ export default async function Page({ params }: { params : { id: string }}) {
             />
             <Tabs 
                 tabs={[
-                { label: 'Info', short: 'I', href: `/dashboard/patients/${id}/view`, active: true},
-                { label: 'Medical Records', short: 'M', href: `/dashboard/patients/${id}/view/medicalRecords`},
+                { label: 'Info', short: 'I', href: `/dashboard/patients/${id}/view`},
+                { label: 'Medical Records', short: 'M', href: `/dashboard/patients/${id}/view/medicalRecords`, active: true},
                 { label: 'Dental Records', short: 'D', href: `/dashboard/patients/${id}/view/dentalRecords`},
                 { label: 'Treatment Records', short: 'T', href: `/dashboard/patients/${id}/view/treatmentRecords`}
                 ]}
             />
-            <ViewPatientForm patient={patient}/>
+            <ViewMedicalForm medicalRecords={medicalRecords}/>
         </main>
     );
 

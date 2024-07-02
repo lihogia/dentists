@@ -22,7 +22,7 @@ export default function ViewPatientForm({
             <div className="rounded-md bg-gray-50 p-4 md:p-6">
                 {/* Patient Name */}
                 <div className="mb-4">
-                    <label htmlFor="customer" className="mb-2 block text-sm font-medium">
+                    <label htmlFor="name" className="mb-2 block text-sm font-medium">
                         Name
                     </label>
                     <div className="relative">
@@ -40,7 +40,7 @@ export default function ViewPatientForm({
                 </div>
                 {/* Patient Birth Year */}
                 <div className="mb-4">
-                    <label htmlFor="customer" className="mb-2 block text-sm font-medium">
+                    <label htmlFor="byear" className="mb-2 block text-sm font-medium">
                         Birth Year
                     </label>
                     <div className="relative">
@@ -71,6 +71,7 @@ export default function ViewPatientForm({
                                     value="female" 
                                     checked={patient.gender === 'female'}
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                                    readOnly
                                     />
                                 <label 
                                     htmlFor="gender_female" 
@@ -85,7 +86,9 @@ export default function ViewPatientForm({
                                     type="radio" 
                                     value="male" 
                                     checked={patient.gender === 'male'}
-                                    className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2" />
+                                    className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2" 
+                                    readOnly
+                                    />
                                 <label 
                                     htmlFor="gender_male" 
                                     className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-blue-200 px-3 py-1.5 text-xs font-medium text-gray-600">

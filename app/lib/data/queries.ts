@@ -4,8 +4,11 @@ import { unstable_noStore as noStore } from 'next/cache';
 // This is equivalent to in fetch(..., {cache: 'no-store'}).
 import {
     PatientsTable,
-    PatientForm
+    PatientForm, 
+    MedicalRecordsDB,
+    MedicalRecordsForm
 } from './definition';
+import { convertToMedicalRecordsForm } from '../utils';
 
 export async function fetchPatients() {
     noStore();
@@ -58,3 +61,21 @@ export async function fetchPatientById(id: string) {
     }
   }
   
+export async function fetchMedicalRecordsById(id: string) {
+  noStore();
+  try {
+    const data = await sql<MedicalRecordsForm>`
+      SELECT *
+      FROM medical_info as m
+      WHERE m.pid = ${id};
+    `;
+
+    const medicalList = data.rows;
+
+    //return convertToMedicalRecordsForm(medicalList[0]);
+    return medicalList[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch medical records.');
+  }
+}

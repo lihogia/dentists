@@ -84,10 +84,10 @@ async function createPatients(client) {
     }
 }
 
-async function createMedicalInfo(client) {
+async function createMedicalRecords(client) {
     try {
         const createTable = await client.sql`
-        CREATE TABLE IF NOT EXISTS medical_info (
+        CREATE TABLE IF NOT EXISTS medical_records (
             pid UUID PRIMARY KEY,
             height NUMERIC(3, 1) NOT NULL,
             weight INT NOT NULL,
@@ -96,16 +96,16 @@ async function createMedicalInfo(client) {
             pulse INT NOT NULL,
             hospitalized BOOLEAN NOT NULL,
             hospitalized_declare VARCHAR(255),
-            suffered VARCHAR(255) NOT NULL
+            suffered JSON NOT NULL
         );
         `;
-        console.log(`Created "medical_info" table`);
+        console.log(`Created "medical_records" table`);
 
         // Insert data into the "medical_info" table
         const insertedMedicalInfo = await Promise.all(
             patients.map(
                 (patient) => client.sql`
-                INSERT INTO medical_info (pid, height, weight, blood_pressure_sys, blood_pressure_dia, pulse, hospitalized, hospitalized_declare, suffered)
+                INSERT INTO medical_records (pid, height, weight, blood_pressure_sys, blood_pressure_dia, pulse, hospitalized, hospitalized_declare, suffered)
                 VALUES (${patient.id}, ${patient.medicalInfo.height}, ${patient.medicalInfo.weight}, ${patient.medicalInfo.blood_pressure_sys}, 
                     ${patient.medicalInfo.blood_pressure_dia}, ${patient.medicalInfo.pulse}, ${patient.medicalInfo.hospitalized}, 
                     ${patient.medicalInfo.hospitalized_declare}, ${patient.medicalInfo.suffered});
@@ -138,17 +138,17 @@ function test1() {
     console.log(toTitleCase("HONG gia lINH"));
 }
 
-async function main() {
+async function main1() {
     //test();
-    test1();
+    //test1();
 }
 
-async function main1() {
+async function main() {
     const client = await db.connect();
     
     //await createUsers(client);
-    await createPatients(client);
-    //await createMedicalInfo(client);
+    //await createPatients(client);
+    await createMedicalRecords(client);
   
     await client.end();
   }

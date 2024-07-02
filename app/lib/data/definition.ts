@@ -27,8 +27,9 @@ export type PatientForm = {
     phone: string;
 
 };
+
   
-export type MedicalInfo = {
+export type MedicalRecordsDB = {
     pid: string; // patient id
     height: number; // m
     weight: number; // kg
@@ -37,8 +38,22 @@ export type MedicalInfo = {
     pulse: number; // pul/min
     hospitalized: boolean; // be hospitalized in 5 years, true: yes, false: no
     hospitalized_declare: string;
-    suffered: string; // from Diseases: false; false; false; ...; true; abc xyz
+    suffered: string; // from Diseases: false; false; false; ...; true; abc xyz | make it as a JSON string
+    
 
+}
+
+export type MedicalRecordsForm = {
+    pid: string; // patient id
+    height: number; // m
+    weight: number; // kg
+    blood_pressure_sys: number; // mmHg
+    blood_pressure_dia: number; // mmHg
+    pulse: number; // pul/min
+    hospitalized: boolean; // be hospitalized in 5 years, true: yes, false: no
+    hospitalized_declare: string;
+    //suffered: string; // from Diseases: false; false; false; ...; true; abc xyz | make it as a JSON string
+    suffered: Diseases;
 }
 
 export type Diseases = {
