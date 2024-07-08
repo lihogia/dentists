@@ -174,11 +174,13 @@ export default function ViewDentalForm({
                                 const index = 7 - pIndex;
                                 const [ styleR, symbolR ] = getLayoutFromToothStatus(teethStatus.tooth_diagram[0][index]);
                                 const [ styleL, symbolL ] = getLayoutFromToothStatus(teethStatus.tooth_diagram[1][index]);
+                                const selectedStyleR = (selectedTooth.positionX == 0 && selectedTooth.positionY == index) ? "border-4 border-black" : "border-2 border-gray";
+                                const selectedStyleL = (selectedTooth.positionX == 1 && selectedTooth.positionY == index) ? "border-4 border-black" : "border-2 border-gray";
                                 return (
                                     <tr key={`upper_order_${index}`}>
                                         <td 
                                             key={`ur_${index}`} 
-                                            className={clsx(styleR, "px-6 h-9 w-9 py-2 text-center border-2 border-gray-200")}
+                                            className={clsx(styleR, clsx(selectedStyleR, "px-6 h-9 w-9 py-2 text-center cursor-pointer"))}
                                             onClick={() => {
                                                 const changeTooth: Tooth = {
                                                     positionX: 0,
@@ -191,12 +193,12 @@ export default function ViewDentalForm({
                                         <td className="text-center p-2 border-2 border-gray-200 font-bold">{value}</td>
                                         <td 
                                             key={`ul_${index}`} 
-                                            className={clsx(styleL, "px-6 h-9 w-9 py-2 text-center border-2 border-gray-200")}
+                                            className={clsx(styleL, clsx(selectedStyleL, "px-6 h-9 w-9 py-2 text-center cursor-pointer"))}
                                             onClick={() => {
                                                 const changeTooth: Tooth = {
                                                     positionX: 1,
                                                     positionY: index,
-                                                    status: teethStatus.tooth_diagram[0][index]
+                                                    status: teethStatus.tooth_diagram[1][index]
                                                 }
                                                 updateToothStatus(changeTooth);        
                                             }}
@@ -213,16 +215,18 @@ export default function ViewDentalForm({
                             {ordersL.map((value, index) => {
                                 const [ styleR, symbolR ] = getLayoutFromToothStatus(teethStatus.tooth_diagram[2][index]);
                                 const [ styleL, symbolL ] = getLayoutFromToothStatus(teethStatus.tooth_diagram[3][index]);
+                                const selectedStyleR = (selectedTooth.positionX == 2 && selectedTooth.positionY == index) ? "border-4 border-black" : "border-2 border-gray";
+                                const selectedStyleL = (selectedTooth.positionX == 3 && selectedTooth.positionY == index) ? "border-4 border-black" : "border-2 border-gray";
                                 return (
                                     <tr key={`upper_order_${index}`}>
                                         <td 
                                             key={`ur_${index}`} 
-                                            className={clsx(styleR, "px-6 h-9 w-9 py-2 text-center border-2 border-gray-200")}
+                                            className={clsx(styleR, clsx(selectedStyleR, "px-6 h-9 w-9 py-2 text-center cursor-pointer"))}
                                             onClick={() => {
                                                 const changeTooth: Tooth = {
                                                     positionX: 2,
                                                     positionY: index,
-                                                    status: teethStatus.tooth_diagram[0][index]
+                                                    status: teethStatus.tooth_diagram[2][index]
                                                 }
                                                 updateToothStatus(changeTooth);        
                                             }}
@@ -230,12 +234,12 @@ export default function ViewDentalForm({
                                         <td className="text-center p-2 border-2 border-gray-200 font-bold">{value}</td>
                                         <td 
                                             key={`ul_${index}`} 
-                                            className={clsx(styleL, "px-6 h-9 w-9 py-2 text-center border-2 border-gray-200")}
+                                            className={clsx(styleL, clsx(selectedStyleL, "px-6 h-9 w-9 py-2 text-center cursor-pointer"))}
                                             onClick={() => {
                                                 const changeTooth: Tooth = {
                                                     positionX: 3,
                                                     positionY: index,
-                                                    status: teethStatus.tooth_diagram[0][index]
+                                                    status: teethStatus.tooth_diagram[3][index]
                                                 }
                                                 updateToothStatus(changeTooth);        
                                             }}
