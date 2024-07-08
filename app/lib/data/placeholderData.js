@@ -36,30 +36,30 @@ const patients = [
                 other_diseases: false,
                 other_declare: ''        
             }
-            
         },
         dentalRecords: {
-            teeth_diagram: {
-                teeth_up_left: ['good', 'good', 'good', 'good', 'good', 'good', 'good', 'good'],
-                teeth_bottom_left: ['good', 'good', 'good', 'good', 'good', 'good', 'good', 'good'],
-                teeth_up_right: ['good', 'good', 'good', 'good', 'good', 'good', 'good', 'good'],
-                teeth_bottom_right: ['good', 'good', 'good', 'good', 'good', 'good', 'good', 'good']
+            tooth_diagram: [
+                ["root_problem", "good", "good", "good", "good", "good", "outside_cavities", "good"],
+                ["good", "good", "good", "good", "good", "occlusal_incisal_cavities", "good", "good"],
+                ["good", "outside_cavities,occlusal_incisal_cavities", "good", "tooth_missing", "good", "good", "root_problem,outside_cavities,occlusal_incisal_cavities", "good"],
+                ["good", "good", "root_problem,outside_cavities", "good", "good", "good", "good", "good"]
+            ],
+            description: "Rang cua hoi khenh"
+        },
+        treatments: [
+            {
+                invoice_id: '2345',
+                date: 5/16/2024,
+                diagnoses: 'viêm nướu',
+                cures: 'cạo vôi răng, đánh bóng răng'
             },
-            treatments: [
-                {
-                    invoice_id: '2345',
-                    date: 5/16/2024,
-                    diagnoses: 'viêm nướu',
-                    cures: 'cạo vôi răng, đánh bóng răng'
-                },
-                {
-                    invoice_id: '2345',
-                    date: 5/26/2024,
-                    diagnoses: 'sâu răng R16',
-                    cures: "1. trám răng R16 ( xa trong ) GI \n2. đệm hàm PHHT cũ"
-                }
-            ]
-        }
+            {
+                invoice_id: '2345',
+                date: 5/26/2024,
+                diagnoses: 'sâu răng R16',
+                cures: "1. trám răng R16 ( xa trong ) GI \n2. đệm hàm PHHT cũ"
+            }
+        ],
     },
     {
         id: 'fd9bb2d4-e7f5-49e7-8efa-d7e6c958db94',
@@ -89,7 +89,16 @@ const patients = [
                 other_diseases: false,
                 other_declare: ''        
             }
-        }
+        },
+        dentalRecords: {
+            tooth_diagram: [
+                ["root_problem", "good", "good", "good", "good", "good", "outside_cavities", "good"],
+                ["good", "good", "good", "good", "good", "occlusal_incisal_cavities", "good", "good"],
+                ["good", "outside_cavities,occlusal_incisal_cavities", "good", "tooth_missing", "good", "good", "root_problem,outside_cavities,occlusal_incisal_cavities", "good"],
+                ["tooth_missing", "good", "root_problem,outside_cavities", "good", "tooth_missing", "good", "good", "good"]
+            ],
+            description: "Rang coi nho tren bi thieu san men"
+        },
     },/*
     {
         id: 'e248ef17-befd-473b-934a-d4ae0d0900e6',

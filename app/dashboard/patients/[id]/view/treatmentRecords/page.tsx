@@ -2,6 +2,12 @@ import { fetchPatientById } from "@/app/lib/data/queries";
 import Breadcrumbs from '@/app/ui/patients/breadcrumbs';
 import Tabs from '@/app/ui/patients/tabs';
 import ViewPatientForm from '@/app/ui/patients/viewForm';
+import { 
+    InformationCircleIcon,
+    PlusCircleIcon,
+    BookmarkSquareIcon,
+    ArrowPathRoundedSquareIcon    
+ } from '@heroicons/react/24/outline';
 
 export default async function Page({ params }: { params : { id: string }}) {
     const id = params.id;
@@ -23,10 +29,10 @@ export default async function Page({ params }: { params : { id: string }}) {
             />
             <Tabs 
                 tabs={[
-                { label: 'Info', short: 'I', href: `/dashboard/patients/${id}/view`},
-                { label: 'Medical Records', short: 'M', href: `/dashboard/patients/${id}/view/medicalRecords`},
-                { label: 'Dental Records', short: 'D', href: `/dashboard/patients/${id}/view/dentalRecords`},
-                { label: 'Treatment Records', short: 'T', href: `/dashboard/patients/${id}/view/treatmentRecords`, active: true}
+                { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`},
+                { label: 'Medical Records', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/view/medicalRecords`},
+                { label: 'Dental Records', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/view/dentalRecords`},
+                { label: 'Treatment Records', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/view/treatmentRecords`, active: true}
                 ]}
             />
             <ViewPatientForm patient={patient}/>

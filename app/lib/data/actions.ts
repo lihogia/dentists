@@ -5,7 +5,7 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { separateFullName, toTitleCase } from '@/app/lib/utils';
-import { Diseases } from "@/app/lib/data/definition";
+import { Diseases, TeethStatus } from "@/app/lib/data/definition";
 
 const thisYear = (new Date()).getFullYear();
 
@@ -41,45 +41,8 @@ export type State = {
     };
     message?: string | null;
   }; 
-/*
-export async function createPatient_TBD(prevState: State, formData: FormData) {
 
-    const validatedFields = CreatePatient.safeParse({
-        name: formData.get('name'),
-        birth_year: formData.get('birth_year'),
-        gender: formData.get('gender'),
-        phone: formData.get('phone'),
-        address: formData.get('address')
-      });
-
-    if (!validatedFields.success) {
-      return {
-        errors: validatedFields.error.flatten().fieldErrors,
-        message: 'Error in Fields. Failed to Create Patient.',
-      };
-    }
-
-    const { name, birth_year, gender, phone, address } = validatedFields.data;
-
-    const names = separateFullName(name);
-
-    try {
-        await sql`
-            INSERT INTO patients (first_name, middle_name, last_name, birth_year, gender, phone, address)
-            VALUES (${names[0]}, ${names[1]}, ${names[2]}, ${birth_year}, ${gender}, ${phone}, ${address})
-        `;
-    }catch (error) {
-        return {
-            message: 'Database Error: Failed to Create Patient.',
-        };
-    }
-
-    revalidatePath('/dashboard/patients');
-    redirect('/dashboard/patients');
-
-  }
-*/
-export async function updatePatient(prevState: State, formData: FormData) {
+  export async function updatePatient(prevState: State, formData: FormData) {
 
   const validatedFields = UpdatePatient.safeParse({
     id: formData.get('pid'),
@@ -235,21 +198,13 @@ export async function updateMedicalReords(prevState: MedicalState, formData: For
     other_declare: formData.get('other_declare') || '',
 
   });
-
   
-
-  console.log('here 1');
-
   if (!validatedFields.success) {
-    console.log('here 3');
-    console.log(validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Error in Fields. Failed to Update Medical Records.',
     };
   }
-
-  console.log('here 2');
 
   const { status, id, height, weight, blood_pressure_sys, blood_pressure_dia, pulse, hospitalized, hospitalized_declare,
           high_blood, ischemic_heart, diabetes, bleeding_disorders, allergies, asthma, epileptic, hepatitisB, pregnancy,
@@ -271,28 +226,9 @@ export async function updateMedicalReords(prevState: MedicalState, formData: For
     "other_diseases": ${other_diseases},
     "other_declare": "${other_dec}"
   }`);
-
-
-/*
-  const suffered = JSON.parse({
-    high_blood: high_blood,
-    ischemic_heart: ischemic_heart,
-    diabetes: diabetes,
-    bleeding_disorders: bleeding_disorders,
-    allergies: allergies,
-    asthma: asthma,
-    epileptic: epileptic,
-    hepatitisB: hepatitisB,
-    pregnancy: pregnancy,
-    other_diseases: other_diseases,
-    other_declare: other_declare
-  });
-*/
-
-  console.log('here');
-
+  
   if (status.trim() === 'create') { // create
-    console.log('1');
+
     try {
         await sql`
             INSERT INTO medical_records (pid, height, weight, blood_pressure_sys, blood_pressure_dia, pulse, hospitalized, hospitalized_declare, suffered)
@@ -305,7 +241,7 @@ export async function updateMedicalReords(prevState: MedicalState, formData: For
         };
     }
   }else { // edit
-    console.log('2');
+
     try {
         await sql`
             UPDATE medical_records
@@ -322,4 +258,89 @@ export async function updateMedicalReords(prevState: MedicalState, formData: For
   
   revalidatePath('/dashboard/patients');
   redirect('/dashboard/patients');
+}
+
+/** Dental Records */
+const DentalFormSchema = z.object({
+  status: z.string(),
+  id: z.string(),
+  description: z.string(),
+  ur_tooth_diagram: z.string(),
+  ul_tooth_diagram: z.string(),
+  lr_tooth_diagram: z.string(),
+  ll_tooth_diagram: z.string()
+});
+
+const UpdateDentalRecords = DentalFormSchema.omit({});
+
+export type DentalState = {
+  errors?: {
+    status?: string[];
+    id?: string[];
+    description?: string[];  
+    ur_tooth_diagram?: string[];
+    ul_tooth_diagram?: string[];
+    lr_tooth_diagram?: string[];
+    ll_tooth_diagram?: string[];
+  };
+  message?: string | null;
+}
+
+export async function updateDentalRecords(prevState: DentalState, formData: FormData) {
+
+  const validatedFields = UpdateDentalRecords.safeParse({
+    status: formData.get('status'),
+    id: formData.get('id'),
+    description: formData.get('description'),
+    ur_tooth_diagram: formData.get('ur_tooth_diagram'),
+    ul_tooth_diagram: formData.get('ul_tooth_diagram'),
+    lr_tooth_diagram: formData.get('lr_tooth_diagram'),
+    ll_tooth_diagram: formData.get('ll_tooth_diagram'),
+  });
+  
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Error in Fields. Failed to Update Dental Records.',
+    };
+  }
+
+  const { status, id, description, ur_tooth_diagram, ul_tooth_diagram, lr_tooth_diagram, ll_tooth_diagram } = validatedFields.data;
+
+  const tooth_diagram: TeethStatus = [
+    ur_tooth_diagram.split(';') as [string, string, string, string, string, string, string, string],
+    ul_tooth_diagram.split(';') as [string, string, string, string, string, string, string, string],
+    lr_tooth_diagram.split(';') as [string, string, string, string, string, string, string, string],
+    ll_tooth_diagram.split(';') as [string, string, string, string, string, string, string, string],
+  ];
+ 
+  if (status === 'create') { // create
+    try {
+        await sql`
+            INSERT INTO dental_records (pid, tooth_diagram, description)
+            VALUES (${id}, ${tooth_diagram as any}, ${description});
+        `;
+    }catch (error) {
+        return {
+            message: 'Database Error: Failed to Create Medical Records.',
+        };
+    }
+  }else { // edit
+
+    try {
+        await sql`
+            UPDATE dental_records
+            SET tooth_diagram = ${tooth_diagram as any}, description = ${description}
+            WHERE pid = ${id}
+        `;
+    }catch (error) {
+        return {
+            message: 'Database error: Failed to Update Medical Records',
+        };
+    }
+  }
+  
+  revalidatePath('/dashboard/patients');
+  redirect('/dashboard/patients');  
+  
 }

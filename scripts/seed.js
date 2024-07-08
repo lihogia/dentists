@@ -101,7 +101,7 @@ async function createMedicalRecords(client) {
         `;
         console.log(`Created "medical_records" table`);
 
-        // Insert data into the "medical_info" table
+        // Insert data into the "medical_records" table
         const insertedMedicalInfo = await Promise.all(
             patients.map(
                 (patient) => client.sql`
@@ -120,6 +120,38 @@ async function createMedicalRecords(client) {
         };
 
     }catch(error) {
+        console.error('Error with Database: ', error);
+        throw error;
+    }
+}
+
+async function createDentalRecords(client) {
+    try {
+        const createTable = await client.sql`
+        CREATE TABLE IF NOT EXISTS dental_records (
+            pid UUID PRIMARY KEY,
+            tooth_diagram text[][],
+            description VARCHAR(255)
+        );
+        `;
+        console.log(`Created "dental_records" table`);
+
+        // Insert data into the "dental_records" table
+        const insertedDentalRecords = await Promise.all(
+            patients.map(
+                (patient) => client.sql`
+                INSERT INTO dental_records (pid, tooth_diagram, description)
+                VALUES (${patient.id}, ${patient.dentalRecords.tooth_diagram}, ${patient.dentalRecords.description})
+                `,
+            ),
+        );
+        console.log(`Seeded ${insertedDentalRecords.length} patients`);
+
+        return {
+            createTable,
+            info: insertedDentalRecords,
+        };
+    }catch (error) {
         console.error('Error with Database: ', error);
         throw error;
     }
@@ -148,7 +180,8 @@ async function main() {
     
     //await createUsers(client);
     //await createPatients(client);
-    await createMedicalRecords(client);
+    //await createMedicalRecords(client);
+    await createDentalRecords(client);
   
     await client.end();
   }

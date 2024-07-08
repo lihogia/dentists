@@ -4,11 +4,10 @@ import { unstable_noStore as noStore } from 'next/cache';
 // This is equivalent to in fetch(..., {cache: 'no-store'}).
 import {
     PatientsTable,
-    PatientForm, 
-    MedicalRecordsDB,
-    MedicalRecordsForm
+    PatientForm,
+    MedicalRecordsForm,
+    DentalRecordsForm
 } from './definition';
-import { convertToMedicalRecordsForm } from '../utils';
 
 export async function fetchPatients() {
     noStore();
@@ -107,5 +106,40 @@ export async function fetchMedicalRecordsById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch medical records.');
+  }
+}
+
+export async function fetchDentalRecordsById(id: string) {
+  noStore();
+  try {
+    const data = await sql<DentalRecordsForm>`
+      SELECT *, false as isCreated
+      FROM dental_records as d
+      WHERE d.pid = ${id};
+    `;
+
+    const dentalList = data.rows;
+    let foundDentalItem;
+
+    if (dentalList.length == 0) {
+      foundDentalItem = {
+        pid: id,
+        tooth_diagram: [
+          ["good", "good", "good", "good", "good", "good", "good", "good",],
+          ["good", "good", "good", "good", "good", "good", "good", "good",],
+          ["good", "good", "good", "good", "good", "good", "good", "good",],
+          ["good", "good", "good", "good", "good", "good", "good", "good",],
+        ],
+        description: "",
+        isCreated: true
+      }
+    }else {
+      foundDentalItem = dentalList[0];
+    }  
+    return foundDentalItem;
+
+  }catch(error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch dental records.');
   }
 }

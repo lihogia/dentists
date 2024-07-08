@@ -1,4 +1,4 @@
-import { MedicalRecordsDB, MedicalRecordsForm} from '@/app/lib/data/definition';
+import { MedicalRecordsForm} from '@/app/lib/data/definition';
 
 export const formatDateToLocal = (
     dateStr: string,
@@ -62,22 +62,4 @@ export const separateFullName = (fullname: string) => {
 export const mergeToFullName = (names: string[]) => { // array created by separateFullName (array of 3 string)
   const nNames = names.filter((name) => name != '');
   return nNames.join(' ');
-}
-
-export const convertToMedicalRecordsForm = (medRecordsDB: MedicalRecordsDB) => {
-  const medRecordsForm: MedicalRecordsForm = {
-    ...medRecordsDB,
-    suffered: JSON.parse(medRecordsDB.suffered)
-  };
-
-  return medRecordsForm;
-}
-
-export const convertToMedicalRecordsDB = (medRecordsForm: MedicalRecordsForm) => {
-  const medRecordsDB: MedicalRecordsDB = {
-    ...medRecordsForm,
-    suffered: JSON.stringify(medRecordsForm.suffered)
-  }
-
-  return medRecordsDB;
 }

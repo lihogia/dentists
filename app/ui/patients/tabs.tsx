@@ -1,11 +1,12 @@
 import { clsx } from 'clsx';
 import Link from 'next/link';
-import { lusitana } from '@/app/ui/fonts';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
+
+type HeroIcons = typeof InformationCircleIcon;
 
 interface Tab {
   label: string;
-  short: string;
+  icon: HeroIcons;
   href: string;
   active?: boolean;
 }
@@ -17,9 +18,9 @@ export default function Tabs({
 }) {
   return (
     <nav aria-label="Tab" className=" block p-0 bg-blue-100 m-0 rounded-t">
-      <ol className={clsx(lusitana.className, 'flex text-lg')}>
+      <ol className='flex text-md'>
         {tabs.map((tab, index) => {
-          //const LinkIcon = tab.icon;
+          const LinkIcon = tab.icon;
           return (
           <li
             key={tab.href}
@@ -30,7 +31,7 @@ export default function Tabs({
           >
 
             <Link href={tab.href}>
-              <p className="md:hidden md:block">{tab.active ? tab.label : `${tab.short}...`}</p>
+              <p className="md:hidden md:block">{/*tab.active ? tab.label : `${tab.short}...`*/}<LinkIcon className="w-6"/></p>
               <p className="hidden md:block">{tab.label}</p>
             </Link>
             { /*index < tabs.length - 1 ? (
