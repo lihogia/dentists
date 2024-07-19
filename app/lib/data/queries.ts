@@ -6,8 +6,14 @@ import {
     PatientsTable,
     PatientForm,
     MedicalRecordsForm,
-    DentalRecordsForm
-} from './definition';
+    DentalRecordsForm,
+    TreatmentRecordsForm,
+    Task
+} from "@/app/lib/data/definition";
+
+
+
+import { formatDateToLocal } from '@/app/lib/utils';
 
 export async function fetchPatients() {
     noStore();
@@ -64,9 +70,9 @@ export async function fetchMedicalRecordsById(id: string) {
   noStore();
   try {
     const data = await sql<MedicalRecordsForm>`
-      SELECT *
-      FROM medical_records as m
-      WHERE m.pid = ${id};
+      SELECT concat(p.first_name, ' ' , p.middle_name, ' ', p.last_name) as fullname, m.*
+      FROM medical_records as m, patients as p
+      WHERE m.pid = ${id} AND p.id = ${id}
     `;
 
     const medicalList = data.rows;
@@ -75,6 +81,7 @@ export async function fetchMedicalRecordsById(id: string) {
     if (medicalList.length == 0) {
       foundMedicalItem = {
         pid: id,
+        fullname: '',
         height: 0,
         weight: 0,
         blood_pressure_sys: 0,
@@ -101,6 +108,7 @@ export async function fetchMedicalRecordsById(id: string) {
     }
 
     //return convertToMedicalRecordsForm(medicalList[0]);
+    console.log(foundMedicalItem.fullname);
     
     return foundMedicalItem;
   } catch (error) {
@@ -113,9 +121,9 @@ export async function fetchDentalRecordsById(id: string) {
   noStore();
   try {
     const data = await sql<DentalRecordsForm>`
-      SELECT *, false as isCreated
-      FROM dental_records as d
-      WHERE d.pid = ${id};
+      SELECT concat(p.first_name, ' ' , p.middle_name, ' ', p.last_name) as fullname, d.*, false as isCreated
+      FROM dental_records as d, patients as p
+      WHERE d.pid = ${id} AND p.id = ${id}
     `;
 
     const dentalList = data.rows;
@@ -141,5 +149,52 @@ export async function fetchDentalRecordsById(id: string) {
   }catch(error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch dental records.');
+  }
+}
+
+export async function fetchTreatmentRecordsById(id: string) {
+  noStore();
+
+  try {
+    const data = await sql<TreatmentRecordsForm>`
+      SELECT concat(p.first_name, ' ' , p.middle_name, ' ', p.last_name) as fullname, 
+        to_char(t.exam_date, 'YYYY-MM-DD') as exam_date,
+        t.pid, t.diagnoses, t.treatments, t.amount, t.paid, false as isCreated
+      FROM treatment_records as t, patients as p
+      WHERE t.pid = ${id} AND p.id = ${id}
+      ORDER BY t.exam_date asc
+    `;
+
+    const treatmentRecordsList = data.rows;
+    let foundTreatmentRecords: TreatmentRecordsForm[];
+
+    if (treatmentRecordsList.length == 0) {
+      const today = new Date();
+      const dateString = today.toLocaleDateString();
+      const aNewTask: Task = {
+        cure: '',
+        cure_date: dateString,
+        status: false
+      };
+
+      foundTreatmentRecords = [{
+        pid: id,
+        fullname: '',
+        exam_date: dateString,
+        diagnoses: '',
+        treatments: [aNewTask],
+        amount: 0,
+        paid: false,
+        isCreated: true
+      }];
+    }else {
+      foundTreatmentRecords = treatmentRecordsList;
+    }
+
+    return foundTreatmentRecords;
+
+  }catch(error) {
+    console.error('Database Error: ', error);
+    throw new Error('Failed to fetch treatment records.');
   }
 }

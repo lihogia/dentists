@@ -44,6 +44,7 @@ export default function UpdatePatientForm({patient}: {
                         <input
                             id="name"
                             name="name"
+                            autoComplete='off'
                             type="text"
                             required={true}
                             placeholder="Enter Patient Name"
@@ -134,6 +135,7 @@ export default function UpdatePatientForm({patient}: {
                         <input
                             id="phone"
                             name="phone"
+                            autoComplete='off'
                             type="text"
                             placeholder="Enter Patient's Phone Number"
                             className="peer block w-full rounded-md border border-gray-500 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
@@ -151,6 +153,7 @@ export default function UpdatePatientForm({patient}: {
                         <textarea
                             id="address"
                             name="address"
+                            autoComplete='off'
                             placeholder="Enter Patient's Address"
                             className="peer block w-full rounded-md border border-gray-500 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             defaultValue={patient.address}
@@ -167,7 +170,7 @@ export default function UpdatePatientForm({patient}: {
                 >
                 Cancel
                 </Link>
-                <Button type="submit">Save Patient Info</Button>
+                <Button type="submit">Save & Continue</Button>
             </div>
         </form>
     );

@@ -23,8 +23,37 @@ const toTitleCase = (text) => {
 
   return utexts.join(' ');
 }
+
+const isLeapYear = (year) => {
+  if (year % 100 == 0 && year % 400 == 0) return true;
+  else if (year % 100 != 0 && year % 4 == 0) return true;
+  else return false;
+}
+
+const checkAndConvertDate = (textDate) => {
+    let isD = "true";
+    let nDate = "";
+
+    const [dd, mm, yyyy] = textDate.split('/');
+    
+    const nDD = Number.parseInt(dd);
+    const nMM = Number.parseInt(mm);
+    const nYYYY = Number.parseInt(yyyy);
+
+    if ( nDD < 1 || nDD > 31 || nMM < 1 || nMM > 12 || 
+      ((nMM == 2 || nMM == 4 || nMM == 6 || nMM == 9 || nMM == 11) && nDD == 31) ||
+      (nMM == 2 && nDD == 30) || (!isLeapYear(nYYYY) && nMM == 2 && nDD == 29)
+    ) {
+      isD = "false";
+    }else {
+        nDate = `${yyyy}-${mm}-${dd}`;
+    }
+    return [isD, nDate];
+}
+
   
 module.exports = {
   separateFullName,
-  toTitleCase
+  toTitleCase,
+  checkAndConvertDate
 }

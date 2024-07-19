@@ -1,7 +1,7 @@
 const { db } = require('@vercel/postgres');
 const bcrypt = require('bcrypt');
 const { users, patients } = require('../app/lib/data/placeholderData.js');
-const { separateFullName, toTitleCase } = require('../app/lib/utils-module.js');
+const { separateFullName, toTitleCase, checkAndConvertDate } = require('../app/lib/utils-module.js');
  
 async function createUsers(client) {
     try {
@@ -157,10 +157,67 @@ async function createDentalRecords(client) {
     }
 }
 
+
+async function insertTreatmentRecords(client, treatmentRecords, id) {
+    const insertedTreatmentRecords = await Promise.all(
+        treatmentRecords.map((record) => {
+            const treatment = JSON.stringify(record.treatments);
+            console.log(treatment);
+            return client.sql`
+                INSERT INTO treatment_records (pid, exam_date, diagnoses, treatments, amount, paid)
+                VALUES (${id}, ${record.exam_date}, ${record.diagnoses}, 
+                        ${treatment},
+                        ${record.amount}, ${record.paid});
+
+                `;
+        })
+        ,
+    );
+
+    console.log(`Seeded ${insertedTreatmentRecords.length} treatment_records`);
+    console.log(insertedTreatmentRecords);
+    return insertTreatmentRecords;
+}
+
+async function createTreatementRecords(client) {
+    try {
+        const createTable = await client.sql`
+        CREATE TABLE IF NOT EXISTS treatment_records (
+            pid UUID NOT NULL,
+            exam_date DATE NOT NULL, 
+            diagnoses VARCHAR NOT NULL,
+            treatments JSONB,
+            amount INT NOT NULL,
+            paid BOOLEAN NOT NULL,
+            PRIMARY KEY (pid, exam_date)
+        );
+        `;
+        console.log(`Created "treatment_records" table`);
+        //console.log(createTable);
+
+        // Insert data into the "treatment_records" table
+        const insertedTreatmentRecords = await Promise.all(
+            patients.map((patient) => insertTreatmentRecords(client, patient.treatmentRecords, patient.id)),
+        );
+
+        console.log(`Seeded ${insertedTreatmentRecords.length} treatment_records`);
+        console.log(insertedTreatmentRecords);
+        
+        return {
+            createTable,
+            info: insertedTreatmentRecords,
+        };
+    }catch (error) {
+        console.error('Error with Database: ', error);
+        throw error;
+    }
+}
+
 function test() {
-    const nNames = separateFullName("Tran Tue Lam");
-    console.log(nNames);
-    const [firstname, middlename, lastname] = [nNames[0], nNames[1], nNames[2]];    
+    const [isD, nValue] = checkAndConvertDate('31/12/2024');
+    
+    console.log(`${isD} , ${nValue}`);
+
 }
 
 function test1() {
@@ -170,18 +227,19 @@ function test1() {
     console.log(toTitleCase("HONG gia lINH"));
 }
 
-async function main1() {
-    //test();
+async function main() {
+    test();
     //test1();
 }
 
-async function main() {
+async function main2() {
     const client = await db.connect();
     
     //await createUsers(client);
     //await createPatients(client);
     //await createMedicalRecords(client);
-    await createDentalRecords(client);
+    //await createDentalRecords(client);
+    await createTreatementRecords(client);
   
     await client.end();
   }

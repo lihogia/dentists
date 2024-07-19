@@ -46,18 +46,44 @@ const patients = [
             ],
             description: "Rang cua hoi khenh"
         },
-        treatments: [
+        treatmentRecords: [
             {
-                invoice_id: '2345',
-                date: 5/16/2024,
+                exam_date: '2024-1-16',
                 diagnoses: 'viêm nướu',
-                cures: 'cạo vôi răng, đánh bóng răng'
+                treatments: [
+                    {
+                        cure: "cạo vôi răng, đánh bóng răng",
+                        cure_date: '2024-1-16',
+                        status: false
+                    },
+                    {
+                        cure: "tay răng, abc xyz",
+                        cure_date: '2024-1-18',
+                        status: true
+                    },
+
+                ],
+                amount: 200000,
+                paid: true
             },
             {
-                invoice_id: '2345',
-                date: 5/26/2024,
+                exam_date: "2024-5-16",
                 diagnoses: 'sâu răng R16',
-                cures: "1. trám răng R16 ( xa trong ) GI \n2. đệm hàm PHHT cũ"
+                treatments: [
+                    {
+                        cure: "1. trám răng R16 ( xa trong ) GI \n2. đệm hàm PHHT cũ",
+                        cure_date: "2024-5-16",
+                        status: false
+                    }, 
+                    {
+                        cure: "lay tuy",
+                        cure_date: "2024-5-26",
+                        status: true
+                    }, 
+
+                ],
+                amount: 500000,
+                paid: false                
             }
         ],
     },
@@ -99,6 +125,35 @@ const patients = [
             ],
             description: "Rang coi nho tren bi thieu san men"
         },
+        treatmentRecords: [
+            {
+                exam_date: '2024-4-16',
+                diagnoses: 'viêm nướu',
+                treatments: [
+                    {
+                        cure: "cạo vôi răng, đánh bóng răng",
+                        cure_date: '2024-4-16',
+                        status: true
+                    }
+                ],
+                amount: 300000,
+                paid: true
+            },
+            {
+                exam_date: '2024-6-27',
+                diagnoses: 'sâu răng R16',
+                treatments: [
+                    {
+                        cure: "1. trám răng R16 ( xa trong ) GI \n2. đệm hàm PHHT cũ",
+                        cure_date: '2024-6-27',
+                        status: true
+                    }
+                ],
+                amount: 600000,
+                paid: false                
+            }
+        ],
+
     },/*
     {
         id: 'e248ef17-befd-473b-934a-d4ae0d0900e6',

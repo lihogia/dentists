@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { redirect, RedirectType, permanentRedirect } from 'next/navigation';
 import { separateFullName, toTitleCase } from '@/app/lib/utils';
 import { Diseases, TeethStatus } from "@/app/lib/data/definition";
 
@@ -42,7 +42,7 @@ export type State = {
     message?: string | null;
   }; 
 
-  export async function updatePatient(prevState: State, formData: FormData) {
+export async function updatePatient(prevState: State, formData: FormData) {
 
   const validatedFields = UpdatePatient.safeParse({
     id: formData.get('pid'),
@@ -89,8 +89,10 @@ export type State = {
     }
   }
   
-  revalidatePath('/dashboard/patients');
-  redirect('/dashboard/patients');
+  //const url = '/dashboard/patients';
+  const url = `/dashboard/patients/${id}/edit/medicalRecords`;
+  revalidatePath(url);
+  redirect(url);
 }
 
 /** Medical Records */
@@ -256,8 +258,10 @@ export async function updateMedicalReords(prevState: MedicalState, formData: For
     }
   }
   
-  revalidatePath('/dashboard/patients');
-  redirect('/dashboard/patients');
+  //const url = '/dashboard/patients';
+  const url = `/dashboard/patients/${id}/edit/dentalRecords`;
+  revalidatePath(url);
+  redirect(url);
 }
 
 /** Dental Records */
@@ -340,7 +344,109 @@ export async function updateDentalRecords(prevState: DentalState, formData: Form
     }
   }
   
-  revalidatePath('/dashboard/patients');
-  redirect('/dashboard/patients');  
-  
+  //const url = '/dashboard/patients';
+  const url = `/dashboard/patients/${id}/edit/treatmentRecords`;
+  revalidatePath(url);
+  redirect(url);  
+}
+
+/** Treatment Records */
+const TreatmentFormSchema = z.object({
+  status: z.string(),
+  id: z.string(),
+  diagnoses: z.string(),
+  old_exam_date: z.string(),
+  exam_date: z.string(),
+  amount: z.coerce.number(),
+  paid: z.boolean(),
+  treatments: z.string()
+});
+
+const UpdateTreatmentsRecords = TreatmentFormSchema.omit({});
+
+export type TreatmentState = {
+  errors?: {
+    status?: string[];
+    id?: string[];
+    diagnoses?: string[];
+    old_exam_date?: string[];
+    exam_date?: string[];
+    amount?: string[];
+    paid?: string[];
+    treatments?: string[];
+  };
+  message?: string | null;
+  submitState?: number; // 0: new, 1: success, 2: fail
+  id: string; // use for the notification
+}
+
+export async function updateTreatmentRecords(prevState: TreatmentState, formData: FormData) {
+
+  const timestamp = new Date().getTime();
+
+
+  const validatedFields = UpdateTreatmentsRecords.safeParse({
+    status: formData.get('status'),
+    id: formData.get('id'),
+    diagnoses: formData.get('diagnoses'),
+    old_exam_date: formData.get('old_exam_date'),
+    exam_date: formData.get('hid_exam_date'),
+    amount: formData.get('hid_amount'),
+    paid: formData.get('paid') === "true",
+    treatments: formData.get('hid_treatmentplan'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Error in Fields. Failed to Get Input Fields from Treatment Records Form.',
+      submitState: 2,
+      id: `${timestamp}`
+    };
+  }
+
+  const { status, id, diagnoses, old_exam_date, exam_date, amount, paid, treatments } = validatedFields.data;
+
+  if (status === 'create') { // create
+    try {
+      await sql`
+        INSERT INTO treatment_records (pid, exam_date, diagnoses, amount, paid, treatments)
+        VALUES (${id}, ${exam_date}, ${diagnoses}, ${amount}, ${paid}, ${JSON.stringify(JSON.parse(treatments))});
+      `;
+
+    }catch (error) {
+      return {
+        message: `Database Error: Failed to Create Treatment Records. ${error}`,
+        submitState: 2,
+        id: `${timestamp}`
+      };
+    }
+  } else {
+    try {
+      await sql`
+        UPDATE treatment_records 
+        SET exam_date = ${exam_date} , diagnoses = ${diagnoses}, amount = ${amount}, paid = ${paid}, treatments = ${JSON.stringify(JSON.parse(treatments))}
+        WHERE pid = ${id} AND exam_date = ${old_exam_date}
+        ;
+      `;
+
+    }catch (error) {
+      return {
+        message: `Database Error: Failed to Update Treatment Records. ${error}`,
+        submitState: 2,
+        id: `${timestamp}`
+      };
+    }
+  }
+
+  return {
+    message: 'Save Database Successfully.',
+    submitState: 1,
+    id: `${timestamp}`
+  }
+
+  //const url = `/dashboard/patients/${id}/edit/treatmentRecords`;
+  //revalidatePath(url, 'page');
+  //redirect(url, RedirectType.replace);
+  //permanentRedirect(url);
 }

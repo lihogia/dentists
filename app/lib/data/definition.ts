@@ -30,6 +30,7 @@ export type PatientForm = {
 
 export type MedicalRecordsForm = {
     pid: string; // patient id
+    fullname: string;
     height: number; // m
     weight: number; // kg
     blood_pressure_sys: number; // mmHg
@@ -57,6 +58,7 @@ export type Diseases = {
 
 export type DentalRecordsForm = {
     pid: string; // patient id
+    fullname: string;
     tooth_diagram: 
         [[string, string, string, string, string, string, string, string], // up right 8 teeth
         [string, string, string, string, string, string, string, string], // up left 8 teeth
@@ -73,33 +75,25 @@ export type TeethStatus = [
     [string, string, string, string, string, string, string, string],
     [string, string, string, string, string, string, string, string]
 ]
-/*
-export type DentalDiagram = {
-    teeth_up_left: [string, string, string, string, string, string, string, string]; // status of 8 teeth
-    teeth_bottom_left: [string, string, string, string, string, string, string, string]; // status of 8 teeth
-    teeth_up_right: [string, string, string, string, string, string, string, string]; // status of 8 teeth
-    teeth_bottom_right: [string, string, string, string, string, string, string, string]; // status of 8 teeth
-}
 
-export type ToothStatus_GOOD = "good";
-export type ToothStatus_MISSING = 'tooth_missing';
-export type ToothStatus_ROOT_PROBLEM = 'root_problem';
-export type ToothStatus_INSIDE_CAVITIES = 'occlusal_incisal_cavities';
-export type ToothStatus_OUTSIDE_CAVITIES = 'outside_cavities';
-
-export type ToothStatus = {
-    status: ToothStatus_GOOD | ToothStatus_MISSING | ToothStatus_ROOT_PROBLEM | ToothStatus_INSIDE_CAVITIES | ToothStatus_OUTSIDE_CAVITIES;
-}
-
-export type DentalRecords = {
-    pid: string; // patient id
-    teeth_diagram: DentalDiagram;
-    treatments: Treatment[];
-}*/
-
-export type Treatment = {
+export type TreatmentRecordsForm = {
     pid: string;
-    date: Date;
+    fullname: string;
+    exam_date: string;
     diagnoses: string;
-    cures: string;
+    treatments: Task[];
+    amount: number;
+    paid: boolean;
+    isCreated: boolean;
+}
+
+export type Task = {
+    cure: string,
+    cure_date: string,
+    status: boolean
+}
+
+export type TreatmentRecordsBoard = {
+    records: TreatmentRecordsForm[],
+    selectedIndex: number
 }

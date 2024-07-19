@@ -498,7 +498,7 @@ export default function UpdateMedicalForm({
                 >
                 Cancel
                 </Link>
-                <Button type="submit">Save Medical Records</Button>
+                <Button type="submit">Save & Continue</Button>
             </div>
         </form>
     );

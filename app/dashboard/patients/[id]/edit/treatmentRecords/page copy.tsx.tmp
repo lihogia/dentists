@@ -2,7 +2,7 @@
 import Breadcrumbs from '@/app/ui/patients/breadcrumbs';
 import Tabs from '@/app/ui/patients/tabs';
 import { fetchTreatmentRecordsById } from "@/app/lib/data/queries";
-import ViewTreatmentForm from '@/app/ui/patients/viewTreatmentForm';
+import UpdateTreatmentForm from '@/app/ui/patients/updateTreatmentForm';
 
 import { TreatmentRecordsForm, Task } from "@/app/lib/data/definition";
 import { 
@@ -47,8 +47,8 @@ export default async function Page({ params }: { params : { id: string }}) {
                 breadcrumbs={[
                 { label: 'Patients', href: '/dashboard/patients' },
                 {
-                    label: `View Treatment Records`,
-                    href: `/dashboard/patients/${id}/view/treatmentRecords`,
+                    label: `Edit Treatment Records`,
+                    href: `/dashboard/patients/${id}/edit/treatmentRecords`,
                     active: true,
                 },
                 ]}
@@ -58,13 +58,13 @@ export default async function Page({ params }: { params : { id: string }}) {
             </div>                        
             <Tabs 
                 tabs={[
-                { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`},
-                { label: 'Medical Records', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/view/medicalRecords`},
-                { label: 'Dental Records', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/view/dentalRecords`},
-                { label: 'Treatment Records', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/view/treatmentRecords`, active: true}
+                { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/edit`},
+                { label: 'Medical Records', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/edit/medicalRecords`},
+                { label: 'Dental Records', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/edit/dentalRecords`},
+                { label: 'Treatment Records', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/edit/treatmentRecords`, active: true}
                 ]}
             />
-            <ViewTreatmentForm treatmentRecords={arrTreatmentRecords}/>
+            <UpdateTreatmentForm treatmentRecords={arrTreatmentRecords}/>
         </main>
     );
 

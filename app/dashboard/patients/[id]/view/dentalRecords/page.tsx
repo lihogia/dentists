@@ -16,27 +16,21 @@ export default async function Page({ params }: { params : { id: string }}) {
         fetchDentalRecordsById(id)]
     ) as [DentalRecordsForm];
 
-/*    const dentalRecords: DentalRecordsForm = {
-        pid: 'e248ef17-befd-473b-934a-d4ae0d0900e6',
-        teeth_status: [["root_problem", "good", "good", "good", "good", "good", "outside_cavities", "good"],
-                        ["good", "good", "good", "good", "good", "occlusal_incisal_cavities", "good", "good"],
-                        ["good", "outside_cavities,occlusal_incisal_cavities", "good", "tooth_missing", "good", "good", "root_problem,outside_cavities,occlusal_incisal_cavities", "good"],
-                        ["good", "good", "root_problem,outside_cavities", "good", "good", "good", "good", "good"]],
-        description: "Rang khenh"
-    }
-*/
     return (
         <main>
             <Breadcrumbs
                 breadcrumbs={[
                 { label: 'Patients', href: '/dashboard/patients' },
                 {
-                    label: 'View Dental Records',
-                    href: `/dashboard/patients/${id}/view`,
+                    label: `View Dental Records`,
+                    href: `/dashboard/patients/${id}/view/dentalRecords`,
                     active: true,
                 },
                 ]}
             />
+            <div className="mb-2">
+                <span>Patient Name: {dentalRecords.fullname}</span>
+            </div>                        
             <Tabs 
                 tabs={[
                 { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`},

@@ -30,6 +30,7 @@ export default function ViewPatientForm({
                             id="name"
                             name="name"
                             type="text"
+                            autoComplete='off'
                             placeholder="Enter Patient Name"
                             className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             readOnly
@@ -100,13 +101,14 @@ export default function ViewPatientForm({
                 </fieldset>
                 {/* Patient Phone Number */}
                 <div className="mb-4">
-                    <label htmlFor="customer" className="mb-2 block text-sm font-medium">
+                    <label htmlFor="phone" className="mb-2 block text-sm font-medium">
                         Phone Number
                     </label>
                     <div className="relative">
                         <input
                             id="phone"
                             name="phone"
+                            autoComplete='off'
                             type="text"
                             placeholder="Enter Patient's Phone Number"
                             className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
@@ -118,13 +120,14 @@ export default function ViewPatientForm({
                 </div>
                 {/* Patient Address */}
                 <div className="mb-4">
-                    <label htmlFor="customer" className="mb-2 block text-sm font-medium">
+                    <label htmlFor="address" className="mb-2 block text-sm font-medium">
                         Address
                     </label>
                     <div className="relative">
                         <textarea
                             id="address"
                             name="address"
+                            autoComplete='off'
                             placeholder="Enter Patient's Address"
                             className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             value={patient.address}

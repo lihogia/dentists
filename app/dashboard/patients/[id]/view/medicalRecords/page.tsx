@@ -22,12 +22,15 @@ export default async function Page({ params }: { params : { id: string }}) {
                 breadcrumbs={[
                 { label: 'Patients', href: '/dashboard/patients' },
                 {
-                    label: 'View Medical Records',
-                    href: `/dashboard/patients/${id}/view`,
+                    label: `View Medical Records`,
+                    href: `/dashboard/patients/${id}/view/medicalRecords`,
                     active: true,
                 },
                 ]}
             />
+            <div className="mb-2">
+                <span>Patient Name: {medicalRecords.fullname}</span>
+            </div>
             <Tabs 
                 tabs={[
                 { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`},

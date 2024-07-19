@@ -471,7 +471,7 @@ export default function ViewDentalForm({
                 >
                 Cancel
                 </Link>
-                <Button type="submit">Save Dental Records</Button>
+                <Button type="submit">Save & Continue</Button>
             </div>
         </form>
     );

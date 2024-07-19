@@ -1,8 +1,10 @@
-import { fetchDentalRecordsById } from "@/app/lib/data/queries";
-import { DentalRecordsForm } from "@/app/lib/data/definition";
+import { useState } from 'react';
 import Breadcrumbs from '@/app/ui/patients/breadcrumbs';
 import Tabs from '@/app/ui/patients/tabs';
-import UpdateDentalForm from '@/app/ui/patients/updateDentalForm';
+import { fetchTreatmentRecordsById } from "@/app/lib/data/queries";
+import UpdateTreatmentForm from '@/app/ui/patients/updateTreatmentForm';
+
+import { TreatmentRecordsForm, Task } from "@/app/lib/data/definition";
 import { 
     InformationCircleIcon,
     PlusCircleIcon,
@@ -12,9 +14,10 @@ import {
 
 export default async function Page({ params }: { params : { id: string }}) {
     const id = params.id;
-    const [dentalRecords] = await Promise.all([
-        fetchDentalRecordsById(id)]
-    ) as [DentalRecordsForm];
+
+    const [ arrTreatmentRecords ]: [ TreatmentRecordsForm[] ] = await Promise.all([
+        fetchTreatmentRecordsById(id)
+    ]);
 
     return (
         <main>
@@ -22,24 +25,24 @@ export default async function Page({ params }: { params : { id: string }}) {
                 breadcrumbs={[
                 { label: 'Patients', href: '/dashboard/patients' },
                 {
-                    label: 'Edit Medical Records',
-                    href: `/dashboard/patients/${id}/edit/medicalRecords`,
+                    label: `Edit Treatment Records`,
+                    href: `/dashboard/patients/${id}/edit/treatmentRecords`,
                     active: true,
                 },
                 ]}
             />
             <div className="mb-2">
-                <span>Patient Name: {dentalRecords.fullname}</span>
-            </div>            
+                <span>Patient Name: {arrTreatmentRecords[0].fullname}</span>
+            </div>                        
             <Tabs 
                 tabs={[
                 { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/edit`},
                 { label: 'Medical Records', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/edit/medicalRecords`},
-                { label: 'Dental Records', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/edit/dentalRecords`, active: true},
-                { label: 'Treatment Records', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/edit/treatmentRecords`}
+                { label: 'Dental Records', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/edit/dentalRecords`},
+                { label: 'Treatment Records', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/edit/treatmentRecords`, active: true}
                 ]}
             />
-            <UpdateDentalForm dentalRecords={dentalRecords}/>
+            <UpdateTreatmentForm treatmentRecords={arrTreatmentRecords}/>
         </main>
     );
 

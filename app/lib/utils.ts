@@ -1,18 +1,58 @@
 import { MedicalRecordsForm} from '@/app/lib/data/definition';
 
+export const formatCurrency = (
+    amount: number,
+    locale: string = 'vi-VN',
+    currency: string = 'VND'
+  ) => {
+
+  const formatAmount = amount;
+  return (formatAmount).toLocaleString(locale, {
+    style: "currency",
+    currency: currency,
+  });
+};
+
 export const formatDateToLocal = (
     dateStr: string,
-    locale: string = 'en-US',
+    locale: string = 'vi-VN',
   ) => {
     const date = new Date(dateStr);
     const options: Intl.DateTimeFormatOptions = {
-      day: 'numeric',
-      month: 'short',
+      day: '2-digit',
+      month: '2-digit',
       year: 'numeric',
     };
     const formatter = new Intl.DateTimeFormat(locale, options);
     return formatter.format(date);
   };
+
+const isLeapYear = (year: number) => {
+  if (year % 100 == 0 && year % 400 == 0) return true;
+  else if (year % 100 != 0 && year % 4 == 0) return true;
+  else return false;
+}
+
+export const checkAndConvertDate = (textDate: string) => {
+    let isD: string = "true";
+    let nDate: string = "";
+
+    const [dd, mm, yyyy] = textDate.split('/');
+    
+    const nDD = Number.parseInt(dd);
+    const nMM = Number.parseInt(mm);
+    const nYYYY = Number.parseInt(yyyy);
+
+    if ( nDD < 1 || nDD > 31 || nMM < 1 || nMM > 12 || 
+      ((nMM == 2 || nMM == 4 || nMM == 6 || nMM == 9 || nMM == 11) && nDD == 31) ||
+      (nMM == 2 && nDD == 30) || (!isLeapYear(nYYYY) && nMM == 2 && nDD == 29)
+    ) {
+      isD = "false";
+    }else {
+        nDate = `${yyyy}-${mm}-${dd}`;
+    }
+    return [isD, nDate];
+}
   
 export const formatPhoneNumber = (phone: string) => {
   const nums = [];
@@ -63,3 +103,4 @@ export const mergeToFullName = (names: string[]) => { // array created by separa
   const nNames = names.filter((name) => name != '');
   return nNames.join(' ');
 }
+
