@@ -17,6 +17,7 @@ export const formatDateToLocal = (
     dateStr: string,
     locale: string = 'vi-VN',
   ) => {
+
     const date = new Date(dateStr);
     const options: Intl.DateTimeFormatOptions = {
       day: '2-digit',
@@ -33,24 +34,33 @@ const isLeapYear = (year: number) => {
   else return false;
 }
 
-export const checkAndConvertDate = (textDate: string) => {
+export const checkAndConvertDate = (textDate: string, requiredZero: boolean = true) => {
     let isD: string = "true";
     let nDate: string = "";
 
-    const [dd, mm, yyyy] = textDate.split('/');
-    
-    const nDD = Number.parseInt(dd);
-    const nMM = Number.parseInt(mm);
-    const nYYYY = Number.parseInt(yyyy);
-
-    if ( nDD < 1 || nDD > 31 || nMM < 1 || nMM > 12 || 
-      ((nMM == 2 || nMM == 4 || nMM == 6 || nMM == 9 || nMM == 11) && nDD == 31) ||
-      (nMM == 2 && nDD == 30) || (!isLeapYear(nYYYY) && nMM == 2 && nDD == 29)
-    ) {
+    if (requiredZero && textDate.length != 10) {
       isD = "false";
     }else {
-        nDate = `${yyyy}-${mm}-${dd}`;
+      const [dd, mm, yyyy] = textDate.split('/');
+
+      if (dd.trim() == "" || mm.trim() == "" || yyyy == "") {
+        isD = "false";
+      }else {
+        const nDD = Number.parseInt(dd);
+        const nMM = Number.parseInt(mm);
+        const nYYYY = Number.parseInt(yyyy);
+    
+        if ( nDD < 1 || nDD > 31 || nMM < 1 || nMM > 12 || 
+          ((nMM == 2 || nMM == 4 || nMM == 6 || nMM == 9 || nMM == 11) && nDD == 31) ||
+          (nMM == 2 && nDD == 30) || (!isLeapYear(nYYYY) && nMM == 2 && nDD == 29)
+        ) {
+          isD = "false";
+        }else {
+            nDate = `${yyyy}-${mm}-${dd}`;
+        }  
+      }  
     }
+
     return [isD, nDate];
 }
   

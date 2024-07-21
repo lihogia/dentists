@@ -95,5 +95,12 @@ export type Task = {
 
 export type TreatmentRecordsBoard = {
     records: TreatmentRecordsForm[],
-    selectedIndex: number
+    selectedIndex: number,
+    creatingNew: boolean,
+    state: StatusBoard
+}
+
+export type StatusBoard = {
+    status: number, // 0: begin, 1: success, 2: fail
+    message: string // error message or successful message
 }

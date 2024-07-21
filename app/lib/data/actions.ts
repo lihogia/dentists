@@ -407,6 +407,8 @@ export async function updateTreatmentRecords(prevState: TreatmentState, formData
 
   const { status, id, diagnoses, old_exam_date, exam_date, amount, paid, treatments } = validatedFields.data;
 
+  //console.log(`old:${old_exam_date}, new:${exam_date}`)
+
   if (status === 'create') { // create
     try {
       await sql`

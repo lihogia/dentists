@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useFormState } from 'react-dom';
 import { useState } from "react";
+import clsx from "clsx";
 import { TreatmentRecordsForm } from "@/app/lib/data/definition";
 import { formatCurrency, formatDateToLocal, checkAndConvertDate } from "@/app/lib/utils";
 import Status from "@/app/ui/status";
@@ -32,35 +33,36 @@ export default function UpdateTreatmentRecord(
         id: "0"
       };
     const [state, dispatch] = useFormState(updateTreatmentRecords, initialState);
-
     const [workingRecord, setWorkingRecord] = useState(record);
-    //const workingRecord = record;
+
+    //console.log(`id timestamep: ${state.id}, param: ${timestamp}`);
+    if (state.submitState != 0 && state.id != "0") {
+        
+        handleBoard(workingRecord, {status: state.submitState, message: state.message});
+        state.id = "0";
+        //state = initialState;
+    }
 
     function hideSubmitStateNotification() {
-        const elementSubmitState = document.getElementById('id_submitState');
-        if (elementSubmitState != null) {
-            elementSubmitState.className = 'hidden';
-            //elementSubmitState.remove();
-            //console.log(elementSubmitState);
-        }
+       // handleBoard(null, {status: 0, message: ''})
     }
 
-    function disableSubmitButton() {
+    function disableSubmitButton(isDisabled: boolean) {
         const subBut = document.getElementById('submitButton') as HTMLInputElement;
-        subBut.disabled = true;
-        subBut.className = 'flex h-10 items-center rounded-lg bg-blue-300 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50';
-    }
-    function enableSubmitButton() {
-        const subBut = document.getElementById('submitButton') as HTMLInputElement;
-        subBut.disabled = false;
-        subBut.className = 'flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50';
+        subBut.disabled = isDisabled;
+        if (isDisabled) {
+            subBut.className = 'flex h-10 items-center rounded-lg bg-blue-300 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50';
+        }else {
+            subBut.className = 'flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50';
+        }
+        
     }
 
     return(
         <form action={dispatch}>
-            <input type='hidden' name='status' defaultValue={workingRecord.isCreated ? "create" : "edit"} />
-            <input type='hidden' name='id' defaultValue={workingRecord.pid} />
-            <input type='hidden' name='old_exam_date' defaultValue={workingRecord.exam_date} />
+            <input type='hidden' name='status' defaultValue={record.isCreated ? "create" : "edit"} />
+            <input type='hidden' name='id' defaultValue={record.pid} />
+            <input type='hidden' id='old_exam_date' name='old_exam_date' defaultValue={record.exam_date} />
             <input type="hidden" id="hid_exam_date" name="hid_exam_date" defaultValue={workingRecord.exam_date}/>
             <input type="hidden" id="hid_amount" name="hid_amount" defaultValue={workingRecord.amount}/>
             <textarea 
@@ -69,10 +71,7 @@ export default function UpdateTreatmentRecord(
                     name="hid_treatmentplan" 
                     defaultValue={JSON.stringify(workingRecord.treatments)} 
                     className="w-full hidden"/>
-            {state.submitState === 1 &&  <div id={`id_submitState`} key={`submitState_${state.id}`} className="mt-1 flow-root bg-gray-100 p-2 bg-green-200">
-                <p className="text-sm">{state.message}</p>
-            </div>
-            }
+
             <div className="mt-1 flow-root bg-gray-100">
                 <fieldset className="mt-1" key={`${workingRecord.exam_date}`}>
                     <legend className="block text-sm font-bold bg-gray-100 w-full p-2 pb-0">
@@ -88,35 +87,32 @@ export default function UpdateTreatmentRecord(
                                     id="exam_date"
                                     name="exam_date"
                                     type="text"
-                                    className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                    className="peer block w-full rounded-md  py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"                                 
                                     placeholder="dd/mm/yyyy"
                                     defaultValue={formatDateToLocal(workingRecord.exam_date)}
                                     pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
                                     onChange={(e) => {
-                                        hideSubmitStateNotification();
-                                        const textValue = e.currentTarget.value;
-                                        if (textValue.length != 10) {
-                                            e.currentTarget.className = "peer block w-full rounded-md border-2 focus:bg-red-300 border-red-600 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500";
-                                            disableSubmitButton();
-                                            return false;
-                                        }
+                                        const [isDate, newDate] = checkAndConvertDate(e.currentTarget.value);
 
-                                        const [isDate, newDate] = checkAndConvertDate(textValue);
-                                        if (isDate !== "true") {
+                                       if (isDate !== "true") {
                                             e.currentTarget.className = "peer block w-full rounded-md border-2 focus:bg-red-300 border-red-600 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500";
-                                            disableSubmitButton();
+                                            disableSubmitButton(true);
                                             return false;                                        
-                                        }
+                                        } 
                                         
                                         e.currentTarget.className = "peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500";
-                                        const input_exam_date: HTMLInputElement = document.getElementById("hid_exam_date") as HTMLInputElement;                                    
-                                        input_exam_date.value = newDate == null ? workingRecord.exam_date : newDate;
+                                        disableSubmitButton(false);
+
+                                        //const oldHidExamDate = document.getElementById("old_exam_date") as HTMLInputElement;
+                                        const hidExamDate = document.getElementById("hid_exam_date") as HTMLInputElement;
+                                        hidExamDate.value = newDate;
+                                        //console.log(`-${newDate}`);
+                                        //console.log(`before: ${oldHidExamDate.value}, after: ${hidExamDate.value}`);
 
                                         const nRecord = {
                                             ...workingRecord,
                                             exam_date: newDate
                                         }
-                                        enableSubmitButton();
                                         setWorkingRecord(nRecord);
                                     }}
                                 />
@@ -134,7 +130,7 @@ export default function UpdateTreatmentRecord(
                                     className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                     defaultValue={workingRecord.diagnoses}
                                     onChange={(e) => {
-                                        hideSubmitStateNotification();
+                                        
                                         const nRecord = {
                                             ...workingRecord,
                                             diagnoses: e.currentTarget.value
@@ -166,7 +162,7 @@ export default function UpdateTreatmentRecord(
                                         if (isNaN(nValue)) {
                                             //console.log('NaN');
                                             e.currentTarget.className = "peer block w-full rounded-md border-2 focus:bg-red-300 border-red-600 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500";
-                                            disableSubmitButton();
+                                            disableSubmitButton(true);
                                             return false;
                                         }
                                         
@@ -179,7 +175,7 @@ export default function UpdateTreatmentRecord(
                                             amount: nValue
                                         }
 
-                                        enableSubmitButton();
+                                        disableSubmitButton(false);
                                         setWorkingRecord(nRecord);                                        
 
                                     }}
@@ -205,9 +201,6 @@ export default function UpdateTreatmentRecord(
                                             ...workingRecord,
                                             paid: e.currentTarget.checked
                                         }
-
-                                        //const input_amount: HTMLInputElement = document.getElementById("hid_amount") as HTMLInputElement;
-                                        //console.log(input_amount.value);
                                         setWorkingRecord(nRecord);
                                     }}
                                     />
@@ -238,15 +231,22 @@ export default function UpdateTreatmentRecord(
                                                     defaultValue={treatment.cure}
                                                     className="p-2 cursor-pointer border-2 border-gray-300 bg-white rounded-md w-full"
                                                     onChange={(e) => {
-                                                        hideSubmitStateNotification();
+                                                        //hideSubmitStateNotification();
                                                         const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
                                                         const newTreatment = {
                                                             ...treatment
                                                         }
                                                         newTreatment.cure = e.currentTarget.value;
+
                                                         const nTreatmentPlan = [...workingRecord.treatments];
                                                         nTreatmentPlan[index] = newTreatment;
                                                         input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
+
+                                                        const nRecord = {
+                                                            ...workingRecord,
+                                                            treatments: nTreatmentPlan
+                                                        }
+                                                        setWorkingRecord(nRecord);
                                                     }}
                                                 />
                                             </div>
@@ -262,14 +262,14 @@ export default function UpdateTreatmentRecord(
                                                         const textValue = e.currentTarget.value;
                                                         if (textValue.length != 10) {
                                                             e.currentTarget.className = "p-2 cursor-pointer focus:bg-red-300 border-2 border-red-600 bg-white rounded-md w-full mr-2";
-                                                            disableSubmitButton();
+                                                            disableSubmitButton(true);
                                                             return false;
                                                         }
                     
                                                         const [isDate, newDate] = checkAndConvertDate(textValue);
                                                         if (isDate !== "true") {
                                                             e.currentTarget.className = "p-2 cursor-pointer focus:bg-red-300 border-2 border-red-600 bg-white rounded-md w-full mr-2";
-                                                            disableSubmitButton();
+                                                            disableSubmitButton(true);
                                                             return false;                                        
                                                         }
                                                         
@@ -283,7 +283,14 @@ export default function UpdateTreatmentRecord(
                                                         const nTreatmentPlan = [...workingRecord.treatments];
                                                         nTreatmentPlan[index] = newTreatment;
                                                         input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
-                                                        enableSubmitButton();
+                                                        disableSubmitButton(false);
+
+                                                        const nRecord = {
+                                                            ...workingRecord,
+                                                            treatments: nTreatmentPlan
+                                                        }
+                                                        setWorkingRecord(nRecord);                
+
                                                     }}
                                                 />
                                             </div>
@@ -344,15 +351,26 @@ export default function UpdateTreatmentRecord(
                                                         defaultValue={treatment.cure}
                                                         className="p-2 cursor-pointer border-2 border-gray-300 bg-white rounded-md w-full mr-2"
                                                         onChange={(e) => {
-                                                            hideSubmitStateNotification();
+                                                            //hideSubmitStateNotification();
                                                             const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
+                                                            //const treatmentsObjs = JSON.parse(input_TreatmentPlan.value);
+
+
                                                             const newTreatment = {
                                                                 ...treatment
                                                             }
                                                             newTreatment.cure = e.currentTarget.value;
+
                                                             const nTreatmentPlan = [...workingRecord.treatments];
                                                             nTreatmentPlan[index] = newTreatment;
                                                             input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
+
+                                                            const nRecord = {
+                                                                ...workingRecord,
+                                                                treatments: nTreatmentPlan 
+                                                            }
+                                                            setWorkingRecord(nRecord);
+    
                                                         }}
                                                     />    
                                                 </td>
@@ -364,12 +382,8 @@ export default function UpdateTreatmentRecord(
                                                         defaultValue={formatDateToLocal(treatment.cure_date)}
                                                         className="p-2 cursor-pointer border-2 border-gray-300 bg-white rounded-md w-full mr-2"
                                                         onChange={(e) => {
-                                                            hideSubmitStateNotification();
+                                                            //hideSubmitStateNotification();
                                                             const textValue = e.currentTarget.value;
-                                                            if (textValue.length != 10) {
-                                                                e.currentTarget.className = "p-2 cursor-pointer focus:bg-red-300 border-2 border-red-600 bg-white rounded-md w-full mr-2";
-                                                                return false;
-                                                            }
                         
                                                             const [isDate, newDate] = checkAndConvertDate(textValue);
                                                             if (isDate !== "true") {
@@ -387,6 +401,12 @@ export default function UpdateTreatmentRecord(
                                                             const nTreatmentPlan = [...workingRecord.treatments];
                                                             nTreatmentPlan[index] = newTreatment;
                                                             input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
+
+                                                            /*const nRecord = {
+                                                                ...workingRecord,
+                                                                treatments: nTreatmentPlan 
+                                                            }
+                                                            setWorkingRecord(nRecord);    */
                                                         }}
                                                     />    
                                                 </td>
@@ -446,8 +466,17 @@ export default function UpdateTreatmentRecord(
                     id="submitButton"
                     type="submit"
                     onClick={(e) => {
-                        handleBoard(workingRecord);
-                        hideSubmitStateNotification();
+                        const hidExamDate = document.getElementById("hid_exam_date") as HTMLInputElement;
+                        const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
+                        //if (hidExamDate.value !== workingRecord.exam_date) {
+                        //console.log(hidExamDate.value);
+                            const nRecord = {
+                                ...workingRecord,
+                                exam_date: hidExamDate.value, 
+                                treatments: JSON.parse(input_TreatmentPlan.value)
+                            }
+                            setWorkingRecord(nRecord);    
+                        //}
                     }}
                     
                 >Save Treatment</Button>

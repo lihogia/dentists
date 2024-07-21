@@ -11,9 +11,7 @@ import {
     Task
 } from "@/app/lib/data/definition";
 
-
-
-import { formatDateToLocal } from '@/app/lib/utils';
+import { formatDateToLocal, checkAndConvertDate } from '@/app/lib/utils';
 
 export async function fetchPatients() {
     noStore();
@@ -152,12 +150,54 @@ export async function fetchDentalRecordsById(id: string) {
   }
 }
 
+export async function getEmptyTreatmentRecordsById(id: string) {
+  noStore();
+  try {
+    const data = await sql`
+    SELECT concat(p.first_name, ' ' , p.middle_name, ' ', p.last_name) as fullname
+    FROM patients as p
+    WHERE p.id = ${id}
+  `;
+
+  const patientName = data.rows[0].fullname;
+  const today = new Date();
+  const [iD, dateString] = checkAndConvertDate(today.toLocaleDateString('vi-VN'), false);
+
+  //  console.log(`today: ${dateString},today: ${today.toISOString()}, today 2: ${today.toLocaleDateString('vi-VN')}`);
+  
+  const aNewTask: Task = {
+    cure: '',
+    cure_date: dateString,
+    status: false
+  };
+
+  const foundTreatmentRecords: TreatmentRecordsForm[] = [{
+    pid: id,
+    fullname: patientName,
+    exam_date: dateString,
+    diagnoses: '',
+    treatments: [aNewTask],
+    amount: 0,
+    paid: false,
+    isCreated: true
+  }];
+
+  return foundTreatmentRecords[0];
+
+  }catch(error) {
+    console.error('Database Error: ', error);
+    throw new Error('Failed to fetch treatment records.');
+  }
+}
+
 export async function fetchTreatmentRecordsById(id: string) {
   noStore();
 
   try {
+    const emptyItem: TreatmentRecordsForm = await getEmptyTreatmentRecordsById(id);
+
     const data = await sql<TreatmentRecordsForm>`
-      SELECT concat(p.first_name, ' ' , p.middle_name, ' ', p.last_name) as fullname, 
+      SELECT ${emptyItem.fullname} as fullname, 
         to_char(t.exam_date, 'YYYY-MM-DD') as exam_date,
         t.pid, t.diagnoses, t.treatments, t.amount, t.paid, false as isCreated
       FROM treatment_records as t, patients as p
@@ -167,30 +207,12 @@ export async function fetchTreatmentRecordsById(id: string) {
 
     const treatmentRecordsList = data.rows;
     let foundTreatmentRecords: TreatmentRecordsForm[];
-
+    
     if (treatmentRecordsList.length == 0) {
-      const today = new Date();
-      const dateString = today.toLocaleDateString();
-      const aNewTask: Task = {
-        cure: '',
-        cure_date: dateString,
-        status: false
-      };
-
-      foundTreatmentRecords = [{
-        pid: id,
-        fullname: '',
-        exam_date: dateString,
-        diagnoses: '',
-        treatments: [aNewTask],
-        amount: 0,
-        paid: false,
-        isCreated: true
-      }];
+      foundTreatmentRecords = [emptyItem];
     }else {
-      foundTreatmentRecords = treatmentRecordsList;
+      foundTreatmentRecords = [ ...treatmentRecordsList, emptyItem];
     }
-
     return foundTreatmentRecords;
 
   }catch(error) {

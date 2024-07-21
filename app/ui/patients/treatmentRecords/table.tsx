@@ -10,8 +10,10 @@ export default function TreatmentRecordsTable({
         handleBoard: Function
     }) {
 
-    const treatmentRecords = treatmentRecordsBoard.records;
-    const selectedRecords = treatmentRecords[treatmentRecordsBoard.selectedIndex];
+    
+    const numberOfItem = treatmentRecordsBoard.records.length;
+    const treatmentRecords = treatmentRecordsBoard.records.filter((item, index) => index < numberOfItem - 1);
+    const selectedRecords = treatmentRecordsBoard.records[treatmentRecordsBoard.selectedIndex];
 
     return (
         <div className="inline-block min-w-full align-middle">
@@ -24,7 +26,11 @@ export default function TreatmentRecordsTable({
                     onClick={(e) => {
                         const newBoard = {
                             ...treatmentRecordsBoard,
-                            selectedIndex: index
+                            selectedIndex: index,
+                            state: {
+                                status: 0,
+                                message: ''
+                            }
                         }
                         handleBoard(newBoard);
                     }}>
@@ -73,7 +79,11 @@ export default function TreatmentRecordsTable({
                         onClick={(e) => {
                             const newBoard = {
                                 ...treatmentRecordsBoard,
-                                selectedIndex: index
+                                selectedIndex: index,
+                                state: {
+                                    status: 0,
+                                    message: ''
+                                }                                    
                             }
                             handleBoard(newBoard);
                         }}
