@@ -1,6 +1,8 @@
 import { TrashIcon, PlusIcon, PencilIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { TreatmentRecordsBoard } from "@/app/lib/data/definition";
+import { useFormState } from 'react-dom';
+import { TreatmentRecordsBoard, TreatmentRecordsForm } from "@/app/lib/data/definition";
+import { deleteTreatmentRecords, TreatmentDeleteState } from '@/app/lib/data/actions';
 
 export function CreateTreatmentRecord({treatmentRecordsBoard, handleBoard}: {treatmentRecordsBoard: TreatmentRecordsBoard, handleBoard: Function}) {
   const indexOfNewItem = treatmentRecordsBoard.records.length - 1;
@@ -27,6 +29,7 @@ export function CreateTreatmentRecord({treatmentRecordsBoard, handleBoard}: {tre
   );
 }
 
+/*
 export function UpdateTreatmentRecord({id}: {id: string}) {
     return (
         <Link
@@ -35,13 +38,44 @@ export function UpdateTreatmentRecord({id}: {id: string}) {
         </Link>
       );    
 }
+*/
 
-export function DeleteTreatmentRecord({id}: {id: string}) {
+export function DeleteTreatmentRecord({record, index, handleRemove}: {record: TreatmentRecordsForm, index: number, handleRemove: Function}) {
+  const initialState: TreatmentDeleteState = {
+    errors: {},
+    message: null,
+    submitState: 0,
+    id: "0"
+  };
+
+  const [state, dispatch] = useFormState(deleteTreatmentRecords, initialState);
+
+  if (state.submitState != 0 && state.id != "0") {
+        
+    handleRemove(record, {status: state.submitState, message: state.message});
+    state.id = "0";
+    //state = initialState;
+}
+
+
     return (
-        <form>
-            <button className="rounded-md border p-2 hover:bg-gray-100">
-            <span className="sr-only">Delete</span>
-            <TrashIcon className="w-5" />
+        <form id={`form_${index}`} name={`form_${index}`} action={dispatch}>
+            <input type='hidden' name='id' defaultValue={record.pid} />
+            <input type='hidden' id='examDate' name='examDate' defaultValue={record.exam_date} />
+            
+            <button 
+              type="submit"
+              className="rounded-md border p-2 hover:bg-gray-100"
+              onClick={(e) => {
+                const isDelete = confirm('Are you sure to remove this record ?');
+                const delForm = document.getElementById(`form_${index}`) as HTMLFormElement;
+                if (!isDelete) {
+                  e.preventDefault();
+                }                  
+              }}
+            >
+              <span className="sr-only">Delete</span>
+              <TrashIcon className="w-5" />
             </button>
         </form>
     );

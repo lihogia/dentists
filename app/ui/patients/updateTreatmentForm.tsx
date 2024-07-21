@@ -65,6 +65,18 @@ export default function UpdateTreatmentForm({
         
         setTreatmentRecordsBoard(newTreamentRecordsBoard);
     }
+
+    function removeBoard(pRecord: TreatmentRecordsForm, pState: StatusBoard) {
+        const newTreamentRecordsBoard: TreatmentRecordsBoard = {
+            ...treatmentRecordsBoard,
+            state: pState
+        }
+
+        const newRecords = newTreamentRecordsBoard.records.filter((record) => record.exam_date !== pRecord.exam_date);
+        newTreamentRecordsBoard.records = newRecords;
+
+        setTreatmentRecordsBoard(newTreamentRecordsBoard);
+    }
     
     return (
         <div className="mt-4 flow-root">
@@ -72,7 +84,7 @@ export default function UpdateTreatmentForm({
                 <CreateTreatmentRecord treatmentRecordsBoard={treatmentRecordsBoard} handleBoard={setTreatmentRecordsBoard} />
             </div>
             
-            <TreatmentRecordsTable treatmentRecordsBoard={treatmentRecordsBoard} handleBoard={setTreatmentRecordsBoard} />
+            <TreatmentRecordsTable treatmentRecordsBoard={treatmentRecordsBoard} handleBoard={setTreatmentRecordsBoard} handleRemove={removeBoard}/>
             <hr className="m-3"/>
             {treatmentRecordsBoard.state.status === 1 &&  <div className="mt-1 flow-root bg-gray-100 p-2 bg-green-200">
                 <p className="text-sm">{treatmentRecordsBoard.state.message}</p>

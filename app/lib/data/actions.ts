@@ -452,3 +452,61 @@ export async function updateTreatmentRecords(prevState: TreatmentState, formData
   //redirect(url, RedirectType.replace);
   //permanentRedirect(url);
 }
+
+const DeleteTreatmentsRecords = TreatmentFormSchema.omit({
+  status: true, 
+  diagnoses: true,
+  old_exam_date: true,
+  amount: true,
+  paid: true,
+  treatments: true  
+});
+
+export type TreatmentDeleteState = {
+  errors?: {
+    id?: string[];
+    exam_date?: string[];
+  };
+  message?: string | null;
+  submitState?: number; // 0: new, 1: success, 2: fail
+  id: string; // use for the notification
+}
+
+export async function deleteTreatmentRecords(prevState: TreatmentDeleteState, formData: FormData) {
+  const timestamp = new Date().getTime();
+
+  const validatedFields = DeleteTreatmentsRecords.safeParse({
+    id: formData.get('id'),
+    exam_date: formData.get('examDate')
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Error in Fields. Failed to Get Input Fields from Treatment Records Form.',
+      submitState: 2,
+      id: `${timestamp}`
+    };
+  }
+
+  const { id, exam_date } = validatedFields.data;
+  try {
+    await sql`
+      DELETE FROM treatment_records 
+      WHERE pid = ${id} AND exam_date = ${exam_date} 
+    `;
+  }catch (error) {
+    return {
+      message: `Database Error: Failed to Delete Treatment Records. ${error}`,
+      submitState: 2,
+      id: `${timestamp}`
+    };
+  }
+
+  return {
+    message: 'Delete Record Successfully.',
+    submitState: 1,
+    id: `${timestamp}`
+  }
+
+}

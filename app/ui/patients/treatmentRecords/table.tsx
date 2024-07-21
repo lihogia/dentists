@@ -2,12 +2,14 @@ import clsx from "clsx";
 import { TreatmentRecordsForm, TreatmentRecordsBoard } from "@/app/lib/data/definition";
 import { formatCurrency, formatDateToLocal } from "@/app/lib/utils";
 import Status from "@/app/ui/status";
+import { DeleteTreatmentRecord } from "@/app/ui/patients/treatmentRecords/buttons";
 
 export default function TreatmentRecordsTable({
-    treatmentRecordsBoard, handleBoard
+    treatmentRecordsBoard, handleBoard, handleRemove
     }: { 
         treatmentRecordsBoard: TreatmentRecordsBoard,
-        handleBoard: Function
+        handleBoard: Function,
+        handleRemove: Function
     }) {
 
     
@@ -42,10 +44,19 @@ export default function TreatmentRecordsTable({
                             </p>
                         </div>
                         <p className={clsx(selectedRecords.exam_date === record.exam_date ? "text-blue-600" : "text-gray-500", "text-sm")}>
-                            {record.diagnoses}
+                            {formatCurrency(record.amount)}
                         </p>
                         </div>
                         <Status status={record.paid} text="Paid" />
+                    </div>
+                    <div className="flex w-full items-center justify-between pt-4">
+                        <div>
+                            <p>{record.diagnoses}</p>
+                        </div>
+                        <div className="flex justify-end gap-2">
+                            <DeleteTreatmentRecord record={record} index={index} handleRemove={handleRemove}/>
+                        </div>
+
                     </div>
                 </div>
             ))}
@@ -104,6 +115,7 @@ export default function TreatmentRecordsTable({
                         </td>
                         <td className="whitespace-nowrap py-3 pl-6 pr-3">
                             <div className="flex justify-end gap-3">
+                                <DeleteTreatmentRecord record={record} index={index} handleRemove={handleRemove}/>
                                 {/*
                                 <UpdatePatient id={`${patient.id}`} />
                                 <DeletePatient id={`${patient.id}`} />                            
