@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Breadcrumbs from '@/app/ui/patients/breadcrumbs';
 import Tabs from '@/app/ui/patients/tabs';
 import { fetchTreatmentRecordsById } from "@/app/lib/data/queries";

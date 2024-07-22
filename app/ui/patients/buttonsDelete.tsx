@@ -3,28 +3,7 @@ import { TrashIcon, PlusIcon, PencilIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { DeletePatientState, deletePatient } from "@/app/lib/data/actions";
 
-export function CreatePatient() {
-  return (
-    <Link
-      href="/dashboard/patients/create"
-      className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-    >
-      <span className="hidden md:block">Create Patient</span>{' '}
-      <PlusIcon className="h-5 md:ml-4" />
-    </Link>
-  );
-}
 
-export function UpdatePatient({id}: {id: string}) {
-    return (
-        <Link
-          href={`/dashboard/patients/${id}/edit`} className="rounded-md border p-2 hover:bg-gray-100">
-          <PencilIcon className="w-5" />
-        </Link>
-      );    
-}
-
-/*
 export function DeletePatientComponent({id, handlePatientRemove}: {id: string, handlePatientRemove: Function}) {
   const initialState: DeletePatientState = {
     errors: {},
@@ -42,7 +21,7 @@ export function DeletePatientComponent({id, handlePatientRemove}: {id: string, h
 
   return (
       <form id={`form_patient_${id}`} action={dispatch}>
-          <input type='hidden' name='id' value={id} />
+          <input type='hidden' name='id' defaultValue={id} />
           <button 
             type="submit"
             className="rounded-md border p-2 hover:bg-gray-100"
@@ -53,7 +32,7 @@ export function DeletePatientComponent({id, handlePatientRemove}: {id: string, h
                 e.preventDefault();
               }else {
                 //handleRemove(index);
-                e.preventDefault();
+                //e.preventDefault();
               }      
             }}
           >
@@ -63,4 +42,3 @@ export function DeletePatientComponent({id, handlePatientRemove}: {id: string, h
       </form>
   );
 }
-*/

@@ -1,19 +1,56 @@
+'use client';
 import Image from "next/image";
 import PatientStatus from "@/app/ui/patients/status";
 import { formatDateToLocal, formatPhoneNumber, toTitleCase, mergeToFullName } from "@/app/lib/utils";
-import { UpdatePatient, DeletePatient } from "@/app/ui/patients/buttons";
-import { fetchPatients } from "@/app/lib/data/queries";
+import { UpdatePatient } from "@/app/ui/patients/buttons";
+import { DeletePatientComponent } from "@/app/ui/patients/buttonsDelete";
 import Link from "next/link";
+import { useState } from "react";
+import { StatusBoard, PatientsTable } from "@/app/lib/data/definition";
 
-export default async function PatientsTable() {
-    const patients = await fetchPatients();
-    
+export default function PatientsTableComponent(
+    { patients } : 
+    { patients: PatientsTable[] }
+) {
+
+    const initStatusBoard: StatusBoard = {
+        status: 0,
+        message: ''
+    }
+
+    const initPatientsBoard = {
+        list: patients,
+        state: initStatusBoard
+    }
+
+    const [patientsBoard, setPatientsBoard] = useState(initPatientsBoard);
+
+    function removePatient(id: string, pState: StatusBoard) {
+        const newPatients = patientsBoard.list.filter((patient) => patient.id != id);
+
+        console.log(`id=${id}`);
+
+        const newBoard = {
+            ...patientsBoard,
+            list: newPatients,
+            state: pState
+        }
+        setPatientsBoard(newBoard);
+    }
+
     return (
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle">
                 <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+                    {patientsBoard.state.status === 1 &&  <div className="mt-1 flow-root bg-gray-100 p-2 bg-green-200">
+                        <p className="text-sm">{patientsBoard.state.message}</p>
+                        </div>}
+                    {patientsBoard.state.status === 2 &&  <div className="mt-1 flow-root bg-gray-100 p-2 bg-red-200">
+                            <p className="text-sm">{patientsBoard.state.message}</p>
+                        </div>}
+
                     <div className="md:hidden">
-                    {patients?.map((patient) => (
+                    {patientsBoard.list?.map((patient) => (
                         <div key={patient.id} className="mb-2 w-full rounded-md bg-white p-4">
                             <div className="flex items-center justify-between border-b pb-4">
                             <div>
@@ -34,7 +71,7 @@ export default async function PatientsTable() {
                         </div>
                         <div className="flex justify-end gap-2">
                             <UpdatePatient id={`${patient.id}`} />
-                            <DeletePatient id={`${patient.id}`} />                            
+                            <DeletePatientComponent id={`${patient.id}`} handlePatientRemove={removePatient}/>
                         </div>
                         </div>                            
                     </div>
@@ -64,7 +101,7 @@ export default async function PatientsTable() {
                         </tr>
                         </thead>
                         <tbody className="bg-white">
-                            {patients?.map((patient) => (
+                            {patientsBoard.list?.map((patient) => (
                             <tr key={patient.id}
                             className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
@@ -91,7 +128,7 @@ export default async function PatientsTable() {
                                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                     <div className="flex justify-end gap-3">
                                         <UpdatePatient id={`${patient.id}`} />
-                                        <DeletePatient id={`${patient.id}`} />                            
+                                        <DeletePatientComponent id={`${patient.id}`} handlePatientRemove={removePatient}/>
                                     </div>
                                 </td>
                             </tr>

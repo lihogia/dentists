@@ -6,6 +6,11 @@ import { revalidatePath } from 'next/cache';
 import { redirect, RedirectType, permanentRedirect } from 'next/navigation';
 import { separateFullName, toTitleCase } from '@/app/lib/utils';
 import { Diseases, TeethStatus } from "@/app/lib/data/definition";
+import { 
+  isExistedMedicalRecord, 
+  isExistedDentalRecord,
+  isExistedTreatmentRecord
+ } from './queries';
 
 const thisYear = (new Date()).getFullYear();
 
@@ -509,6 +514,91 @@ export async function deleteTreatmentRecords(prevState: TreatmentDeleteState, fo
     message: 'Delete Record Successfully.',
     submitState: 1,
     id: `${timestamp}`
+  }
+}
+
+/** Delete Patient */
+const DeletePatient = FormSchema.omit({
+  name: true,
+  birth_year: true,
+  gender: true,
+  phone: true,
+  address: true
+});
+
+export type DeletePatientState = {
+  errors?: {
+    id?: string[];
+  };
+  message?: string | null;
+  submitState?: number; // 0: new, 1: success, 2: fail
+  timestamp: string; // use for notification
+}
+
+export async function deletePatient(prevState: DeletePatientState, formData: FormData) {
+  const timestamp = `${new Date().getTime()}`;
+
+  const validatedFields = DeletePatient.safeParse({
+    id: formData.get('id')
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Error in Fields. Cannot get patient ID. Failed to Delete Patient.',
+      submitState: 2,
+      timestamp: timestamp
+    };
+  }
+
+  const {id} = validatedFields.data;
+  try {
+    await sql`
+      DELETE FROM patients
+      WHERE id = ${id}
+    `;
+    console.log(`Removed successfully patient with id = ${id} in patients table`);
+
+    const isMR = await isExistedMedicalRecord(id);
+    const isDR = await isExistedDentalRecord(id);
+    const isTR = await isExistedTreatmentRecord(id);
+
+    if (isMR) {
+      await sql`
+        DELETE FROM medical_records
+        WHERE pid = ${id}
+      `;
+      console.log(`Removed successfully medical records with pid = ${id} in medical_records table`);
+    }
+
+    if (isDR) {
+      await sql`
+        DELETE FROM dental_records
+        WHERE pid = ${id}
+      `;
+      console.log(`Removed successfully dental records with pid = ${id} in dental_records table`);
+    }
+
+    if (isTR) {
+      await sql`
+        DELETE FROM treatment_records
+        WHERE pid = ${id}
+      `;
+      console.log(`Removed successfully treatment records with pid = ${id} in treatment_records table`);
+    }
+
+  }catch (error) {
+    return {
+      message: `Database Error: Failed to Delete Patient. ${error}`,
+      submitState: 2,
+      timestamp: timestamp
+    }
+  }
+
+  return {
+    message: 'Delete Patient Successfully.',
+    submitState: 1,
+    timestamp: timestamp
   }
 
 }

@@ -63,6 +63,24 @@ export async function fetchPatientById(id: string) {
       throw new Error('Failed to fetch patient.');
     }
   }
+
+export async function isExistedMedicalRecord(id: string) {
+  noStore();
+  let foundItem: boolean = false;
+
+  try {
+    const data = await sql`
+      SELECT * 
+      FROM medical_records
+      WHERE pid = ${id}
+    `;
+    foundItem = data.rows.length > 0 ? true : false;
+
+  }catch (error) {
+    console.error('Database Error:', error);
+  }
+  return foundItem;
+}  
   
 export async function fetchMedicalRecordsById(id: string) {
   noStore();
@@ -115,6 +133,24 @@ export async function fetchMedicalRecordsById(id: string) {
   }
 }
 
+export async function isExistedDentalRecord(id: string) {
+  noStore();
+  let foundItem: boolean = false;
+
+  try {
+    const data = await sql`
+      SELECT * 
+      FROM dental_records
+      WHERE pid = ${id}
+    `;
+    foundItem = data.rows.length > 0 ? true : false;
+
+  }catch (error) {
+    console.error('Database Error:', error);
+  }
+  return foundItem;
+} 
+
 export async function fetchDentalRecordsById(id: string) {
   noStore();
   try {
@@ -149,6 +185,24 @@ export async function fetchDentalRecordsById(id: string) {
     throw new Error('Failed to fetch dental records.');
   }
 }
+
+export async function isExistedTreatmentRecord(id: string) {
+  noStore();
+  let foundItem: boolean = false;
+
+  try {
+    const data = await sql`
+      SELECT * 
+      FROM treatment_records
+      WHERE pid = ${id}
+    `;
+    foundItem = data.rows.length > 0 ? true : false;
+
+  }catch (error) {
+    console.error('Database Error:', error);
+  }
+  return foundItem;
+} 
 
 export async function getEmptyTreatmentRecordsById(id: string) {
   noStore();

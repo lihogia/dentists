@@ -1,11 +1,13 @@
+import { Suspense } from 'react';
 import { lusitana } from '@/app/ui/fonts';
-import PatientsTable from '@/app/ui/patients/table';
+import PatientsTableComponent from '@/app/ui/patients/table';
 import Search from '@/app/ui/search';
 import { CreatePatient } from '@/app/ui/patients/buttons';
 import { PatientsTableSkeleton } from '@/app/ui/skeletons';
-import { Suspense } from 'react';
+import { fetchPatients } from "@/app/lib/data/queries";
 
-export default function Page() {
+export default async function Page() {
+    const patients = await fetchPatients();
 
     return (
         <div className="w-full">
@@ -17,7 +19,7 @@ export default function Page() {
                 <CreatePatient />
             </div>
             <Suspense fallback={<PatientsTableSkeleton />}>
-                <PatientsTable />
+                <PatientsTableComponent patients={patients}/>
             </Suspense>            
         </div>
     );
