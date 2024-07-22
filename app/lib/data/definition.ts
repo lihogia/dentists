@@ -90,7 +90,7 @@ export type TreatmentRecordsForm = {
 export type Task = {
     cure: string,
     cure_date: string,
-    status: boolean
+    status: boolean // true: Done, false: Pending
 }
 
 export type TreatmentRecordsBoard = {

@@ -26,17 +26,14 @@ export default function Tabs({
             key={tab.href}
             aria-current={tab.active}
             className={clsx(
-              tab.active ? 'text-white bg-blue-600 rounded-tl' : 'text-gray-500','px-3 py-2'
+              tab.active ? 'text-white bg-blue-600 rounded-tl' : 'text-gray-500','px-3 py-2 hover:bg-blue-400 hover:text-white hover:rounded-tl'
             )}
           >
 
             <Link href={tab.href}>
-              <p className="md:hidden md:block">{/*tab.active ? tab.label : `${tab.short}...`*/}<LinkIcon className="w-6"/></p>
+              <p className="md:hidden md:block"><LinkIcon className="w-6"/></p>
               <p className="hidden md:block">{tab.label}</p>
             </Link>
-            { /*index < tabs.length - 1 ? (
-              <span className="mx-3 inline-block"></span>
-            ) : null */}
           </li>
         )})}
       </ol>

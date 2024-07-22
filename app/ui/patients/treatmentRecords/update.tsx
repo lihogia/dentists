@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useFormState } from 'react-dom';
 import { useState } from "react";
 import clsx from "clsx";
-import { TreatmentRecordsForm } from "@/app/lib/data/definition";
+import { TreatmentRecordsForm, Task } from "@/app/lib/data/definition";
 import { formatCurrency, formatDateToLocal, checkAndConvertDate } from "@/app/lib/utils";
 import Status from "@/app/ui/status";
 import {
@@ -20,6 +20,7 @@ import {
   } from '@heroicons/react/24/outline';
 import { Button } from "@/app/ui/buttons";
 import { updateTreatmentRecords, TreatmentState } from '@/app/lib/data/actions';
+import { CreateTreatmentTask, DeleteTreatmentTask } from "@/app/ui/patients/treatmentRecords/buttons";
 
 export default function UpdateTreatmentRecord(
     {record, handleBoard}:
@@ -56,6 +57,39 @@ export default function UpdateTreatmentRecord(
             subBut.className = 'flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50';
         }
         
+    }
+
+    function addNewTreatmentTask() {
+
+        const today = new Date();
+        const [iD, dateString] = checkAndConvertDate(today.toLocaleDateString('vi-VN'), false);
+      
+        const newTask: Task = {
+            cure: "",
+            cure_date: dateString,
+            status: false
+        
+        }
+        const newTreatments = [...workingRecord.treatments, newTask];
+        const newRecord = {
+            ...workingRecord,
+            treatments: newTreatments
+        }
+        const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
+        input_TreatmentPlan.value = JSON.stringify(newTreatments);
+
+        setWorkingRecord(newRecord);
+    }
+
+    function removeTreatmentTask(pIndex: number) {
+        const newTreatments = workingRecord.treatments.filter((treatment, index) => index != pIndex);
+        const newRecord = {
+            ...workingRecord,
+            treatments: newTreatments
+        }
+        const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
+        input_TreatmentPlan.value = JSON.stringify(newTreatments);
+        setWorkingRecord(newRecord);
     }
 
     return(
@@ -106,8 +140,6 @@ export default function UpdateTreatmentRecord(
                                         //const oldHidExamDate = document.getElementById("old_exam_date") as HTMLInputElement;
                                         const hidExamDate = document.getElementById("hid_exam_date") as HTMLInputElement;
                                         hidExamDate.value = newDate;
-                                        //console.log(`-${newDate}`);
-                                        //console.log(`before: ${oldHidExamDate.value}, after: ${hidExamDate.value}`);
 
                                         const nRecord = {
                                             ...workingRecord,
@@ -196,7 +228,7 @@ export default function UpdateTreatmentRecord(
                                     defaultChecked={workingRecord.paid}
                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                                     onChange={(e) => {
-                                        hideSubmitStateNotification();
+                                        //hideSubmitStateNotification();
                                         const nRecord = {
                                             ...workingRecord,
                                             paid: e.currentTarget.checked
@@ -214,8 +246,11 @@ export default function UpdateTreatmentRecord(
                         <div className="p-2 border border-gray-300 rounded-full rounded-md">
                             <div className="p-1 pb-1">
                                 <span className="mb-2 block text-sm font-medium">
-                                    Treatment Plan
+                                    Cure Plan
                                 </span>
+                            </div>
+                            <div className="flex items-center justify-between gap-2 m-2 mt-1">
+                                <CreateTreatmentTask handleRecord={addNewTreatmentTask}/>
                             </div>
                             <div className="md:hidden">
                                 {workingRecord.treatments.map((treatment, index) => (
@@ -325,6 +360,7 @@ export default function UpdateTreatmentRecord(
                                                     className="flex cursor-pointer items-center rounded-full px-2 font-medium text-gray-600">
                                                     <Status status={treatment.status} text="Done" />
                                                 </label>
+                                                {workingRecord.treatments.length > 1 && <DeleteTreatmentTask index={index} handleRemove={removeTreatmentTask} />}
                                             </div>
                                         </div>
                                     </div>
@@ -337,6 +373,7 @@ export default function UpdateTreatmentRecord(
                                         <td className="p-2">Cure</td>
                                         <td className="p-2">Date</td>
                                         <td className="p-2">Status</td>
+                                        <td className="p-2">Delete</td>
                                     </tr>
                                 </thead>
                                 <tbody className="text-sm">
@@ -354,7 +391,6 @@ export default function UpdateTreatmentRecord(
                                                             //hideSubmitStateNotification();
                                                             const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
                                                             //const treatmentsObjs = JSON.parse(input_TreatmentPlan.value);
-
 
                                                             const newTreatment = {
                                                                 ...treatment
@@ -443,6 +479,9 @@ export default function UpdateTreatmentRecord(
                                                         <Status status={treatment.status} text="Done" />
                                                     </label>
                                                     </div>
+                                                </td>
+                                                <td className="p-2">
+                                                    {workingRecord.treatments.length > 1 && <DeleteTreatmentTask index={index} handleRemove={removeTreatmentTask} />}
                                                 </td>
                                             </tr>
                                         );

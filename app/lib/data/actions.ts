@@ -89,8 +89,10 @@ export async function updatePatient(prevState: State, formData: FormData) {
     }
   }
   
-  //const url = '/dashboard/patients';
-  const url = `/dashboard/patients/${id}/edit/medicalRecords`;
+  let url = '/dashboard/patients';
+  if (id !== '') {
+    url = `/dashboard/patients/${id}/edit/medicalRecords`;
+  }
   revalidatePath(url);
   redirect(url);
 }
