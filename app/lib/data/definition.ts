@@ -79,7 +79,7 @@ export type TeethStatus = [
 export type TreatmentRecordsForm = {
     pid: string;
     fullname: string;
-    exam_date: string;
+    exam_date: string; // YYYY-MM-DD
     diagnoses: string;
     treatments: Task[];
     amount: number;

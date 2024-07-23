@@ -114,7 +114,7 @@ export default function TreatmentRecordsTable({
                             <Status status={record.paid} text="Paid" />
                         </td>
                         <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                            <div className="flex justify-end gap-3">
+                            <div className="flex justify-start gap-3">
                                 <DeleteTreatmentRecord record={record} index={index} handleRemove={handleRemove}/>
                                 {/*
                                 <UpdatePatient id={`${patient.id}`} />

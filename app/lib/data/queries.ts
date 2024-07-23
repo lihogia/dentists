@@ -11,7 +11,7 @@ import {
     Task
 } from "@/app/lib/data/definition";
 
-import { formatDateToLocal, checkAndConvertDate } from '@/app/lib/utils';
+import { formatDateToLocal, formatDateObjToLocal, checkAndConvertDate, getNextDate } from '@/app/lib/utils';
 
 export async function fetchPatients() {
     noStore();
@@ -215,9 +215,10 @@ export async function getEmptyTreatmentRecordsById(id: string) {
 
   const patientName = data.rows[0].fullname;
   const today = new Date();
-  const [iD, dateString] = checkAndConvertDate(today.toLocaleDateString('vi-VN'), false);
+  
+  const [iD, dateString] = checkAndConvertDate(formatDateObjToLocal(today, 'vi-VN'), false);
 
-  //  console.log(`today: ${dateString},today: ${today.toISOString()}, today 2: ${today.toLocaleDateString('vi-VN')}`);
+    //console.log(`today: ${dateString},today: ${today.toISOString()}, today 2: ${today.toLocaleDateString('vi-VN')}`);
   
   const aNewTask: Task = {
     cure: '',
@@ -244,6 +245,30 @@ export async function getEmptyTreatmentRecordsById(id: string) {
   }
 }
 
+function createListOfTreatmenRecords(listOfRecords: TreatmentRecordsForm[], emptyRecord: TreatmentRecordsForm) {
+  const dateToCheck = emptyRecord.exam_date;
+  const arrExamDate: string[] = listOfRecords.map((record) => {
+    //console.log(`-${record.exam_date}`);
+    return record.exam_date;
+  });
+
+  if (arrExamDate.includes(dateToCheck)) { // create a new 
+    const newDateStr: string = getNextDate(dateToCheck);
+
+    const newTreatments = [...emptyRecord.treatments];
+    newTreatments[0].cure_date = newDateStr;
+
+    const newEmptyRecord: TreatmentRecordsForm = {
+      ...emptyRecord,
+      exam_date: newDateStr,
+      treatments: newTreatments
+    }
+    return createListOfTreatmenRecords(listOfRecords, newEmptyRecord);
+  }else {
+    return [...listOfRecords, emptyRecord];
+  }
+}
+
 export async function fetchTreatmentRecordsById(id: string) {
   noStore();
 
@@ -265,7 +290,7 @@ export async function fetchTreatmentRecordsById(id: string) {
     if (treatmentRecordsList.length == 0) {
       foundTreatmentRecords = [emptyItem];
     }else {
-      foundTreatmentRecords = [ ...treatmentRecordsList, emptyItem];
+      foundTreatmentRecords = createListOfTreatmenRecords(treatmentRecordsList, emptyItem);
     }
     return foundTreatmentRecords;
 

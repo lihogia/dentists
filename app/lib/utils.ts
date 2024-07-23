@@ -13,19 +13,27 @@ export const formatCurrency = (
   });
 };
 
+export const formatDateObjToLocal = (
+  dateObj: Date,
+  locale: string = 'vi-VN',
+) => {
+
+  const options: Intl.DateTimeFormatOptions = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  };
+  const formatter = new Intl.DateTimeFormat(locale, options);
+  return formatter.format(dateObj);
+};
+
 export const formatDateToLocal = (
     dateStr: string,
     locale: string = 'vi-VN',
   ) => {
 
     const date = new Date(dateStr);
-    const options: Intl.DateTimeFormatOptions = {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    };
-    const formatter = new Intl.DateTimeFormat(locale, options);
-    return formatter.format(date);
+    return formatDateObjToLocal(date, locale);
   };
 
 const isLeapYear = (year: number) => {
@@ -34,7 +42,18 @@ const isLeapYear = (year: number) => {
   else return false;
 }
 
-export const checkAndConvertDate = (textDate: string, requiredZero: boolean = true) => {
+export const getNextDate = (startDate: string) => { // format: YYYY-MM-DD
+  const dateObj = new Date(startDate);
+  const nextDate = new Date();
+  const ADayInMillis = 24 * 60 * 60 * 1000;
+  nextDate.setTime(dateObj.getTime() + ADayInMillis);
+
+  const dateString = formatDateObjToLocal(nextDate);
+  const [iD, convertedDateStr] = checkAndConvertDate(dateString);
+  return convertedDateStr;
+}
+
+export const checkAndConvertDate = (textDate: string, requiredZero: boolean = true) => { // dd/mm/yyyy
     let isD: string = "true";
     let nDate: string = "";
 

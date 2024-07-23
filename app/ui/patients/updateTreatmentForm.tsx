@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useFormState } from 'react-dom';
 import { useState } from "react";
-import { formatCurrency, formatDateToLocal } from "@/app/lib/utils";
+import { formatCurrency, formatDateToLocal, getNextDate } from "@/app/lib/utils";
 import { TreatmentRecordsForm, StatusBoard, TreatmentRecordsBoard } from "@/app/lib/data/definition";
 import TreatmentRecordsTable from "@/app/ui/patients/treatmentRecords/table";
 import UpdateTreatmentRecord from "@/app/ui/patients/treatmentRecords/update"
@@ -51,16 +51,32 @@ export default function UpdateTreatmentForm({
             ...treatmentRecordsBoard,
             state: pState
         }
-        if (record.isCreated) {
-            const emptyRecord: TreatmentRecordsForm = {
-                ...treatmentRecordsBoard.records[treatmentRecordsBoard.records.length-1]
+        if (record != null) {
+            if (record.isCreated) {
+                const emptyRecord: TreatmentRecordsForm = {
+                    ...treatmentRecordsBoard.records[treatmentRecordsBoard.records.length-1]
+                }
+                if (emptyRecord.exam_date === record.exam_date) {
+                    emptyRecord.exam_date = getNextDate(emptyRecord.exam_date);
+                    emptyRecord.treatments[0].cure_date = emptyRecord.exam_date;
+                }
+
+                const newRecords = [...newTreamentRecordsBoard.records, emptyRecord];
+                record.isCreated = false;
+                newRecords[treatmentRecordsBoard.selectedIndex] = record;
+                newTreamentRecordsBoard.records = newRecords;
+            }else {
+                newTreamentRecordsBoard.records[treatmentRecordsBoard.selectedIndex] = record;
             }
-            const newRecords = [...newTreamentRecordsBoard.records, emptyRecord];
-            record.isCreated = false;
-            newRecords[treatmentRecordsBoard.selectedIndex] = record;
-            newTreamentRecordsBoard.records = newRecords;
-        }else {
-            newTreamentRecordsBoard.records[treatmentRecordsBoard.selectedIndex] = record;
+
+            newTreamentRecordsBoard.records.sort((r1, r2) => {
+                const d1 = new Date(r1.exam_date);
+                const d2 = new Date(r2.exam_date);
+
+                if (d1 === d2) return 0;
+                else if (d1 > d2) return 1;
+                else return -1;
+            });
         }
         
         setTreatmentRecordsBoard(newTreamentRecordsBoard);
@@ -76,6 +92,14 @@ export default function UpdateTreatmentForm({
         newTreamentRecordsBoard.records = newRecords;
 
         setTreatmentRecordsBoard(newTreamentRecordsBoard);
+    }
+
+    function isDateExisting(dateToCheck: string) {
+        const arrExamDate: string[] = treatmentRecordsBoard.records.filter((r, index) => index < treatmentRecordsBoard.records.length - 1).map((record) => {
+            return record.exam_date;
+        });
+
+        return arrExamDate.includes(dateToCheck);
     }
     
     return (
@@ -93,7 +117,7 @@ export default function UpdateTreatmentForm({
                 <p className="text-sm">{treatmentRecordsBoard.state.message}</p>
             </div>}
             {(treatmentRecordsBoard.creatingNew || !selectedRecord.isCreated) && <>
-                <UpdateTreatmentRecord key={selectedRecord.exam_date} record={selectedRecord} handleBoard={updateBoard}/>
+                <UpdateTreatmentRecord key={`${selectedRecord.exam_date}_${treatmentRecordsBoard.selectedIndex}`} record={selectedRecord} handlesBoard={[updateBoard, isDateExisting]}/>
             </>}
 
         </div>

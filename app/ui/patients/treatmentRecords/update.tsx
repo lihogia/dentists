@@ -21,10 +21,11 @@ import {
 import { Button } from "@/app/ui/buttons";
 import { updateTreatmentRecords, TreatmentState } from '@/app/lib/data/actions';
 import { CreateTreatmentTask, DeleteTreatmentTask } from "@/app/ui/patients/treatmentRecords/buttons";
+import { stat } from "fs";
 
 export default function UpdateTreatmentRecord(
-    {record, handleBoard}:
-    {record: TreatmentRecordsForm, handleBoard: Function}
+    {record, handlesBoard}:
+    {record: TreatmentRecordsForm, handlesBoard: Function[]}
 ) {
 
     const initialState: TreatmentState = {
@@ -38,8 +39,11 @@ export default function UpdateTreatmentRecord(
 
     //console.log(`id timestamep: ${state.id}, param: ${timestamp}`);
     if (state.submitState != 0 && state.id != "0") {
-        
-        handleBoard(workingRecord, {status: state.submitState, message: state.message});
+        let updateRecord: TreatmentRecordsForm | null = workingRecord;
+        if (state.submitState == 2) {
+            updateRecord = null;
+        }
+        handlesBoard[0](updateRecord, {status: state.submitState, message: state.message});
         state.id = "0";
         //state = initialState;
     }
@@ -133,6 +137,10 @@ export default function UpdateTreatmentRecord(
                                             disableSubmitButton(true);
                                             return false;                                        
                                         } 
+                                        if (handlesBoard[1](newDate)) {
+                                            disableSubmitButton(true);
+                                            return false;
+                                        }
                                         
                                         e.currentTarget.className = "peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500";
                                         disableSubmitButton(false);
