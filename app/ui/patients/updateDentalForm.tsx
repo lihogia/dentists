@@ -159,10 +159,10 @@ export default function ViewDentalForm({
             <input type='hidden' id='ul_tooth_diagram' name='ul_tooth_diagram' value={teethStatus.tooth_diagram[1].join(';')}/>
             <input type='hidden' id='lr_tooth_diagram' name='lr_tooth_diagram' value={teethStatus.tooth_diagram[2].join(';')}/>
             <input type='hidden' id='ll_tooth_diagram' name='ll_tooth_diagram' value={teethStatus.tooth_diagram[3].join(';')}/>
-            <div className="rounded-md bg-gray-50 p-4 md:p-6">
+            <div className="rounded-md bg-gray-50 p-2 md:p-2 md:pl-2">
                 {/* Tooth Chart */}
                 <fieldset className="mb-4">
-                <div className="md:hidden block rounded-md px-[14px] py-3 w-full m-0">
+                <div className="md:hidden block rounded-md px-[14px] py-3 w-full">
                         <table>
                             <tbody>
                             <tr>
@@ -180,7 +180,7 @@ export default function ViewDentalForm({
                                     <tr key={`upper_order_${index}`}>
                                         <td 
                                             key={`ur_${index}`} 
-                                            className={clsx(styleR, clsx(selectedStyleR, "px-6 h-9 w-9 py-2 text-center cursor-pointer"))}
+                                            className={clsx(styleR, clsx(selectedStyleR, "px-6 h-8 w-8 py-2 text-center cursor-pointer"))}
                                             onClick={() => {
                                                 const changeTooth: Tooth = {
                                                     positionX: 0,
@@ -193,7 +193,7 @@ export default function ViewDentalForm({
                                         <td className="text-center p-2 border-2 border-gray-200 font-bold">{value}</td>
                                         <td 
                                             key={`ul_${index}`} 
-                                            className={clsx(styleL, clsx(selectedStyleL, "px-6 h-9 w-9 py-2 text-center cursor-pointer"))}
+                                            className={clsx(styleL, clsx(selectedStyleL, "px-6 h-8 w-8 py-2 text-center cursor-pointer"))}
                                             onClick={() => {
                                                 const changeTooth: Tooth = {
                                                     positionX: 1,
@@ -221,7 +221,7 @@ export default function ViewDentalForm({
                                     <tr key={`upper_order_${index}`}>
                                         <td 
                                             key={`ur_${index}`} 
-                                            className={clsx(styleR, clsx(selectedStyleR, "px-6 h-9 w-9 py-2 text-center cursor-pointer"))}
+                                            className={clsx(styleR, clsx(selectedStyleR, "px-4 h-8 w-8 py-2 text-center cursor-pointer"))}
                                             onClick={() => {
                                                 const changeTooth: Tooth = {
                                                     positionX: 2,
@@ -234,7 +234,7 @@ export default function ViewDentalForm({
                                         <td className="text-center p-2 border-2 border-gray-200 font-bold">{value}</td>
                                         <td 
                                             key={`ul_${index}`} 
-                                            className={clsx(styleL, clsx(selectedStyleL, "px-6 h-9 w-9 py-2 text-center cursor-pointer"))}
+                                            className={clsx(styleL, clsx(selectedStyleL, "px-4 h-8 w-8 py-2 text-center cursor-pointer"))}
                                             onClick={() => {
                                                 const changeTooth: Tooth = {
                                                     positionX: 3,
@@ -253,7 +253,7 @@ export default function ViewDentalForm({
                             </tbody>
                         </table>
                     </div>
-                    <div className="hidden md:block rounded-md px-[14px] py-3 w-full m-0">
+                    <div className="hidden md:block rounded-md px-[10px] py-3 w-full m-1 ml-0">
                         <table>
                             <tbody>
                             <tr>
@@ -356,7 +356,7 @@ export default function ViewDentalForm({
                             </tbody>
                         </table>
                     </div>
-                    <div className="rounded-md border border-gray-100 bg-white px-[14px] py-3 w-full" key={`selected_${selectedTooth.positionX}_${selectedTooth.positionY}`}>
+                    <div className="ml-2 rounded-md border border-gray-100 bg-white px-[14px] py-3 w-full" key={`selected_${selectedTooth.positionX}_${selectedTooth.positionY}`}>
                         <div className="flex gap-4 mb-2">
                             <div className="flex items-center">
                                 &nbsp;&nbsp;
@@ -448,8 +448,8 @@ export default function ViewDentalForm({
                     </div>
                 </fieldset>
                 {/* Dental Description */}
-                <div className="mb-4">
-                    <label htmlFor="description" className="mb-2 block text-sm font-medium">
+                <div className="mb-4 ml-2">
+                    <label htmlFor="description" className="m-2 block text-sm font-medium">
                         Description
                     </label>
                     <div className="relative">
@@ -464,7 +464,7 @@ export default function ViewDentalForm({
                 </div>
 
             </div>
-            <div className="mt-6 flex justify-start gap-4">
+            <div className="mt-6 mb-4 flex justify-start gap-4">
                 <Link
                 href="/dashboard/patients"
                 className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"

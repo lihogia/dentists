@@ -34,7 +34,7 @@ export default function UpdatePatientForm({patient}: {
     return (
         <form action={dispatch}>
             <input type='hidden' name='pid' value={patient.id} />
-            <div className="rounded-md bg-gray-50 p-4 md:p-6">
+            <div className="rounded-md bg-gray-50 p-4 md:p-4">
                 {/* Patient Name */}
                 <div className="mb-4">
                     <label htmlFor="name" className="mb-2 block text-sm font-medium">
@@ -93,7 +93,7 @@ export default function UpdatePatientForm({patient}: {
                     <legend className="mb-2 block text-sm font-medium">
                         Gender
                     </legend>
-                    <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3 w-full">
+                    <div className="rounded-md border border-gray-500 bg-white px-[14px] py-3 w-full">
                         <div className="flex gap-4">
                             <div className="flex items-center">
                                 <input 

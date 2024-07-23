@@ -53,7 +53,7 @@ export default function UpdateMedicalForm({
         <form action={dispatch}>
             <input type='hidden' name='status' value={status} />
             <input type='hidden' name='id' value={medicalRecords.pid} />
-            <div className="rounded-md bg-gray-50 p-4 md:p-6">
+            <div className="rounded-md bg-gray-50 p-4 md:p-4">
                 {/* Patient Height */}
                 <div className="mb-4">
                     <label htmlFor="height" className="mb-2 block text-sm font-medium">
@@ -65,7 +65,7 @@ export default function UpdateMedicalForm({
                             name="height"
                             type="text"
                             placeholder="1.6"
-                            className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                            className="peer block w-full rounded-md border border-gray-500 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             defaultValue={isCreate ? '' : medicalRecords.height}
                             required
                         />
@@ -91,7 +91,7 @@ export default function UpdateMedicalForm({
                             name="weight"
                             type="text"
                             placeholder="60"
-                            className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                            className="peer block w-full rounded-md border border-gray-500 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             defaultValue={isCreate ? '' : medicalRecords.weight}
                             required
                         />
@@ -117,7 +117,7 @@ export default function UpdateMedicalForm({
                             name="blood_pressure_sys"
                             type="number"
                             placeholder="120"
-                            className="w-20 rounded-md border border-gray-100 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+                            className="w-20 rounded-md border border-gray-500 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
                             defaultValue={isCreate ? '' : medicalRecords.blood_pressure_sys}
                             required
                         /> /&nbsp; 
@@ -125,7 +125,7 @@ export default function UpdateMedicalForm({
                             id="blood_pressure_dia" 
                             name="blood_pressure_dia" 
                             type="number" 
-                            className="w-20 rounded-md border border-gray-100 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500" 
+                            className="w-20 rounded-md border border-gray-500 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500" 
                             defaultValue={isCreate ? '' : medicalRecords.blood_pressure_dia} 
                             required
                             />
@@ -158,7 +158,7 @@ export default function UpdateMedicalForm({
                             name="pulse"
                             type="text"
                             placeholder="85"
-                            className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                            className="peer block w-full rounded-md border border-gray-500 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             defaultValue={isCreate ? '' : medicalRecords.pulse}
                             required
                         />
@@ -178,7 +178,7 @@ export default function UpdateMedicalForm({
                     <legend className="mb-2 block text-sm font-medium">
                         Have you been hospitalized in 5 years recently?
                     </legend>
-                    <div className="rounded-md border border-gray-100 bg-white px-[14px] py-3 w-full">
+                    <div className="rounded-md bg-white px-[14px] py-3 w-full">
                         <div className="flex gap-4">
                             <div className="flex items-center">
                                 <input 
@@ -205,7 +205,7 @@ export default function UpdateMedicalForm({
                         </div>
                     </div>
                     {checkedValues.hospitalized && 
-                        <div className="rounded-md border border-gray-100 bg-white px-[14px] py-3 w-full">
+                        <div className="rounded-md bg-white px-[14px] py-3 w-full mt-2">
                             <label htmlFor="hospitalized_declare" className="mb-2 block text-sm font-medium">
                                 Hospitalized declaration
                             </label>
@@ -213,7 +213,7 @@ export default function UpdateMedicalForm({
                                 <textarea
                                     id="hospitalized_declare"
                                     name="hospitalized_declare"
-                                    className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                    className="peer block w-full rounded-md border border-gray-500 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                     defaultValue={medicalRecords.hospitalized_declare}
                                 />
                                 <InformationCircleIcon className="pointer-events-none absolute left-3 top-1/3 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />

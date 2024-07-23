@@ -64,7 +64,7 @@ export default function ViewDentalForm({
 
     return (
         <form>
-            <div className="rounded-md bg-gray-50 p-4 md:p-6">
+            <div className="rounded-md bg-gray-50 p-4 md:p-3">
                 {/* Tooth Chart */}
                 <fieldset className="mb-4">
                     <legend className="mb-2 block text-sm font-medium">
@@ -111,7 +111,7 @@ export default function ViewDentalForm({
                             </tbody>
                         </table>
                     </div>
-                    <div className="hidden md:block rounded-md px-[14px] py-3 w-full m-0">
+                    <div className="hidden md:block rounded-md px-[9px] py-3 w-full m-0">
                         <table>
                             <tbody>
                             <tr>

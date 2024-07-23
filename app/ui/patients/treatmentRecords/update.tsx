@@ -121,7 +121,7 @@ export default function UpdateTreatmentRecord(
                                     id="exam_date"
                                     name="exam_date"
                                     type="text"
-                                    className="peer block w-full rounded-md  py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"                                 
+                                    className="peer block w-full rounded-md border border-gray-600 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"                                 
                                     placeholder="dd/mm/yyyy"
                                     defaultValue={formatDateToLocal(workingRecord.exam_date)}
                                     pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
@@ -159,7 +159,7 @@ export default function UpdateTreatmentRecord(
                                 <textarea
                                     id="diagnoses"
                                     name="diagnoses"
-                                    className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                    className="peer block w-full rounded-md border border-gray-600 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                     defaultValue={workingRecord.diagnoses}
                                     onChange={(e) => {
                                         
@@ -184,7 +184,7 @@ export default function UpdateTreatmentRecord(
                                     name="amount"
                                     type="text"
                                     inputMode="decimal"
-                                    className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                    className="peer block w-full rounded-md border border-gray-600 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                     defaultValue={workingRecord.amount}
                                     onChange={(e) => {
                                         hideSubmitStateNotification();
@@ -264,7 +264,7 @@ export default function UpdateTreatmentRecord(
                                                     name={`m_treatment_cure_${index}`}
                                                     type="text"
                                                     defaultValue={treatment.cure}
-                                                    className="p-2 cursor-pointer border-2 border-gray-300 bg-white rounded-md w-full"
+                                                    className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full"
                                                     onChange={(e) => {
                                                         //hideSubmitStateNotification();
                                                         const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
@@ -291,7 +291,7 @@ export default function UpdateTreatmentRecord(
                                                     name={`m_treatment_cure_date_${index}`}
                                                     type="text"
                                                     defaultValue={formatDateToLocal(treatment.cure_date)}
-                                                    className="p-2 cursor-pointer border-2 border-gray-300 bg-white rounded-md w-full mr-2"
+                                                    className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full mr-2"
                                                     onChange={(e) => {
                                                         hideSubmitStateNotification();
                                                         const textValue = e.currentTarget.value;
@@ -336,7 +336,7 @@ export default function UpdateTreatmentRecord(
                                                     type="checkbox"
                                                     value="true"
                                                     defaultChecked={treatment.status}
-                                                    className="cursor-pointer border-2 border-gray-300 bg-white rounded-md"
+                                                    className="cursor-pointer border border-gray-600 bg-white rounded-md"
                                                     onChange={(e) => {
                                                         hideSubmitStateNotification();
                                                         const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
@@ -386,7 +386,7 @@ export default function UpdateTreatmentRecord(
                                                         name={`treatment_cure_${index}`}
                                                         type="text"
                                                         defaultValue={treatment.cure}
-                                                        className="p-2 cursor-pointer border-2 border-gray-300 bg-white rounded-md w-full mr-2"
+                                                        className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full mr-2"
                                                         onChange={(e) => {
                                                             //hideSubmitStateNotification();
                                                             const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
@@ -416,7 +416,7 @@ export default function UpdateTreatmentRecord(
                                                         name={`treatment_cure_date_${index}`}
                                                         type="text"
                                                         defaultValue={formatDateToLocal(treatment.cure_date)}
-                                                        className="p-2 cursor-pointer border-2 border-gray-300 bg-white rounded-md w-full mr-2"
+                                                        className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full mr-2"
                                                         onChange={(e) => {
                                                             //hideSubmitStateNotification();
                                                             const textValue = e.currentTarget.value;
@@ -494,7 +494,7 @@ export default function UpdateTreatmentRecord(
                     </div>
                 </fieldset>
             </div>
-            <div className="mt-2 flex justify-start gap-4">
+            <div className="mt-4 mb-4 flex justify-start gap-4">
                 <Link
                     href="/dashboard/patients"
                     className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
