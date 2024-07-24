@@ -97,7 +97,7 @@ export default function UpdateTreatmentRecord(
     }
 
     return(
-        <form action={dispatch}>
+        <form id="update_form" action={dispatch}>
             <input type='hidden' name='status' defaultValue={record.isCreated ? "create" : "edit"} />
             <input type='hidden' name='id' defaultValue={record.pid} />
             <input type='hidden' id='old_exam_date' name='old_exam_date' defaultValue={record.exam_date} />

@@ -26,7 +26,7 @@ export default function ViewTreatmentForm({
     const [selectedTreatment, setSelectedTreatment] = useState(treatmentRecords[0]);
 
     return (
-        <form>
+        
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle">
                 <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
@@ -246,6 +246,6 @@ export default function ViewTreatmentForm({
             </div>
 
         </div>        
-        </form>
+        
     );
 }

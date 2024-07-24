@@ -152,7 +152,7 @@ export default function ViewDentalForm({
     }
 
     return (
-        <form action={dispatch}>
+        <form id='updateDentalForm' action={dispatch}>
             <input type='hidden' name='status' value={dentalRecords.isCreated ? 'create' : 'edit'} />
             <input type='hidden' name='id' value={dentalRecords.pid} />
             <input type='hidden' id='ur_tooth_diagram' name='ur_tooth_diagram' value={teethStatus.tooth_diagram[0].join(';')}/>

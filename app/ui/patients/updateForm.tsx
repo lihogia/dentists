@@ -32,7 +32,7 @@ export default function UpdatePatientForm({patient}: {
     const [state, dispatch] = useFormState(updatePatient, initialState);
 
     return (
-        <form action={dispatch}>
+        <form id='updateForm' action={dispatch}>
             <input type='hidden' name='pid' value={patient.id} />
             <div className="rounded-md bg-gray-50 p-4 md:p-4">
                 {/* Patient Name */}

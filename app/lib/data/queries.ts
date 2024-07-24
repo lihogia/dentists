@@ -11,7 +11,7 @@ import {
     Task
 } from "@/app/lib/data/definition";
 
-import { formatDateToLocal, formatDateObjToLocal, checkAndConvertDate, getNextDate } from '@/app/lib/utils';
+import { formatDateToLocal, formatDateObjToLocal, checkAndConvertDate, getNextDate, MAX_ITEMS_PER_PAGE } from '@/app/lib/utils';
 
 export async function fetchPatients() {
     noStore();
@@ -35,6 +35,66 @@ export async function fetchPatients() {
         console.error('Database Error: ', error);
         throw new Error('Failed to fetch Patients.')
     }
+}
+
+export async function fetchFilteredPatientsPages(query: string) {
+  noStore();
+
+  try {
+    const count = await sql`
+      SELECT COUNT(*)
+      FROM patients as p
+      WHERE
+        p.first_name ILIKE ${`%${query}%`} OR 
+        p.middle_name ILIKE ${`%${query}%`} OR 
+        p.last_name ILIKE ${`%${query}%`} OR 
+        p.birth_year::text ILIKE ${`%${query}%`} OR
+        p.gender ILIKE ${`%${query}%`} OR 
+        p.phone ILIKE ${`%${query}%`}
+    `;
+    const totalPages = Math.ceil(Number(count.rows[0].count) / MAX_ITEMS_PER_PAGE);
+    return totalPages;
+
+  }catch (error) {
+    console.error('Database Error: ', error);
+    throw new Error('Failed to fetch patients.');
+  }
+}
+
+export async function fetchFilteredPatients(query: string, currentPage: number) {
+  noStore();
+
+  const offset = (currentPage - 1) * MAX_ITEMS_PER_PAGE;
+  
+  try {
+    const patients = await sql<PatientsTable>`
+      SELECT 
+        p.id,
+        p.first_name,
+        p.middle_name,
+        p.last_name,
+        p.birth_year,
+        p.gender,
+        p.phone
+      FROM patients as p
+      WHERE 
+        p.first_name ILIKE ${`%${query}%`} OR 
+        p.middle_name ILIKE ${`%${query}%`} OR 
+        p.last_name ILIKE ${`%${query}%`} OR 
+        p.birth_year::text ILIKE ${`%${query}%`} OR
+        p.gender ILIKE ${`%${query}%`} OR 
+        p.phone ILIKE ${`%${query}%`}
+      ORDER BY p.last_name ASC
+      LIMIT ${MAX_ITEMS_PER_PAGE} OFFSET ${offset}
+      `;   
+
+    return patients.rows;
+
+  }catch (error) {
+    console.error('Database Error: ', error);
+    throw new Error('Failed to fetch patients.');
+  }
+
 }
 
 export async function fetchPatientById(id: string) {

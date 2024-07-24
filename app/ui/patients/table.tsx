@@ -28,7 +28,7 @@ export default function PatientsTableComponent(
     function removePatient(id: string, pState: StatusBoard) {
         const newPatients = patientsBoard.list.filter((patient) => patient.id != id);
 
-        console.log(`id=${id}`);
+        //console.log(`id=${id}`);
 
         const newBoard = {
             ...patientsBoard,
