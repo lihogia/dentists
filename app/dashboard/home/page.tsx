@@ -1,8 +1,9 @@
 import { Suspense } from 'react';
 import { lusitana } from '@/app/ui/fonts';
-import { CardsSkeleton, RevenueChartSkeleton } from '@/app/ui/skeletons';
+import { CardsSkeleton, RevenueChartSkeleton, LatestInvoicesSkeleton } from '@/app/ui/skeletons';
 import CardWrapper, { Card } from '@/app/ui/dashboard/cards';
 import RevenueChart from '@/app/ui/dashboard/revenueChart';
+import LatestInvoices from '@/app/ui/dashboard/lastInvoices';
 
 export default function Page() {
     return (
@@ -19,7 +20,9 @@ export default function Page() {
                 <Suspense fallback={<RevenueChartSkeleton />}>
                     <RevenueChart />
                 </Suspense>
-
+                <Suspense fallback={<LatestInvoicesSkeleton />}>
+                    <LatestInvoices />
+                </Suspense>
             </div>
         </main>
     );

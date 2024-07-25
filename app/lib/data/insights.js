@@ -81,3 +81,27 @@ export async function fetchRevenue(year = 2024) {
         throw new Error('Failed to fetch revenue data.');
     }
 }
+
+export async function fetchLatestInvoices() {
+    noStore();
+    try {
+      const data = await sql`
+        SELECT p.id as id, concat(p.first_name, ' ' , p.middle_name, ' ', p.last_name) as fullname, t.amount, to_char(t.exam_date, 'YYYY-MM-DD') as exam_date 
+        FROM treatment_records as t
+        JOIN patients as p ON p.id = t.pid
+        ORDER BY t.exam_date DESC
+        LIMIT 5;      
+        `;
+      const latestInvoices = data.rows.map((invoice) => ({
+        id: invoice.pid,
+        name: invoice.fullname,
+        amount: formatCurrency(invoice.amount),
+        exam_date: formatDateToLocal(invoice.exam_date)
+      }));
+      return latestInvoices;
+    } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to fetch the latest invoices.');
+    }
+  }
+  
