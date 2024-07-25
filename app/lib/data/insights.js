@@ -13,12 +13,10 @@ import {
 
 import { formatDateToLocal, formatDateObjToLocal, checkAndConvertDate, getNextDate, MAX_ITEMS_PER_PAGE, formatCurrency } from '@/app/lib/utils';
 
-
 export async function fetchCardData() {
     noStore();
 
     try {
-        
         const patientsCountPromise = sql`SELECT COUNT(*) FROM patients`;
         const invoiceCountPromise = sql`SELECT COUNT(*) FROM treatment_records
             WHERE amount > 0`;
@@ -47,5 +45,39 @@ export async function fetchCardData() {
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch card data.');
+    }
+}
+
+export async function fetchRevenue(year = 2024) {
+    noStore();
+
+    try {
+        const data = await sql`
+            SELECT SUM(amount) as revenue, EXTRACT(MONTH from exam_date) as month
+            FROM treatment_records
+            WHERE
+                EXTRACT(YEAR from exam_date) = ${year} AND paid = true
+            GROUP BY
+                EXTRACT(MONTH from exam_date)            
+            `;
+
+        const monthsRevenue = [];
+        for (let i=0; i<12; i++) {
+            monthsRevenue.push({month: i+1, revenue: 0});
+        }
+        console.log(monthsRevenue);
+
+        data.rows.map((item) => {
+            const index = item.month - 1;
+            monthsRevenue[index].revenue = Number.parseInt(item.revenue);
+        }) 
+
+        console.log(monthsRevenue);
+
+        return monthsRevenue;
+
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch revenue data.');
     }
 }

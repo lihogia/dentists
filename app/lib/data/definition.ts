@@ -104,3 +104,9 @@ export type StatusBoard = {
     status: number, // 0: begin, 1: success, 2: fail
     message: string // error message or successful message
 }
+
+export type Revenue = {
+    month: string;
+    revenue: number;
+  };
+  

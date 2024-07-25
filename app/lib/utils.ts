@@ -1,4 +1,4 @@
-import { MedicalRecordsForm} from '@/app/lib/data/definition';
+import { MedicalRecordsForm, Revenue } from '@/app/lib/data/definition';
 
 export const MAX_ITEMS_PER_PAGE = 10;
 
@@ -167,3 +167,48 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ];
 };
+
+export const generateYAxis = (revenue: Revenue[]) => {
+  // Calculate what labels we need to display on the y-axis
+  // based on highest record and in 1000s
+  const yAxisLabels = [];
+  const highestRecord = Math.max(...revenue.map((month) => month.revenue));
+  const topLabel = Math.ceil(highestRecord / 500000) * 500000;
+
+  for (let i = topLabel; i >= 0; i -= 500000) {
+    if (i == 0) yAxisLabels.push(`0 đ`);
+    else
+      yAxisLabels.push(`${i / 500000}00K đ`);
+  }
+
+  return { yAxisLabels, topLabel };
+};
+
+type MonthAndLocale = {
+  locale: string;
+  months: string[];
+};
+
+const MAP_OF_MONTHS: MonthAndLocale[] = [
+  {
+    locale: 'en-US',
+    months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  },
+  {
+    locale: 'vi-VN',
+    months: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12']
+  }
+];
+
+export const localeOfMonth = (month: number, locale: string = 'en-US') => {
+
+  const theMap = MAP_OF_MONTHS.find((value) => value.locale == locale);
+  
+  let retValue = '';
+
+  if (theMap != null ) {
+    retValue = theMap.months[month - 1];
+  }
+
+  return retValue;
+}
