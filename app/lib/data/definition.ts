@@ -110,7 +110,7 @@ export type Revenue = {
     revenue: number;
   };
 
-export type LatestInvoice = {
+export type InvoicesTable = {
     id: string;
     name: string;
     amount: string;

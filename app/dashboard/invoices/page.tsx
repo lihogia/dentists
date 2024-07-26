@@ -4,7 +4,7 @@ export default function Page() {
     return (
 
         <div className="w-full">
-            <div className="flex w-full items-center justify-between">
+            <div className="flex w-full items-center justify-between md:mt-2">
                 <h1 className={`${lusitana.className} text-2xl`}>Invoices</h1>
             </div>
         </div>

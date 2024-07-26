@@ -18,7 +18,7 @@ export function CreatePatient() {
 export function UpdatePatient({id}: {id: string}) {
     return (
         <Link
-          href={`/dashboard/patients/${id}/edit`} className="rounded-md border p-2 hover:bg-gray-100">
+          href={`/dashboard/patients/${id}/edit/treatmentRecords`} className="rounded-md border p-2 hover:bg-gray-100">
           <PencilIcon className="w-5" />
         </Link>
       );    

@@ -7,6 +7,6 @@ export const lusitana = Lusitana({
 });
 
 export const opensans = Open_Sans({
-    weight: ['400', '700'],
+    weight: ['500', '700'],
     subsets: ['latin'],
 });

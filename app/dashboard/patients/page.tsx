@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { lusitana } from '@/app/ui/fonts';
+import { lusitana, opensans } from '@/app/ui/fonts';
 import PatientsList from '@/app/ui/patients/list';
 import Search from '@/app/ui/search';
 import { CreatePatient } from '@/app/ui/patients/buttons';
