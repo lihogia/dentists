@@ -114,6 +114,7 @@ export type InvoicesTable = {
     id: string;
     name: string;
     amount: string;
-    exam_date: string
+    exam_date: string;
+    paid: boolean
 };
   

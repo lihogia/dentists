@@ -8,10 +8,11 @@ import {
     MedicalRecordsForm,
     DentalRecordsForm,
     TreatmentRecordsForm,
-    Task
+    Task,
+    InvoicesTable
 } from "@/app/lib/data/definition";
 
-import { formatDateToLocal, formatDateObjToLocal, checkAndConvertDate, getNextDate, MAX_ITEMS_PER_PAGE } from '@/app/lib/utils';
+import { formatCurrency, formatDateToLocal, formatDateObjToLocal, checkAndConvertDate, getNextDate, MAX_ITEMS_PER_PAGE } from '@/app/lib/utils';
 
 export async function fetchPatients() {
     noStore();
@@ -358,4 +359,87 @@ export async function fetchTreatmentRecordsById(id: string) {
     console.error('Database Error: ', error);
     throw new Error('Failed to fetch treatment records.');
   }
+}
+
+export async function fetchInvoices() {
+  noStore();
+  try {
+    const data = await sql`
+      SELECT t.pid, to_char(t.exam_date, 'YYYY-MM-DD') as exam_date, t.amount, concat(p.first_name, ' ' , p.middle_name, ' ', p.last_name) as fullname, t.paid
+      FROM treatment_records as t
+      JOIN patients as p ON p.id = t.pid
+      ORDER BY t.exam_date DESC
+    `;
+    const invoices = data.rows.map((invoice) => ({
+      exam_date: formatDateToLocal(invoice.exam_date),
+      id: invoice.pid,
+      name: invoice.fullname,
+      amount: formatCurrency(invoice.amount),
+      paid: invoice.paid
+    }));
+    return invoices;
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch the latest invoices.');
+  }
+}
+
+export async function fetchFilteredInvoicesPages(query: string) {
+  noStore();
+
+  try {
+    const count = await sql`
+      SELECT COUNT(*)
+      FROM treatment_records as t
+      JOIN patients as p ON p.id = t.pid
+      WHERE 
+          p.first_name ILIKE ${`%${query}%`} OR 
+          p.middle_name ILIKE ${`%${query}%`} OR 
+          p.last_name ILIKE ${`%${query}%`} OR 
+          t.amount::text ILIKE ${`%${query}%`}
+    `;
+    const totalPages = Math.ceil(Number(count.rows[0].count) / MAX_ITEMS_PER_PAGE);
+    return totalPages;
+
+  }catch (error) {
+    console.error('Database Error: ', error);
+    throw new Error('Failed to fetch invoices.');
+  }
+
+}
+
+export async function fetchFilteredInvoices(query: string, currentPage: number) {
+  noStore();
+
+  const offset = (currentPage - 1) * MAX_ITEMS_PER_PAGE;
+  
+  try {
+    const data = await sql`
+      SELECT t.pid as id, to_char(t.exam_date, 'YYYY-MM-DD') as exam_date, t.amount, concat(p.first_name, ' ' , p.middle_name, ' ', p.last_name) as name, t.paid
+      FROM treatment_records as t
+      JOIN patients as p ON p.id = t.pid
+      WHERE 
+          p.first_name ILIKE ${`%${query}%`} OR 
+          p.middle_name ILIKE ${`%${query}%`} OR 
+          p.last_name ILIKE ${`%${query}%`} OR 
+          t.amount::text ILIKE ${`%${query}%`} 
+      ORDER BY t.exam_date DESC
+      LIMIT ${MAX_ITEMS_PER_PAGE} OFFSET ${offset}
+      `;   
+
+    const invoices = data.rows.map((invoice) => ({
+      exam_date: formatDateToLocal(invoice.exam_date),
+      id: invoice.id,
+      name: invoice.name,
+      amount: formatCurrency(invoice.amount),
+      paid: invoice.paid
+    }));
+    return invoices;
+
+  }catch (error) {
+    console.error('Database Error: ', error);
+    throw new Error('Failed to fetch invoices.');
+  }
+
 }
