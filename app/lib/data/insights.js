@@ -65,14 +65,14 @@ export async function fetchRevenue(year = 2024) {
         for (let i=0; i<12; i++) {
             monthsRevenue.push({month: i+1, revenue: 0});
         }
-        console.log(monthsRevenue);
+        //console.log(monthsRevenue);
 
         data.rows.map((item) => {
             const index = item.month - 1;
             monthsRevenue[index].revenue = Number.parseInt(item.revenue);
         }) 
 
-        console.log(monthsRevenue);
+        //console.log(monthsRevenue);
 
         return monthsRevenue;
 

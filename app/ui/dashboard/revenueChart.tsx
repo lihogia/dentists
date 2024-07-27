@@ -11,8 +11,9 @@ import { fetchRevenue } from '@/app/lib/data/insights';
 // https://airbnb.io/visx/
 
 export default async function RevenueChart() {
+  const today = new Date();
 
-  const rawRevenue = await fetchRevenue(2024);
+  const rawRevenue = await fetchRevenue(today.getFullYear());
 
   //console.log(rawRevenue);
 
@@ -85,7 +86,7 @@ export default async function RevenueChart() {
         </div>
         <div className="flex items-center pb-2 pt-6">
             <CalendarIcon className="h-5 w-5 text-gray-500" />
-            <h3 className="ml-2 text-sm text-gray-500 ">Last 12 months</h3>
+            <h3 className="ml-2 text-sm text-gray-500 ">In 12 months</h3>
         </div>
     </div>
   );
