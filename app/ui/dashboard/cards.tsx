@@ -28,10 +28,10 @@ import {
       <>
         {/* NOTE: comment in this code when you get to this point in the course */}
   
-        <Card title="Collected" value={formatCurrency(Number.parseInt(totalPaidInvoices))} type="collected" />
-        <Card title="Pending" value={formatCurrency(Number.parseInt(totalPendingInvoices))} type="pending" />
-        <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
-        <Card
+        <Card key='collected' title="Collected" value={formatCurrency(Number.parseInt(totalPaidInvoices))} type="collected" />
+        <Card key='Pending' title="Pending" value={formatCurrency(Number.parseInt(totalPendingInvoices))} type="pending" />
+        <Card key='totalInvoices' title="Total Invoices" value={numberOfInvoices} type="invoices" />
+        <Card key='totalPatients'
           title="Total Patients"
           value={numberOfPatients}
           type="patients"

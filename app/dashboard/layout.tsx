@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div>{children}</div>
         <div className="hidden h-auto w-full grow md:block"></div>
         <div className="mt-6 mb-4 md:mb-3 text-sm">
-          <p>© 2024. All rights reserved.</p>
+          <p>© 2024. All rights reserved. Version {process.env.version}.</p>
         </div>
       </div>
     </div>

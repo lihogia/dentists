@@ -20,7 +20,7 @@ export default async function LatestInvoices() {
           {latestInvoices.map((invoice, i) => {
             return (
               <div
-                key={invoice.id}
+                key={`${invoice.id}_${invoice.exam_date}`}
                 className={clsx(
                   'flex flex-row items-center justify-between py-4',
                   {
