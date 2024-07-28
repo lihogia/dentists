@@ -160,6 +160,9 @@ export default function ViewDentalForm({
             <input type='hidden' id='lr_tooth_diagram' name='lr_tooth_diagram' value={teethStatus.tooth_diagram[2].join(';')}/>
             <input type='hidden' id='ll_tooth_diagram' name='ll_tooth_diagram' value={teethStatus.tooth_diagram[3].join(';')}/>
             <div className="rounded-md bg-gray-50 p-2 md:p-2 md:pl-2">
+                <div className="ml-3 mt-2 text-sm font-medium">
+                    <span>Name: {dentalRecords.fullname}</span>
+                </div>
                 {/* Tooth Chart */}
                 <fieldset className="mb-4">
                 <div className="md:hidden block rounded-md px-[14px] py-3 w-full">

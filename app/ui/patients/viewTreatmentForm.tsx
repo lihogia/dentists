@@ -28,6 +28,9 @@ export default function ViewTreatmentForm({
     return (
         
         <div className="mt-6 flow-root">
+            <div className="ml-5 mb-4 text-sm font-medium">
+                <span>Name: {treatmentRecords[0].fullname}</span>
+            </div>
             <div className="inline-block min-w-full align-middle">
                 <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
                     <div className="md:hidden">

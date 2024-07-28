@@ -65,6 +65,9 @@ export default function ViewDentalForm({
     return (
         <form>
             <div className="rounded-md bg-gray-50 p-4 md:p-3">
+                <div className="mb-4 text-sm font-medium">
+                    <span>Name: {dentalRecords.fullname}</span>
+                </div>
                 {/* Tooth Chart */}
                 <fieldset className="mb-4">
                     <legend className="mb-2 block text-sm font-medium">

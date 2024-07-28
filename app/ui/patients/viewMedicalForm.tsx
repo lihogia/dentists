@@ -23,6 +23,9 @@ export default function ViewMedicalForm({
     return (
         <form>
             <div className="rounded-md bg-gray-50 p-4 md:p-6">
+                <div className="mb-4 text-sm font-medium">
+                    <span>Name: {medicalRecords.fullname}</span>
+                </div>
                 {/* Patient Height */}
                 <div className="mb-4">
                     <label htmlFor="height" className="mb-2 block text-sm font-medium">

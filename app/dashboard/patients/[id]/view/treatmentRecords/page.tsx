@@ -53,9 +53,6 @@ export default async function Page({ params }: { params : { id: string }}) {
                 },
                 ]}
             />
-            <div className="mb-2">
-                <span>Patient Name: {arrTreatmentRecords[0].fullname}</span>
-            </div>                        
             <Tabs 
                 tabs={[
                 { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`},

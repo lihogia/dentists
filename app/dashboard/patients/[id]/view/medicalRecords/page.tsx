@@ -1,3 +1,4 @@
+import { MedicalRecordsForm } from "@/app/lib/data/definition";
 import { fetchMedicalRecordsById } from "@/app/lib/data/queries";
 import Breadcrumbs from '@/app/ui/patients/breadcrumbs';
 import Tabs from '@/app/ui/patients/tabs';
@@ -12,9 +13,7 @@ import {
 
 export default async function Page({ params }: { params : { id: string }}) {
     const id = params.id;
-    const [ medicalRecords ] = await Promise.all([
-        fetchMedicalRecordsById(id)
-    ]);
+    const medicalRecords = await fetchMedicalRecordsById(id) as MedicalRecordsForm;
 
     return (
         <main>
@@ -28,9 +27,6 @@ export default async function Page({ params }: { params : { id: string }}) {
                 },
                 ]}
             />
-            <div className="mb-2">
-                <span>Patient Name: {medicalRecords.fullname}</span>
-            </div>
             <Tabs 
                 tabs={[
                 { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`},

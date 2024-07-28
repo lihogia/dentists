@@ -54,6 +54,9 @@ export default function UpdateMedicalForm({
             <input type='hidden' name='status' value={status} />
             <input type='hidden' name='id' value={medicalRecords.pid} />
             <div className="rounded-md bg-gray-50 p-4 md:p-4">
+                <div className="mb-4 text-sm font-medium">
+                    <span>Name: {medicalRecords.fullname}</span>
+                </div>
                 {/* Patient Height */}
                 <div className="mb-4">
                     <label htmlFor="height" className="mb-2 block text-sm font-medium">
@@ -125,6 +128,7 @@ export default function UpdateMedicalForm({
                             id="blood_pressure_dia" 
                             name="blood_pressure_dia" 
                             type="number" 
+                            placeholder="90"
                             className="w-20 rounded-md border border-gray-500 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500" 
                             defaultValue={isCreate ? '' : medicalRecords.blood_pressure_dia} 
                             required

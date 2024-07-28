@@ -123,7 +123,25 @@ export async function fetchPatientById(id: string) {
       console.error('Database Error:', error);
       throw new Error('Failed to fetch patient.');
     }
+}
+
+export async function fetchPatientFullname(id: string) {
+  noStore();
+  try {
+    const data = await sql`
+      SELECT
+        concat(p.first_name, ' ' , p.middle_name, ' ', p.last_name) as fullname
+      FROM patients as p
+      WHERE p.id = ${id};
+    `;
+
+    const patient = data.rows[0];
+    return patient.fullname;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch patient.');
   }
+}
 
 export async function isExistedMedicalRecord(id: string) {
   noStore();
@@ -156,9 +174,11 @@ export async function fetchMedicalRecordsById(id: string) {
     let foundMedicalItem;
 
     if (medicalList.length == 0) {
+      const name = fetchPatientFullname(id);
+
       foundMedicalItem = {
         pid: id,
-        fullname: '',
+        fullname: name,
         height: 0,
         weight: 0,
         blood_pressure_sys: 0,
@@ -185,7 +205,7 @@ export async function fetchMedicalRecordsById(id: string) {
     }
 
     //return convertToMedicalRecordsForm(medicalList[0]);
-    console.log(foundMedicalItem.fullname);
+    //console.log(foundMedicalItem.fullname);
     
     return foundMedicalItem;
   } catch (error) {
@@ -225,6 +245,8 @@ export async function fetchDentalRecordsById(id: string) {
     let foundDentalItem;
 
     if (dentalList.length == 0) {
+      const name = fetchPatientFullname(id);
+
       foundDentalItem = {
         pid: id,
         tooth_diagram: [
@@ -234,7 +256,8 @@ export async function fetchDentalRecordsById(id: string) {
           ["good", "good", "good", "good", "good", "good", "good", "good",],
         ],
         description: "",
-        isCreated: true
+        isCreated: true,
+        fullname: name
       }
     }else {
       foundDentalItem = dentalList[0];

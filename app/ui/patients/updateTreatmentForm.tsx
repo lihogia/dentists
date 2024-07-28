@@ -104,7 +104,10 @@ export default function UpdateTreatmentForm({
     
     return (
         <div className="mt-4 flow-root">
-            <div className="flex items-center justify-between gap-2 mb-3">
+            <div className="ml-5 mb-4 text-sm font-medium">
+                <span>Name: {treatmentRecords[0].fullname}</span>
+            </div>
+            <div className="flex items-center justify-between gap-2 mb-3 ml-4">
                 <CreateTreatmentRecord treatmentRecordsBoard={treatmentRecordsBoard} handleBoard={setTreatmentRecordsBoard} />
             </div>
             
