@@ -1,0 +1,45 @@
+{
+    "Home": {
+        "welcome": "<strong>Welcome to Doma</strong>, Dental Office Managment Application.xx",
+        "login": "Log inxx",
+        "dashboard": "Dashboardxx",
+        "sideNav": {
+            "signout": "Sign Outxx"
+        },
+        "navLinks": {
+            "homepage": "Homexx",
+            "patients": "Patientsxx",
+            "invoices": "Invoicesxx"
+        },
+        "card": {
+            "collected": "Collectedxx",
+            "pending": "Pendingxx",
+            "totalinvoices": "Total Invoicesxx",
+            "totalpatients": "Total Patientsxx"
+        },
+        "revenue": {
+            "recentrevenue": "Recent Revenuexx",
+            "in12months": "In 12 monthsxx"
+        },
+        "latestinvoices": {
+            "title": "Latest Invoicesxx",
+            "updatedjustnow": "Updated just nowxx"
+        }
+    },
+    "Patients": {
+        "title": "Patientsxx",
+        "searchplaceholder": "Search patients...xx",
+        "searchlabel": "Searchxx",
+        "buttons": {
+            "createpatient": "Create Patientxx"
+        },
+        "table": {
+            "name": "Namexx",
+            "birthyear": "Birth Yearxx",
+            "phone": "Phonexx",
+            "gender": "Genderxx",
+            "male": "Malexx",
+            "female": "Femalexx"
+        }
+    }
+}

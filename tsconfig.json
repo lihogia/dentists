@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/ui/patients/editForm.tsx1", "app/ui/patients/createForm.tsx1", "app/lib/utils.ts", "app/dashboard/patients/[id]/edit/treatmentRecords/page copy.tsx.tmp", "app/ui/patients/updateTreatmentForm copy.tsx.tmp"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/ui/patients/editForm.tsx1", "src/app/ui/patients/createForm.tsx1", "src/app/lib/utils.ts", "src/app/dashboard/patients/[id]/edit/treatmentRecords/page copy.tsx.tmp", "src/app/ui/patients/updateTreatmentForm copy.tsx.tmp", "src/app/dashboard/patients/page copy.tsx.tmp"],
   "exclude": ["node_modules"]
 }

@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const { name, version } = require('./package.json');
+const createNextIntlPlugin = require('next-intl/plugin');
+
+const withNextIntl = createNextIntlPlugin();
 
 const nextConfig = {
     env: {
@@ -7,5 +10,5 @@ const nextConfig = {
         version
     }
 }
-
-module.exports = nextConfig;
+ 
+module.exports = withNextIntl(nextConfig);
