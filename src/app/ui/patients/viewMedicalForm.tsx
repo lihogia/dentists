@@ -1,35 +1,30 @@
 
 import Link from "next/link";
-import { Button } from "@/src/app/ui/buttons";
+import { useTranslations } from 'next-intl';
 import { MedicalRecordsForm } from "@/src/app/lib/data/definition";
-import { formatPhoneNumber, mergeToFullName } from "@/src/app/lib/utils";
 import {
-    MinusIcon,
-    PlusIcon,
     InformationCircleIcon,
-    PhoneIcon,
     HeartIcon,
-    UserCircleIcon,
     ArrowUpIcon,
     ScaleIcon
   } from '@heroicons/react/24/outline';
 import clsx from "clsx";
 
-
 export default function ViewMedicalForm({
     medicalRecords
 }: {medicalRecords: MedicalRecordsForm}) {
+    const trans = useTranslations('Patients');
 
     return (
         <form>
             <div className="rounded-md bg-gray-50 p-4 md:p-6">
                 <div className="mb-4 text-sm font-medium">
-                    <span>Name: {medicalRecords.fullname}</span>
+                    <span>{trans("table.name")}: {medicalRecords.fullname}</span>
                 </div>
                 {/* Patient Height */}
                 <div className="mb-4">
                     <label htmlFor="height" className="mb-2 block text-sm font-medium">
-                        Height (m)
+                        {trans("viewMedical.height+m")}
                     </label>
                     <div className="relative">
                         <input
@@ -47,7 +42,7 @@ export default function ViewMedicalForm({
                 {/* Patient Weight */}
                 <div className="mb-4">
                     <label htmlFor="weight" className="mb-2 block text-sm font-medium">
-                        Weight (kg)
+                        {trans("viewMedical.weight+kg")}
                     </label>
                     <div className="relative">
                         <input
@@ -65,7 +60,7 @@ export default function ViewMedicalForm({
                 {/* Patient Blood Pressure */}
                 <div className="mb-4">
                     <label htmlFor="blood_pressure_sys" className="mb-2 block text-sm font-medium">
-                    Blood Pressure (mmHg)
+                        {trans("viewMedical.bloodpressure+mmhg")}
                     </label>
                     <div className="relative">
                         <input
@@ -91,7 +86,7 @@ export default function ViewMedicalForm({
                 {/* Patient Pulse */}
                 <div className="mb-4">
                     <label htmlFor="pulse" className="mb-2 block text-sm font-medium">
-                        Pulse
+                        {trans("viewMedical.pulse")}
                     </label>
                     <div className="relative">
                         <input
@@ -109,7 +104,7 @@ export default function ViewMedicalForm({
                 {/* Patient Hospitalized */}
                 <fieldset className="mb-4">
                     <legend className="mb-2 block text-sm font-medium">
-                        Have you been hospitalized in 5 years recently?
+                        {trans("viewMedical.beenhospitalized")}
                     </legend>
                     <div className="rounded-md border border-gray-100 bg-white px-[14px] py-3 w-full">
                         <div className="flex gap-4">
@@ -135,7 +130,7 @@ export default function ViewMedicalForm({
                     {medicalRecords.hospitalized && 
                         <div className="rounded-md border border-gray-100 bg-white px-[14px] py-3 w-full">
                             <label htmlFor="hospitalized_declare" className="mb-2 block text-sm font-medium">
-                                Hospitalized declaration
+                                {trans("viewMedical.hospitalizeddeclare")}
                             </label>
                             <div className="relative">
                                 <textarea
@@ -153,7 +148,7 @@ export default function ViewMedicalForm({
                 {/* Patient Suffereing */}
                 <fieldset className="mb-4">
                     <legend className="mb-2 block text-sm font-medium">
-                        Are you suffering from the following diseases?
+                        {trans("viewMedical.sufferingdiseases")}
                     </legend>
                     <div className="rounded-md border border-gray-100 bg-white px-[14px] py-3 w-full">
                         <div className="flex gap-4">
@@ -173,7 +168,7 @@ export default function ViewMedicalForm({
                                     htmlFor="high_blood_pressure" 
                                     className={clsx(medicalRecords.suffered.high_blood ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}
                                     >
-                                    1. High Blood Pressure: {medicalRecords.suffered.high_blood ? 'Yes' : 'No'}
+                                    1. {trans("viewMedical.highbooldpressure")}: {medicalRecords.suffered.high_blood ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
 
                             </div>
@@ -195,7 +190,7 @@ export default function ViewMedicalForm({
                                     htmlFor="ischemic_heart" 
                                     className={clsx(medicalRecords.suffered.ischemic_heart ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}
                                     >
-                                    2. Ischemic Heart Disease: {medicalRecords.suffered.ischemic_heart ? 'Yes' : 'No'}
+                                    2. {trans("viewMedical.ischemicheartdisease")}: {medicalRecords.suffered.ischemic_heart ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
 
                             </div>
@@ -216,7 +211,7 @@ export default function ViewMedicalForm({
                                 <label 
                                     htmlFor="diabetes" 
                                     className={clsx(medicalRecords.suffered.diabetes ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    3. Diabetes: {medicalRecords.suffered.diabetes ? 'Yes' : 'No'}
+                                    3. {trans("viewMedical.diabetes")}: {medicalRecords.suffered.diabetes ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
 
                             </div>
@@ -237,7 +232,7 @@ export default function ViewMedicalForm({
                                 <label 
                                     htmlFor="bleeding_disorders" 
                                     className={clsx(medicalRecords.suffered.bleeding_disorders ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    4. Bleeding Disorders: {medicalRecords.suffered.bleeding_disorders ? 'Yes' : 'No'}
+                                    4. {trans("viewMedical.bleedingdisorders")}: {medicalRecords.suffered.bleeding_disorders ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -257,7 +252,7 @@ export default function ViewMedicalForm({
                                 <label 
                                     htmlFor="allergies" 
                                     className={clsx(medicalRecords.suffered.allergies ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    5. Allergies (Medication, Food): {medicalRecords.suffered.allergies ? 'Yes' : 'No'}
+                                    5. {trans("viewMedical.allergies")} (Medication, Food): {medicalRecords.suffered.allergies ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -277,7 +272,7 @@ export default function ViewMedicalForm({
                                 <label 
                                     htmlFor="asthma" 
                                     className={clsx(medicalRecords.suffered.asthma ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    6. Asthma: {medicalRecords.suffered.asthma ? 'Yes' : 'No'}
+                                    6. {trans("viewMedical.asthma")}: {medicalRecords.suffered.asthma ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -297,7 +292,7 @@ export default function ViewMedicalForm({
                                 <label 
                                     htmlFor="epileptic" 
                                     className={clsx(medicalRecords.suffered.epileptic ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    7. Epileptic: {medicalRecords.suffered.epileptic ? 'Yes' : 'No'}
+                                    7. {trans("viewMedical.epileptic")}: {medicalRecords.suffered.epileptic ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -317,7 +312,7 @@ export default function ViewMedicalForm({
                                 <label 
                                     htmlFor="hepatitisB" 
                                     className={clsx(medicalRecords.suffered.hepatitisB ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    8. Hepatitis B: {medicalRecords.suffered.hepatitisB ? 'Yes' : 'No'}
+                                    8. {trans("viewMedical.hepatitisB")}: {medicalRecords.suffered.hepatitisB ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -337,7 +332,7 @@ export default function ViewMedicalForm({
                                 <label 
                                     htmlFor="pregnancy" 
                                     className={clsx(medicalRecords.suffered.pregnancy ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    9. Pregnancy: {medicalRecords.suffered.pregnancy ? 'Yes' : 'No'}
+                                    9. {trans("viewMedical.pregnancy")}: {medicalRecords.suffered.pregnancy ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -357,7 +352,7 @@ export default function ViewMedicalForm({
                                 <label 
                                     htmlFor="other_diseases" 
                                     className={clsx(medicalRecords.suffered.other_diseases ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    10. Other Diseases: {medicalRecords.suffered.other_diseases ? 'Yes' : 'No'}
+                                    10. {trans("viewMedical.otherdiseases")}: {medicalRecords.suffered.other_diseases ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -365,7 +360,7 @@ export default function ViewMedicalForm({
                     {medicalRecords.suffered.other_diseases && 
                         <div className="rounded-md border border-gray-100 bg-white px-[14px] py-3 w-full">
                             <label htmlFor="other_declare" className="mb-2 block text-sm font-medium">
-                                Other diseases declaration
+                                {trans("viewMedical.otherdeclare")}
                             </label>
                             <div className="relative">
                                 <textarea
@@ -386,13 +381,13 @@ export default function ViewMedicalForm({
                 href="/dashboard/patients"
                 className="flex h-10 items-center rounded-lg bg-blue-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                 >
-                Back
+                {trans("buttons.back")}
                 </Link>
                 <Link
                 href={`/dashboard/patients/${medicalRecords.pid}/edit/medicalRecords`}
                 className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                 >
-                Edit Medical Records
+                {trans("buttons.editmedicalrecords")}
                 </Link>
             </div>
         </form>

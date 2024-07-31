@@ -12,6 +12,7 @@ import {
 
 
 export default async function Page({ params }: { params : { id: string }}) {
+
     const id = params.id;
     const medicalRecords = await fetchMedicalRecordsById(id) as MedicalRecordsForm;
 
@@ -19,9 +20,9 @@ export default async function Page({ params }: { params : { id: string }}) {
         <main>
             <Breadcrumbs
                 breadcrumbs={[
-                { label: 'Patients', href: '/dashboard/patients' },
+                { label: 'title', href: '/dashboard/patients' },
                 {
-                    label: `View Medical Records`,
+                    label: 'viewMedical.title',
                     href: `/dashboard/patients/${id}/view/medicalRecords`,
                     active: true,
                 },
@@ -29,10 +30,10 @@ export default async function Page({ params }: { params : { id: string }}) {
             />
             <Tabs 
                 tabs={[
-                { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`},
-                { label: 'Medical Records', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/view/medicalRecords`, active: true},
-                { label: 'Dental Records', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/view/dentalRecords`},
-                { label: 'Treatment Records', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/view/treatmentRecords`}
+                { label: 'tabs.info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`},
+                { label: 'tabs.medicalRecords', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/view/medicalRecords`, active: true},
+                { label: 'tabs.dentalRecords', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/view/dentalRecords`},
+                { label: 'tabs.treatmentRecords', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/view/treatmentRecords`}
                 ]}
             />
             <ViewMedicalForm medicalRecords={medicalRecords}/>

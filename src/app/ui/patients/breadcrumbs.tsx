@@ -1,9 +1,10 @@
 import { clsx } from 'clsx';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { lusitana } from '@/src/app/ui/fonts';
 
 interface Breadcrumb {
-  label: string;
+  label: string; // key 
   href: string;
   active?: boolean;
 }
@@ -13,6 +14,8 @@ export default function Breadcrumbs({
 }: {
   breadcrumbs: Breadcrumb[];
 }) {
+  const trans = useTranslations('Patients');
+
   return (
     <nav aria-label="Breadcrumb" className="mb-2 md:mb-6 block">
       <ol className={clsx(lusitana.className, 'flex text-lg md:text-2xl ')}>
@@ -24,7 +27,7 @@ export default function Breadcrumbs({
               breadcrumb.active ? 'text-gray-900' : 'text-gray-500',
             )}
           >
-            <Link href={breadcrumb.href}>{breadcrumb.label}</Link>
+            <Link href={breadcrumb.href}>{trans(breadcrumb.label)}</Link>
             {index < breadcrumbs.length - 1 ? (
               <span className="mx-3 inline-block">/</span>
             ) : null}

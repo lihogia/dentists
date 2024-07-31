@@ -22,7 +22,7 @@ export type PatientForm = {
     middle_name: string;
     last_name: string;
     birth_year: number;
-    gender: 'male' | 'female';
+    gender: string;
     address: string;
     phone: string;
 

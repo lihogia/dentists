@@ -31,7 +31,27 @@
         "searchplaceholder": "Search patients...xx",
         "searchlabel": "Searchxx",
         "buttons": {
-            "createpatient": "Create Patientxx"
+            "createpatient": "Create Patientxx",
+            "cancel": "Cancelxx",
+            "save+continue": "Save & Continuexx",
+            "back": "Backxx",
+            "editpatientinfo": "Edit Patient Infoxx",
+            "editmedicalrecords": "Edit Medical Recordsxx",
+            "editdentalrecords": "Edit Dental Recordsxx",
+            "edittreatmentrecords": "Edit Treatment Recordsxx"
+        },
+        "checkboxes": {
+            "yes": "Yesxx",
+            "no": "Noxx",
+            "paid": "Paidxx",
+            "pending": "Pendingxx",
+            "done": "Donexx"
+        },
+        "tabs": {
+            "info": "Infoxx",
+            "medicalRecords": "Medical Recordsxx",
+            "dentalRecords": "Dental Recordsxx",
+            "treatmentRecords": "Treatment Recordsxx"
         },
         "table": {
             "name": "Namexx",
@@ -40,6 +60,64 @@
             "gender": "Genderxx",
             "male": "Malexx",
             "female": "Femalexx"
+        },
+        "create": {
+            "createtitle": "Create Patient Infoxx",
+            "nameplaceholder": "Enter Patient Namexx",
+            "birthyearplaceholder": "Enter Patient's Birth Yearxx",
+            "genderplaceholder": "Enter Patient's Phone Numberxx",
+            "addresslabel": "Addressxx",
+            "addressplaceholder": "Enter Patient's Addressxx"
+        },
+        "viewInfo": {
+            "title": "View Patient Infoxx",
+            "phonelabel": "Phone Numberxx"
+        },
+        "viewMedical": {
+            "title": "View Medical Recordsxx",
+            "height+m": "Height (m)xx",
+            "weight+kg": "Weight (kg)xx",
+            "bloodpressure+mmhg": "Blood Pressure (mmHg)xx",
+            "pulse": "Pulsexx",
+            "beenhospitalized": "Have you been hospitalized in 5 years recently?xx",
+            "hospitalizeddeclare": "Hospitalized declaration",
+            "sufferingdiseases": "Are you suffering from the following diseases?xx",
+            "highbooldpressure": "High Blood Pressurexx",
+            "ischemicheartdisease": "Ischemic Heart Diseasexx",
+            "diabetes": "Diabetesxx",
+            "bleedingdisorders": "Bleeding Disordersxx",
+            "allergies": "Allergies (Medication, Food)xx",
+            "asthma": "Asthmaxx",
+            "epileptic": "Epilepticxx",
+            "hepatitisB": "Hepatitis Bxx",
+            "pregnancy": "Pregnancyxx",
+            "otherdiseases": "Other Diseasesxx",
+            "otherdeclare": "Other diseases declarationxx"
+        },
+        "viewDental": {
+            "title": "View Dental Recordsxx",
+            "toothchart": "Tooth Chartxx",
+            "upperright": "Upper Rightxx",
+            "upperleft": "Upper Leftxx",
+            "lowerright": "Lower Rightxx",
+            "lowerleft": "Lower Leftxx",
+            "ur": "URxx",
+            "ul": "ULxx",
+            "lr": "LRxx",
+            "ll": "LLxx",
+            "description": "Descriptionxx"
+        },
+        "viewTreatment": {
+            "title": "View Treatment Recordsxx",
+            "diagnoses": "Diagnosesxx",
+            "examinationdate": "Examination Datexx",
+            "amount": "Amountxx",
+            "treatmentforexamination": "Treatment for the examination on {date}xx",
+            "treatmentplan": "Treatment Planxx",
+            "cure": "Curexx",
+            "date": "Datexx",
+            "status": "Statusxx"
         }
+
     }
 }

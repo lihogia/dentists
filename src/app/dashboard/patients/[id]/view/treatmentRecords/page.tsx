@@ -12,6 +12,7 @@ import {
  } from '@heroicons/react/24/outline';
 
 export default async function Page({ params }: { params : { id: string }}) {
+
     const id = params.id;
 
     const [ arrTreatmentRecords ]: [ TreatmentRecordsForm[] ] = await Promise.all([
@@ -42,9 +43,9 @@ export default async function Page({ params }: { params : { id: string }}) {
         <main>
             <Breadcrumbs
                 breadcrumbs={[
-                { label: 'Patients', href: '/dashboard/patients' },
+                { label: 'title', href: '/dashboard/patients' },
                 {
-                    label: `View Treatment Records`,
+                    label: 'viewTreatment.title',
                     href: `/dashboard/patients/${id}/view/treatmentRecords`,
                     active: true,
                 },
@@ -52,10 +53,10 @@ export default async function Page({ params }: { params : { id: string }}) {
             />
             <Tabs 
                 tabs={[
-                { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`},
-                { label: 'Medical Records', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/view/medicalRecords`},
-                { label: 'Dental Records', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/view/dentalRecords`},
-                { label: 'Treatment Records', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/view/treatmentRecords`, active: true}
+                { label: 'tabs.info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`},
+                { label: 'tabs.medicalRecords', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/view/medicalRecords`},
+                { label: 'tabs.dentalRecords', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/view/dentalRecords`},
+                { label: 'tabs.treatmentRecords', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/view/treatmentRecords`, active: true}
                 ]}
             />
             <ViewTreatmentForm treatmentRecords={arrTreatmentRecords}/>

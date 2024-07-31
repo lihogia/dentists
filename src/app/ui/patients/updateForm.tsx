@@ -1,7 +1,7 @@
 'use client';
-
 import { useFormState } from 'react-dom';
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 import { Button } from "@/src/app/ui/buttons";
 import { PatientForm } from "@/src/app/lib/data/definition";
 import {
@@ -25,6 +25,7 @@ export default function UpdatePatientForm({patient}: {
     patient: PatientForm
 }) {
 
+    const trans = useTranslations('Patients');
     const initialState: State = {
         errors: {},
         message: null
@@ -38,7 +39,7 @@ export default function UpdatePatientForm({patient}: {
                 {/* Patient Name */}
                 <div className="mb-4">
                     <label htmlFor="name" className="mb-2 block text-sm font-medium">
-                        Name
+                        {trans("table.name")}
                     </label>
                     <div className="relative">
                         <input
@@ -47,7 +48,7 @@ export default function UpdatePatientForm({patient}: {
                             autoComplete='off'
                             type="text"
                             required={true}
-                            placeholder="Enter Patient Name"
+                            placeholder={trans("create.nameplaceholder")}
                             className="peer block w-full rounded-md border border-gray-500 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             defaultValue={mergeToFullName([patient.first_name, patient.middle_name, patient.last_name])}
                         />
@@ -65,7 +66,7 @@ export default function UpdatePatientForm({patient}: {
                 {/* Patient Birth Year */}
                 <div className="mb-4">
                     <label htmlFor="byear" className="mb-2 block text-sm font-medium">
-                        Birth Year
+                        {trans("table.birthyear")}
                     </label>
                     <div className="relative">
                         <input
@@ -73,7 +74,7 @@ export default function UpdatePatientForm({patient}: {
                             name="birth_year"
                             type="number"
                             required={true}
-                            placeholder="Enter Patient Birth Year"
+                            placeholder={trans("create.birthyearplaceholder")}
                             className="peer block w-full rounded-md border border-gray-500 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             defaultValue={patient.birth_year}
                         />
@@ -91,7 +92,7 @@ export default function UpdatePatientForm({patient}: {
                 {/* Patient Gender */}
                 <fieldset className="mb-4">
                     <legend className="mb-2 block text-sm font-medium">
-                        Gender
+                        {trans("table.gender")}
                     </legend>
                     <div className="rounded-md border border-gray-500 bg-white px-[14px] py-3 w-full">
                         <div className="flex gap-4">
@@ -106,7 +107,7 @@ export default function UpdatePatientForm({patient}: {
                                 <label 
                                     htmlFor="gender_female" 
                                     className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-200 px-3 py-1.5 text-xs font-medium text-gray-600">
-                                Female <MinusIcon className="h-4 w-4" />
+                                {trans("table.female")} <MinusIcon className="h-4 w-4" />
                                 </label>
                             </div>
                             <div className="flex items-center">
@@ -120,7 +121,7 @@ export default function UpdatePatientForm({patient}: {
                                 <label 
                                     htmlFor="gender_male" 
                                     className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-blue-200 px-3 py-1.5 text-xs font-medium text-gray-600">
-                                Male <PlusIcon className="h-4 w-4" />
+                                {trans("table.male")} <PlusIcon className="h-4 w-4" />
                                 </label>
                             </div>
                         </div>
@@ -129,7 +130,7 @@ export default function UpdatePatientForm({patient}: {
                 {/* Patient Phone Number */}
                 <div className="mb-4">
                     <label htmlFor="phone" className="mb-2 block text-sm font-medium">
-                        Phone Number
+                        {trans("table.phone")}
                     </label>
                     <div className="relative">
                         <input
@@ -137,7 +138,7 @@ export default function UpdatePatientForm({patient}: {
                             name="phone"
                             autoComplete='off'
                             type="text"
-                            placeholder="Enter Patient's Phone Number"
+                            placeholder={trans("create.genderplaceholder")}
                             className="peer block w-full rounded-md border border-gray-500 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             defaultValue={patient.phone}
                         />
@@ -147,14 +148,14 @@ export default function UpdatePatientForm({patient}: {
                 {/* Patient Address */}
                 <div className="mb-4">
                     <label htmlFor="address" className="mb-2 block text-sm font-medium">
-                        Address
+                        {trans("create.addresslabel")}
                     </label>
                     <div className="relative">
                         <textarea
                             id="address"
                             name="address"
                             autoComplete='off'
-                            placeholder="Enter Patient's Address"
+                            placeholder={trans("create.addressplaceholder")}
                             className="peer block w-full rounded-md border border-gray-500 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             defaultValue={patient.address}
                         />
@@ -168,9 +169,9 @@ export default function UpdatePatientForm({patient}: {
                 href="/dashboard/patients"
                 className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                 >
-                Cancel
+                {trans("buttons.cancel")}
                 </Link>
-                <Button type="submit">Save & Continue</Button>
+                <Button type="submit">{trans("buttons.save+continue")}</Button>
             </div>
         </form>
     );

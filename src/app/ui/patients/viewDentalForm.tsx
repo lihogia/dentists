@@ -1,5 +1,6 @@
 'use client';
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 import { DentalRecordsForm } from "@/src/app/lib/data/definition";
 import clsx from "clsx";
 import {
@@ -9,6 +10,7 @@ import {
 export default function ViewDentalForm({
     dentalRecords
 }:{dentalRecords: DentalRecordsForm}) {
+    const trans = useTranslations('Patients');
 
     const ordersU = [];
     const ordersL = [];
@@ -66,20 +68,20 @@ export default function ViewDentalForm({
         <form>
             <div className="rounded-md bg-gray-50 p-4 md:p-3">
                 <div className="mb-4 text-sm font-medium">
-                    <span>Name: {dentalRecords.fullname}</span>
+                    <span>{trans("table.name")}: {dentalRecords.fullname}</span>
                 </div>
                 {/* Tooth Chart */}
                 <fieldset className="mb-4">
                     <legend className="mb-2 block text-sm font-medium">
-                        Tooth Chart
+                        {trans("viewDental.toothchart")}
                     </legend>
                     <div className="md:hidden block rounded-md px-[14px] py-3 w-full m-0">
                         <table>
                             <tbody>
                             <tr>
-                                <td className="text-center">UR</td>
+                                <td className="text-center">{trans("viewDental.ur")}</td>
                                 <td></td>
-                                <td className="text-center">UL</td>
+                                <td className="text-center">{trans("viewDental.ul")}</td>
                             </tr>
                             {ordersU.map((value, index) => {
                                 const [ styleR, symbolR ] = getLayoutFromToothStatus(teethStatus[0][index]);
@@ -94,9 +96,9 @@ export default function ViewDentalForm({
                             }
                             )}
                             <tr>
-                                <td className="text-center">LR</td>
+                                <td className="text-center">{trans("viewDental.lr")}</td>
                                 <td></td>
-                                <td className="text-center">LL</td>
+                                <td className="text-center">{trans("viewDental.ll")}</td>
                             </tr>
                             {ordersL.map((value, index) => {
                                 const [ styleR, symbolR ] = getLayoutFromToothStatus(teethStatus[2][index]);
@@ -118,9 +120,9 @@ export default function ViewDentalForm({
                         <table>
                             <tbody>
                             <tr>
-                                <td colSpan={8} className="text-center text-sm p-2 border-2 border-gray-200">Upper Right</td>
+                                <td colSpan={8} className="text-center text-sm p-2 border-2 border-gray-200">{trans("viewDental.upperright")}</td>
                                 <td className="bg-gray-300">&nbsp;</td>
-                                <td colSpan={8} className="text-center text-sm p-2 border-2 border-gray-200">Upper Left</td>
+                                <td colSpan={8} className="text-center text-sm p-2 border-2 border-gray-200">{trans("viewDental.upperleft")}</td>
                             </tr>
                             <tr className="bg-gray-500">
                                 {teethStatus[0].toReversed().map((tooth, index) => {
@@ -162,9 +164,9 @@ export default function ViewDentalForm({
 
                             </tr>
                             <tr>
-                                <td colSpan={8} className="text-center text-sm p-2 border-2 border-gray-200">Lower Right</td>
+                                <td colSpan={8} className="text-center text-sm p-2 border-2 border-gray-200">{trans("viewDental.lowerright")}</td>
                                 <td className="bg-gray-300">&nbsp;</td>
-                                <td colSpan={8} className="text-center text-sm p-2 border-2 border-gray-200">Lower Left</td>
+                                <td colSpan={8} className="text-center text-sm p-2 border-2 border-gray-200">{trans("viewDental.lowerleft")}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -173,7 +175,7 @@ export default function ViewDentalForm({
                 {/* Dental Description */}
                 <div className="mb-4">
                     <label htmlFor="description" className="mb-2 block text-sm font-medium">
-                        Description
+                        {trans("viewDental.description")}
                     </label>
                     <div className="relative">
                         <textarea
@@ -192,13 +194,13 @@ export default function ViewDentalForm({
                 href="/dashboard/patients"
                 className="flex h-10 items-center rounded-lg bg-blue-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                 >
-                Back
+                {trans("buttons.back")}
                 </Link>
                 <Link
                 href={`/dashboard/patients/${dentalRecords.pid}/edit/dentalRecords`}
                 className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                 >
-                Edit Dental Records
+                {trans("buttons.editdentalrecords")}
                 </Link>
             </div>
 

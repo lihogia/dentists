@@ -63,7 +63,7 @@ export default function PatientsTableComponent(
                                     <div className="mb-2 flex items-center">
                                         <p className="text-md"><Link href={`/dashboard/patients/${patient.id}/view`}>{mergeToFullName([patient.first_name,patient.middle_name, patient.last_name])}</Link></p>
                                     </div>
-                                    <p className="text-sm text-gray-500">{patient.birth_year}, {patient.gender}</p>
+                                    <p className="text-sm text-gray-500">{patient.birth_year}, {(patient.gender == 'female' ? trans("table.female") : trans("table.male"))}</p>
                                 </div>
                             </div>
                             <div className="flex w-full items-center justify-between pt-4">

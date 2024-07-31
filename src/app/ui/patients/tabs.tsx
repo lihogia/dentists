@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 type HeroIcons = typeof InformationCircleIcon;
@@ -16,6 +17,8 @@ export default function Tabs({
 }: {
   tabs: Tab[];
 }) {
+  const trans = useTranslations('Patients');
+
   return (
     <nav aria-label="Tab" className=" block p-0 bg-blue-100 m-0 rounded-t">
       <ol className='flex text-md'>
@@ -32,7 +35,7 @@ export default function Tabs({
 
             <Link href={tab.href}>
               <p className="md:hidden md:block"><LinkIcon className="w-6"/></p>
-              <p className="hidden md:block">{tab.label}</p>
+              <p className="hidden md:block">{trans(tab.label)}</p>
             </Link>
           </li>
         )})}

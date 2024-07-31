@@ -19,9 +19,9 @@ export default async function Page({ params }: { params : { id: string }}) {
         <main>
             <Breadcrumbs
                 breadcrumbs={[
-                { label: 'Patients', href: '/dashboard/patients' },
+                { label: 'title', href: '/dashboard/patients' },
                 {
-                    label: 'View Patient Info',
+                    label: 'viewInfo.title',
                     href: `/dashboard/patients/${id}/view`,
                     active: true,
                 },
@@ -29,10 +29,10 @@ export default async function Page({ params }: { params : { id: string }}) {
             />
             <Tabs 
                 tabs={[
-                { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`, active: true},
-                { label: 'Medical Records', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/view/medicalRecords`},
-                { label: 'Dental Records', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/view/dentalRecords`},
-                { label: 'Treatment Records', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/view/treatmentRecords`}
+                { label: 'tabs.info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/view`, active: true},
+                { label: 'tabs.medicalRecords', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/view/medicalRecords`},
+                { label: 'tabs.dentalRecords', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/view/dentalRecords`},
+                { label: 'tabs.treatmentRecords', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/view/treatmentRecords`}
                 ]}
             />
             <ViewPatientForm patient={patient}/>
