@@ -48,7 +48,7 @@ export default function TreatmentRecordsTable({
                             {formatCurrency(record.amount)}
                         </p>
                         </div>
-                        <Status status={record.paid} text="Paid" />
+                        <Status status={record.paid} text={trans("checkboxes.paid")} />
                     </div>
                     <div className="flex w-full items-center justify-between pt-4">
                         <div>

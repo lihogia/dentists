@@ -361,7 +361,7 @@ export default function UpdateTreatmentRecord(
                                                 <label 
                                                     htmlFor={`treatment_status_${index}`} 
                                                     className="flex cursor-pointer items-center rounded-full px-2 font-medium text-gray-600">
-                                                    <Status status={treatment.status} text="Done" />
+                                                    <Status status={treatment.status} text={trans("checkboxes.done")} />
                                                 </label>
                                                 {workingRecord.treatments.length > 1 && <DeleteTreatmentTask index={index} handleRemove={removeTreatmentTask} />}
                                             </div>
