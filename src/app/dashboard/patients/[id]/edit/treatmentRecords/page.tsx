@@ -22,9 +22,9 @@ export default async function Page({ params }: { params : { id: string }}) {
         <main>
             <Breadcrumbs
                 breadcrumbs={[
-                { label: 'Patients', href: '/dashboard/patients' },
+                { label: 'title', href: '/dashboard/patients' },
                 {
-                    label: `Edit Treatment Records`,
+                    label: `editTreatment.title`,
                     href: `/dashboard/patients/${id}/edit/treatmentRecords`,
                     active: true,
                 },
@@ -32,10 +32,10 @@ export default async function Page({ params }: { params : { id: string }}) {
             />
             <Tabs 
                 tabs={[
-                { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/edit`},
-                { label: 'Medical Records', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/edit/medicalRecords`},
-                { label: 'Dental Records', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/edit/dentalRecords`},
-                { label: 'Treatment Records', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/edit/treatmentRecords`, active: true}
+                { label: 'tabs.info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/edit`},
+                { label: 'tabs.medicalRecords', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/edit/medicalRecords`},
+                { label: 'tabs.dentalRecords', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/edit/dentalRecords`},
+                { label: 'tabs.treatmentRecords', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/edit/treatmentRecords`, active: true}
                 ]}
             />
             <UpdateTreatmentForm treatmentRecords={arrTreatmentRecords}/>

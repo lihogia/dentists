@@ -11,6 +11,7 @@ import {
  } from '@heroicons/react/24/outline';
 
 export default async function Page({ params }: { params : { id: string }}) {
+
     const id = params.id;
     const [dentalRecords] = await Promise.all([
         fetchDentalRecordsById(id)]
@@ -20,9 +21,9 @@ export default async function Page({ params }: { params : { id: string }}) {
         <main>
             <Breadcrumbs
                 breadcrumbs={[
-                { label: 'Patients', href: '/dashboard/patients' },
+                { label: 'title', href: '/dashboard/patients' },
                 {
-                    label: 'Edit Medical Records',
+                    label: 'editDental.title',
                     href: `/dashboard/patients/${id}/edit/medicalRecords`,
                     active: true,
                 },
@@ -30,10 +31,10 @@ export default async function Page({ params }: { params : { id: string }}) {
             />
             <Tabs 
                 tabs={[
-                { label: 'Info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/edit`},
-                { label: 'Medical Records', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/edit/medicalRecords`},
-                { label: 'Dental Records', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/edit/dentalRecords`, active: true},
-                { label: 'Treatment Records', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/edit/treatmentRecords`}
+                { label: 'tabs.info', icon: InformationCircleIcon, href: `/dashboard/patients/${id}/edit`},
+                { label: 'tabs.medicalRecords', icon: PlusCircleIcon, href: `/dashboard/patients/${id}/edit/medicalRecords`},
+                { label: 'tabs.dentalRecords', icon: BookmarkSquareIcon, href: `/dashboard/patients/${id}/edit/dentalRecords`, active: true},
+                { label: 'tabs.treatmentRecords', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/edit/treatmentRecords`}
                 ]}
             />
             <UpdateDentalForm dentalRecords={dentalRecords}/>

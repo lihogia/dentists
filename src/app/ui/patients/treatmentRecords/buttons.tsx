@@ -1,10 +1,11 @@
 import { TrashIcon, PlusIcon, PencilIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
+import { useTranslations } from 'next-intl';
 import { useFormState } from 'react-dom';
 import { TreatmentRecordsBoard, TreatmentRecordsForm } from "@/src/app/lib/data/definition";
 import { deleteTreatmentRecords, TreatmentDeleteState } from '@/src/app/lib/data/actions';
 
 export function CreateTreatmentRecord({treatmentRecordsBoard, handleBoard}: {treatmentRecordsBoard: TreatmentRecordsBoard, handleBoard: Function}) {
+  const trans = useTranslations('Patients');
   const indexOfNewItem = treatmentRecordsBoard.records.length - 1;
 
   return (
@@ -23,13 +24,14 @@ export function CreateTreatmentRecord({treatmentRecordsBoard, handleBoard}: {tre
         handleBoard(newTreamentRecordsBoard);
       }}
     >
-      <span className="hidden md:block">Create Treatment Record</span>{' '}
+      <span className="hidden md:block">{trans("buttons.createtreatmentrecord")}</span>{' '}
       <PlusIcon className="h-5 md:ml-4" />
     </div>
   );
 }
 
 export function CreateTreatmentTask({ handleRecord }: { handleRecord: Function }) {
+  const trans = useTranslations('Patients');
   return (
     <div
       className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 cursor-pointer"
@@ -37,7 +39,7 @@ export function CreateTreatmentTask({ handleRecord }: { handleRecord: Function }
         handleRecord();
       }}
     >
-      <span className="hidden md:block">Create Cure</span>{' '}
+      <span className="hidden md:block">{trans("buttons.createcure")}</span>{' '}
       <PlusIcon className="h-4 md:ml-3 text-lg" />
     </div>
   );
@@ -55,6 +57,8 @@ export function UpdateTreatmentRecord({id}: {id: string}) {
 */
 
 export function DeleteTreatmentRecord({record, index, handleRemove}: {record: TreatmentRecordsForm, index: number, handleRemove: Function}) {
+  const trans = useTranslations('Patients');
+
   const initialState: TreatmentDeleteState = {
     errors: {},
     message: null,
@@ -81,14 +85,14 @@ export function DeleteTreatmentRecord({record, index, handleRemove}: {record: Tr
               type="submit"
               className="rounded-md border p-2 hover:bg-gray-100"
               onClick={(e) => {
-                const isDelete = confirm('Are you sure to remove this record ?');
+                const isDelete = confirm(`${trans("buttons.confirmrmrecord")}`);
                 const delForm = document.getElementById(`form_${index}`) as HTMLFormElement;
                 if (!isDelete) {
                   e.preventDefault();
                 }                  
               }}
             >
-              <span className="sr-only">Delete</span>
+              <span className="sr-only">{trans("buttons.delete")}</span>
               <TrashIcon className="w-5" />
             </button>
         </form>
@@ -96,12 +100,13 @@ export function DeleteTreatmentRecord({record, index, handleRemove}: {record: Tr
 }
 
 export function DeleteTreatmentTask({index, handleRemove} : {index: number, handleRemove: Function}) {
+  const trans = useTranslations('Patients');
   return (
     <div key={`formCure_${index}`}>
       <button 
         className="rounded-md border p-2 hover:bg-gray-100"
         onClick={(e) => {
-          const isDelete = confirm('Are you sure to remove this cure ?');
+          const isDelete = confirm(`${trans("buttons.confirmrmcure")}`);
           //const delForm = document.getElementById(`formCure_${index}`) as HTMLFormElement;
           if (!isDelete) {
             e.preventDefault();
@@ -111,7 +116,7 @@ export function DeleteTreatmentTask({index, handleRemove} : {index: number, hand
           }
         }}
       >
-        <span className="sr-only">Delete</span>
+        <span className="sr-only">{trans("buttons.delete")}</span>
         <TrashIcon className="w-5" />
       </button>      
     </div>

@@ -1,6 +1,8 @@
 import SideNav from '@/src/app/ui/sideNav';
- 
+import { useTranslations } from 'next-intl';
+
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const trans = useTranslations('Home');
   return (
     <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
       <div className="w-full flex-none md:w-64">
@@ -10,7 +12,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div>{children}</div>
         <div className="hidden h-auto w-full grow md:block"></div>
         <div className="mt-6 mb-4 md:mb-3 text-sm">
-          <p>© 2024. All rights reserved. Version {process.env.version}.</p>
+          <p>{trans("copyright", {
+            version: process.env.version
+          })}</p>
         </div>
       </div>
     </div>

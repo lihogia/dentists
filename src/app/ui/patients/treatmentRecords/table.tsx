@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useTranslations } from 'next-intl';
 import { TreatmentRecordsForm, TreatmentRecordsBoard } from "@/src/app/lib/data/definition";
 import { formatCurrency, formatDateToLocal } from "@/src/app/lib/utils";
 import Status from "@/src/app/ui/status";
@@ -12,7 +13,7 @@ export default function TreatmentRecordsTable({
         handleRemove: Function
     }) {
 
-    
+    const trans = useTranslations('Patients');
     const numberOfItem = treatmentRecordsBoard.records.length;
     const treatmentRecords = treatmentRecordsBoard.records.filter((item, index) => index < numberOfItem - 1);
     const selectedRecords = treatmentRecordsBoard.records[treatmentRecordsBoard.selectedIndex];
@@ -65,16 +66,16 @@ export default function TreatmentRecordsTable({
                 <thead className="rounded-lg text-left text-sm font-normal">
                 <tr>
                     <th scope="col" className="px-3 py-5 font-medium">
-                    Examination Date
+                    {trans("viewTreatment.examinationdate")}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                    Diagnoses
+                    {trans("viewTreatment.diagnoses")}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                    Amount
+                    {trans("viewTreatment.amount")}
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                    Payment
+                    {trans("viewTreatment.payment")}
                     </th>
                     <th scope="col" className="relative py-3 pl-6 pr-3">
                     <span className="sr-only">Edit</span>
@@ -111,7 +112,7 @@ export default function TreatmentRecordsTable({
                             {formatCurrency(record.amount)}
                         </td>
                         <td className="whitespace-nowrap px-3 py-3">
-                            <Status status={record.paid} text="Paid" />
+                            <Status status={record.paid} text={trans("checkboxes.paid")} />
                         </td>
                         <td className="whitespace-nowrap py-3 pl-6 pr-3">
                             <div className="flex justify-start gap-3">

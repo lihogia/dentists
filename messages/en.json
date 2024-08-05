@@ -24,7 +24,8 @@
         "latestinvoices": {
             "title": "Latest Invoicesxx",
             "updatedjustnow": "Updated just nowxx"
-        }
+        },
+        "copyright": "© 2024. All rights reserved. Version {version}xx."
     },
     "Patients": {
         "title": "Patientsxx",
@@ -38,7 +39,13 @@
             "editpatientinfo": "Edit Patient Infoxx",
             "editmedicalrecords": "Edit Medical Recordsxx",
             "editdentalrecords": "Edit Dental Recordsxx",
-            "edittreatmentrecords": "Edit Treatment Recordsxx"
+            "edittreatmentrecords": "Edit Treatment Recordsxx",
+            "createtreatmentrecord": "Create Treatment Recordxx",
+            "createcure": "Create Curexx",
+            "confirmrmrecord": "Are you sure to remove this record ?xx",
+            "confirmrmcure": "Are you sure to remove this cure ?xx",
+            "delete": "Deletexx",
+            "savetreatment": "Save Treatmentxx"
         },
         "checkboxes": {
             "yes": "Yesxx",
@@ -80,7 +87,7 @@
             "bloodpressure+mmhg": "Blood Pressure (mmHg)xx",
             "pulse": "Pulsexx",
             "beenhospitalized": "Have you been hospitalized in 5 years recently?xx",
-            "hospitalizeddeclare": "Hospitalized declaration",
+            "hospitalizeddeclare": "Hospitalized declarationxx",
             "sufferingdiseases": "Are you suffering from the following diseases?xx",
             "highbooldpressure": "High Blood Pressurexx",
             "ischemicheartdisease": "Ischemic Heart Diseasexx",
@@ -112,12 +119,29 @@
             "diagnoses": "Diagnosesxx",
             "examinationdate": "Examination Datexx",
             "amount": "Amountxx",
+            "payment": "Paymentxx",
             "treatmentforexamination": "Treatment for the examination on {date}xx",
             "treatmentplan": "Treatment Planxx",
             "cure": "Curexx",
             "date": "Datexx",
             "status": "Statusxx"
+        },
+        "editInfo": {
+            "title": "Edit Patient Infoxx",
+            "phonelabel": "Phone Numberxx"
+        },
+        "editMedical": {
+            "title": "Edit Medical Recordsxx"
+        },
+        "editDental": {
+            "title": "Edit Dental Recordsxx",
+            "toothmissing": "Tooth Missingxx",
+            "rootproblem": "Root Problemxx",
+            "insidecavities": "Inside Cavitiesxx",
+            "outsidecavities": "Outside Cavitiesxx"
+        },
+        "editTreatment": {
+            "title": "Edit Treatment Recordsxx"
         }
-
     }
 }

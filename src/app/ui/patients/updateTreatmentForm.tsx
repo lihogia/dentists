@@ -1,33 +1,16 @@
 'use client';
-import Link from "next/link";
-import { useFormState } from 'react-dom';
 import { useState } from "react";
-import { formatCurrency, formatDateToLocal, getNextDate } from "@/src/app/lib/utils";
+import { useTranslations } from 'next-intl';
+import { getNextDate } from "@/src/app/lib/utils";
 import { TreatmentRecordsForm, StatusBoard, TreatmentRecordsBoard } from "@/src/app/lib/data/definition";
 import TreatmentRecordsTable from "@/src/app/ui/patients/treatmentRecords/table";
 import UpdateTreatmentRecord from "@/src/app/ui/patients/treatmentRecords/update"
-import Status from "@/src/app/ui/status";
-import {
-    CalendarDaysIcon,
-    MagnifyingGlassIcon,
-    CurrencyDollarIcon,
-    MinusIcon,
-    PlusIcon,
-    InformationCircleIcon,
-    PhoneIcon,
-    HeartIcon,
-    UserCircleIcon,
-    ArrowUpIcon,
-    ScaleIcon
-  } from '@heroicons/react/24/outline';
-import clsx from "clsx";
-import { Button } from "@/src/app/ui/buttons";
-import { updateTreatmentRecords, TreatmentState } from '@/src/app/lib/data/actions';
 import { CreateTreatmentRecord } from "@/src/app/ui/patients/treatmentRecords/buttons";
 
 export default function UpdateTreatmentForm({
     treatmentRecords
 }: {treatmentRecords: TreatmentRecordsForm[]}) {
+    const trans = useTranslations('Patients');
 
     const sIndex = treatmentRecords.length - 2;
     
@@ -105,7 +88,7 @@ export default function UpdateTreatmentForm({
     return (
         <div className="mt-4 flow-root">
             <div className="ml-5 mb-4 text-sm font-medium">
-                <span>Name: {treatmentRecords[0].fullname}</span>
+                <span>{trans("table.name")}: {treatmentRecords[0].fullname}</span>
             </div>
             <div className="flex items-center justify-between gap-2 mb-3 ml-4">
                 <CreateTreatmentRecord treatmentRecordsBoard={treatmentRecordsBoard} handleBoard={setTreatmentRecordsBoard} />

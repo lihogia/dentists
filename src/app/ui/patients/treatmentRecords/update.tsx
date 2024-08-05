@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useFormState } from 'react-dom';
 import { useState } from "react";
+import { useTranslations } from 'next-intl';
 import clsx from "clsx";
 import { TreatmentRecordsForm, Task } from "@/src/app/lib/data/definition";
 import { formatCurrency, formatDateToLocal, checkAndConvertDate } from "@/src/app/lib/utils";
@@ -9,14 +10,6 @@ import {
     CalendarDaysIcon,
     MagnifyingGlassIcon,
     CurrencyDollarIcon,
-    MinusIcon,
-    PlusIcon,
-    InformationCircleIcon,
-    PhoneIcon,
-    HeartIcon,
-    UserCircleIcon,
-    ArrowUpIcon,
-    ScaleIcon
   } from '@heroicons/react/24/outline';
 import { Button } from "@/src/app/ui/buttons";
 import { updateTreatmentRecords, TreatmentState } from '@/src/app/lib/data/actions';
@@ -27,6 +20,8 @@ export default function UpdateTreatmentRecord(
     {record, handlesBoard}:
     {record: TreatmentRecordsForm, handlesBoard: Function[]}
 ) {
+
+    const trans = useTranslations('Patients');
 
     const initialState: TreatmentState = {
         errors: {},
@@ -113,12 +108,12 @@ export default function UpdateTreatmentRecord(
             <div className="mt-1 flow-root bg-gray-100">
                 <fieldset className="mt-1" key={`${workingRecord.exam_date}`}>
                     <legend className="block text-sm font-bold bg-gray-100 w-full p-2 pb-0">
-                        Treatment for the examination on {formatDateToLocal(workingRecord.exam_date)}
+                        {trans("viewTreatment.treatmentforexamination", {date: formatDateToLocal(workingRecord.exam_date, 'vi-VN')})}
                     </legend>
                     <div className="border border-gray-100 w-full p-2 rounded-md">
                         <div className="p-2">
                             <label htmlFor="exam_date" className="mb-2 block text-sm font-medium">
-                                Examination Date
+                                {trans("viewTreatment.examinationdate")}
                             </label>
                             <div className="relative">
                                 <input
@@ -161,7 +156,7 @@ export default function UpdateTreatmentRecord(
                         </div>
                         <div className="p-2">
                             <label htmlFor="diagnoses" className="mb-2 block text-sm font-medium">
-                                Diagnoses
+                                {trans("viewTreatment.diagnoses")}
                             </label>
                             <div className="relative">
                                 <textarea
@@ -184,7 +179,7 @@ export default function UpdateTreatmentRecord(
                         </div>
                         <div className="p-2">
                             <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-                                Amount
+                                {trans("viewTreatment.amount")}
                             </label>
                             <div className="relative">
                                 <input
@@ -225,7 +220,7 @@ export default function UpdateTreatmentRecord(
                         </div>
                         <div className="p-2">
                             <label htmlFor="paid" className="mb-2 block text-sm font-medium">
-                                Payment
+                                {trans("checkboxes.paid")}
                             </label>
                             <div className="flex items-center px-3">
                                 <input 
@@ -247,14 +242,14 @@ export default function UpdateTreatmentRecord(
                                 <label 
                                     htmlFor="paid" 
                                     className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-2 py-1.5 text-xs font-medium text-gray-600">
-                                    <Status status={workingRecord.paid} text="Paid" />
+                                    <Status status={workingRecord.paid} text={trans("checkboxes.paid")} />
                                 </label>
                             </div>
                         </div>
                         <div className="p-2 border border-gray-300 rounded-full rounded-md">
                             <div className="p-1 pb-1">
                                 <span className="mb-2 block text-sm font-medium">
-                                    Cure Plan
+                                    {trans("viewTreatment.treatmentplan")}
                                 </span>
                             </div>
                             <div className="flex items-center justify-between gap-2 m-2 mt-1">
@@ -378,10 +373,10 @@ export default function UpdateTreatmentRecord(
                             <table className="hidden md:table min-w-full bg-gray-100 rounded-md">
                                 <thead className="rounded-lg text-left text-sm font-normal">
                                     <tr>
-                                        <td className="p-2">Cure</td>
-                                        <td className="p-2">Date</td>
-                                        <td className="p-2">Status</td>
-                                        <td className="p-2">Delete</td>
+                                        <td className="p-2">{trans("viewTreatment.cure")}</td>
+                                        <td className="p-2">{trans("viewTreatment.date")}</td>
+                                        <td className="p-2">{trans("viewTreatment.status")}</td>
+                                        <td className="p-2">{trans("buttons.delete")}</td>
                                     </tr>
                                 </thead>
                                 <tbody className="text-sm">
@@ -484,7 +479,7 @@ export default function UpdateTreatmentRecord(
                                                     <label 
                                                         htmlFor={`treatment_status_${index}`} 
                                                         className="flex cursor-pointer items-center rounded-full px-2 font-medium text-gray-600">
-                                                        <Status status={treatment.status} text="Done" />
+                                                        <Status status={treatment.status} text={trans("checkboxes.done")} />
                                                     </label>
                                                     </div>
                                                 </td>
@@ -507,7 +502,7 @@ export default function UpdateTreatmentRecord(
                     href="/dashboard/patients"
                     className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                     >
-                    Cancel
+                    {trans("buttons.cancel")}
                 </Link>
                 <Button 
                     id="submitButton"
@@ -526,7 +521,7 @@ export default function UpdateTreatmentRecord(
                         //}
                     }}
                     
-                >Save Treatment</Button>
+                >{trans("buttons.savetreatment")}</Button>
             </div>
         </form>
     );

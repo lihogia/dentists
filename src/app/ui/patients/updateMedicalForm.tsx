@@ -4,15 +4,10 @@ import { useFormState } from 'react-dom';
 import { useState } from 'react';
 import Link from "next/link";
 import clsx from "clsx";
+import { useTranslations } from 'next-intl';
 import { Button } from "@/src/app/ui/buttons";
 import { PatientForm, MedicalRecordsForm } from "@/src/app/lib/data/definition";
 import {
-    MinusIcon,
-    PlusIcon,
-    ClockIcon,
-    PhoneIcon,
-    HomeIcon,
-    UserCircleIcon,
     InformationCircleIcon,
     HeartIcon,
     ArrowUpIcon,
@@ -25,6 +20,7 @@ export default function UpdateMedicalForm({
     medicalRecords, status
 }: {medicalRecords: MedicalRecordsForm, status: string}) {
 
+    const trans = useTranslations('Patients');
     const isCreate = (status == 'create');
 
     const initialState: MedicalState = {
@@ -55,12 +51,12 @@ export default function UpdateMedicalForm({
             <input type='hidden' name='id' value={medicalRecords.pid} />
             <div className="rounded-md bg-gray-50 p-4 md:p-4">
                 <div className="mb-4 text-sm font-medium">
-                    <span>Name: {medicalRecords.fullname}</span>
+                    <span>{trans("table.name")}: {medicalRecords.fullname}</span>
                 </div>
                 {/* Patient Height */}
                 <div className="mb-4">
                     <label htmlFor="height" className="mb-2 block text-sm font-medium">
-                        Height (m)
+                        {trans("viewMedical.height+m")}
                     </label>
                     <div className="relative">
                         <input
@@ -86,7 +82,7 @@ export default function UpdateMedicalForm({
                 {/* Patient Weight */}
                 <div className="mb-4">
                     <label htmlFor="weight" className="mb-2 block text-sm font-medium">
-                        Weight (kg)
+                        {trans("viewMedical.weight+kg")}
                     </label>
                     <div className="relative">
                         <input
@@ -112,7 +108,7 @@ export default function UpdateMedicalForm({
                 {/* Patient Blood Pressure */}
                 <div className="mb-4">
                     <label htmlFor="blood_pressure_sys" className="mb-2 block text-sm font-medium">
-                    Blood Pressure (mmHg)
+                        {trans("viewMedical.bloodpressure+mmhg")}
                     </label>
                     <div className="relative">
                         <input
@@ -154,7 +150,7 @@ export default function UpdateMedicalForm({
                 {/* Patient Pulse */}
                 <div className="mb-4">
                     <label htmlFor="pulse" className="mb-2 block text-sm font-medium">
-                        Pulse
+                        {trans("viewMedical.pulse")}
                     </label>
                     <div className="relative">
                         <input
@@ -180,7 +176,7 @@ export default function UpdateMedicalForm({
                 {/* Patient Hospitalized */}
                 <fieldset className="mb-4">
                     <legend className="mb-2 block text-sm font-medium">
-                        Have you been hospitalized in 5 years recently?
+                        {trans("viewMedical.beenhospitalized")}
                     </legend>
                     <div className="rounded-md bg-white px-[14px] py-3 w-full">
                         <div className="flex gap-4">
@@ -203,7 +199,7 @@ export default function UpdateMedicalForm({
                                     htmlFor="hospitalized" 
                                     className={clsx(checkedValues.hospitalized ? "bg-red-200" : "bg-green-200","ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}
                                     >
-                                {checkedValues.hospitalized ? 'Yes' : 'No'}
+                                {checkedValues.hospitalized ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -211,7 +207,7 @@ export default function UpdateMedicalForm({
                     {checkedValues.hospitalized && 
                         <div className="rounded-md bg-white px-[14px] py-3 w-full mt-2">
                             <label htmlFor="hospitalized_declare" className="mb-2 block text-sm font-medium">
-                                Hospitalized declaration
+                                {trans("viewMedical.hospitalizeddeclare")}
                             </label>
                             <div className="relative">
                                 <textarea
@@ -228,7 +224,7 @@ export default function UpdateMedicalForm({
                 {/* Patient Suffereing */}
                 <fieldset className="mb-4">
                     <legend className="mb-2 block text-sm font-medium">
-                        Are you suffering from the following diseases?
+                        {trans("viewMedical.sufferingdiseases")}
                     </legend>
                     <div className="rounded-md border border-gray-100 bg-white px-[14px] py-3 w-full">
                         <div className="flex gap-4">
@@ -252,7 +248,7 @@ export default function UpdateMedicalForm({
                                     htmlFor="high_blood" 
                                     className={clsx(checkedValues.high_blood ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}
                                     >
-                                    1. High Blood Pressure: {checkedValues.high_blood ? 'Yes' : 'No'}
+                                    1. {trans("viewMedical.highbooldpressure")}: {checkedValues.high_blood ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
 
                             </div>
@@ -278,7 +274,7 @@ export default function UpdateMedicalForm({
                                     htmlFor="ischemic_heart" 
                                     className={clsx(checkedValues.ischemic_heart ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}
                                     >
-                                    2. Ischemic Heart Disease: {checkedValues.ischemic_heart ? 'Yes' : 'No'}
+                                    2. {trans("viewMedical.ischemicheartdisease")}: {checkedValues.ischemic_heart ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
 
                             </div>
@@ -303,7 +299,7 @@ export default function UpdateMedicalForm({
                                 <label 
                                     htmlFor="diabetes" 
                                     className={clsx(checkedValues.diabetes ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    3. Diabetes: {checkedValues.diabetes ? 'Yes' : 'No'}
+                                    3. {trans("viewMedical.diabetes")}: {checkedValues.diabetes ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
 
                             </div>
@@ -328,7 +324,7 @@ export default function UpdateMedicalForm({
                                 <label 
                                     htmlFor="bleeding_disorders" 
                                     className={clsx(checkedValues.bleeding_disorders ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    4. Bleeding Disorders: {checkedValues.bleeding_disorders ? 'Yes' : 'No'}
+                                    4. {trans("viewMedical.bleedingdisorders")}: {checkedValues.bleeding_disorders ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -352,7 +348,7 @@ export default function UpdateMedicalForm({
                                 <label 
                                     htmlFor="allergies" 
                                     className={clsx(checkedValues.allergies ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    5. Allergies (Medication, Food): {checkedValues.allergies ? 'Yes' : 'No'}
+                                    5. {trans("viewMedical.allergies")}: {checkedValues.allergies ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -376,7 +372,7 @@ export default function UpdateMedicalForm({
                                 <label 
                                     htmlFor="asthma" 
                                     className={clsx(checkedValues.asthma ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    6. Asthma: {checkedValues.asthma ? 'Yes' : 'No'}
+                                    6. {trans("viewMedical.asthma")}: {checkedValues.asthma ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -400,7 +396,7 @@ export default function UpdateMedicalForm({
                                 <label 
                                     htmlFor="epileptic" 
                                     className={clsx(checkedValues.epileptic ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    7. Epileptic: {checkedValues.epileptic ? 'Yes' : 'No'}
+                                    7. {trans("viewMedical.epileptic")}: {checkedValues.epileptic ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -424,7 +420,7 @@ export default function UpdateMedicalForm({
                                 <label 
                                     htmlFor="hepatitisB" 
                                     className={clsx(checkedValues.hepatitisB ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    8. Hepatitis B: {checkedValues.hepatitisB ? 'Yes' : 'No'}
+                                    8. {trans("viewMedical.hepatitisB")}: {checkedValues.hepatitisB ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -448,7 +444,7 @@ export default function UpdateMedicalForm({
                                 <label 
                                     htmlFor="pregnancy" 
                                     className={clsx(checkedValues.pregnancy ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    9. Pregnancy: {checkedValues.pregnancy ? 'Yes' : 'No'}
+                                    9. {trans("viewMedical.pregnancy")}: {checkedValues.pregnancy ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -472,7 +468,7 @@ export default function UpdateMedicalForm({
                                 <label 
                                     htmlFor="other_diseases" 
                                     className={clsx(checkedValues.other_diseases ? "bg-red-200" : "bg-green-200", "ml-2 flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600")}>
-                                    10. Other Diseases: {checkedValues.other_diseases ? 'Yes' : 'No'}
+                                    10. {trans("viewMedical.otherdiseases")}: {checkedValues.other_diseases ? trans("checkboxes.yes") : trans("checkboxes.no")}
                                 </label>
                             </div>
                         </div>
@@ -500,9 +496,9 @@ export default function UpdateMedicalForm({
                 href="/dashboard/patients"
                 className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
                 >
-                Cancel
+                {trans("buttons.cancel")}
                 </Link>
-                <Button type="submit">Save & Continue</Button>
+                <Button type="submit">{trans("buttons.save+continue")}</Button>
             </div>
         </form>
     );
