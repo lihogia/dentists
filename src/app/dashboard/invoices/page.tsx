@@ -1,12 +1,12 @@
 import { lusitana } from '@/src/app/ui/fonts';
 import { Suspense } from 'react';
+import { useTranslations } from 'next-intl';
 import { InvoicesTableSkeleton } from '@/src/app/ui/skeletons';
 import Search from '@/src/app/ui/search';
 import InvoicesList from '@/src/app/ui/invoices/list';
-import { fetchFilteredInvoicesPages } from '@/src/app/lib/data/queries';
-import Pagination from '@/src/app/ui/patients/pagination';
+import PagingInvoices from '@/src/app/dashboard/invoices/pagingInvoices';
 
-export default async function Page(
+export default function Page(
     { searchParams }:
     { searchParams? : {
         query?: string;
@@ -14,29 +14,26 @@ export default async function Page(
         }; 
     }
 ) {
+    const trans = useTranslations('Invoices');
 
     const query: string = searchParams?.query || '';
     const currentPage: number = Number(searchParams?.page || 1);
-
-    const totalPages = await fetchFilteredInvoicesPages(query);
 
     return (
 
         <div className="w-full">
             <div className="flex w-full items-center justify-between md:mt-2">
-                <h1 className={`${lusitana.className} text-2xl`}>Invoices</h1>
+                <h1 className={`${lusitana.className} text-2xl`}>{trans("title")}</h1>
             </div>
             <div className="mt-4 flex items-center justify-between gap-2 md:mt-6">
                 <form name='searchInvoice_form' className="w-full">
-                    <Search placeholder="Search invoices..." />
+                    <Search placeholder={trans("searchplaceholder")} />
                 </form>
             </div>
             <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
                 <InvoicesList query={query} currentPage={currentPage} />                
             </Suspense>
-            <div className="mt-5 flex w-full justify-center">
-                <Pagination totalPages={totalPages} />
-            </div>
+            <PagingInvoices />
         </div>
     );
 }

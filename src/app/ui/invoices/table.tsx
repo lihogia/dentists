@@ -1,6 +1,7 @@
 'use client';
 import { formatDateToLocal, formatPhoneNumber, toTitleCase, mergeToFullName, formatCurrency } from "@/src/app/lib/utils";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 import Status from "@/src/app/ui/status";
 import { InvoicesTable } from "@/src/app/lib/data/definition";
 
@@ -8,6 +9,8 @@ export default function InvoicesTableComponent(
     {invoices}:
     {invoices: InvoicesTable[]}
 ) {
+
+    const trans = useTranslations('Invoices');
 
     return (
         <div className="mt-6 flow-root">
@@ -33,7 +36,7 @@ export default function InvoicesTableComponent(
                                 <div>
                                     <p>{invoice.amount}</p>
                                 </div>
-                                <Status status={invoice.paid} text="Paid" />
+                                <Status status={invoice.paid} text={trans("table.paid")} />
                             </div>                            
                     </div>
                     ))}
@@ -42,16 +45,16 @@ export default function InvoicesTableComponent(
                         <thead className="rounded-lg text-left text-md font-black">
                         <tr>
                             <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                            Exam Date
+                            {trans("table.examdate")}
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium">
-                            Amount
+                            {trans("table.amount")}
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium">
-                            Patient
+                            {trans("table.patient")}
                             </th>
                             <th scope="col" className="px-3 py-5 font-medium">
-                            Paid
+                            {trans("table.paid")}
                             </th>
                         </tr>
                         </thead>
@@ -82,7 +85,7 @@ export default function InvoicesTableComponent(
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3 cursor-pointer"
                                     >
-                                    <Status status={invoice.paid} text="Paid" />
+                                    <Status status={invoice.paid} text={trans("table.paid")} />
                                 </td>
                             </tr>
                             ))}

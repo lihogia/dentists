@@ -143,5 +143,16 @@
         "editTreatment": {
             "title": "Edit Treatment Recordsxx"
         }
+    },
+    "Invoices": {
+        "title": "Invoicesxx",
+        "searchplaceholder": "Search invoices...xx",
+        "table": {
+            "examdate": "Examination Datexx",
+            "amount": "Amountxx",
+            "patient": "Patientxx",
+            "paid": "Paidxx",
+            "pending": "Pendingxx"
+        }
     }
 }
