@@ -1,158 +1,158 @@
 {
     "Home": {
-        "welcome": "<strong>Welcome to Doma</strong>, Dental Office Managment Application.xx",
-        "login": "Log inxx",
-        "dashboard": "Dashboardxx",
+        "welcome": "<strong>Welcome to Doma</strong>, Dental Office Managment Application.",
+        "login": "Log in",
+        "dashboard": "Dashboard",
         "sideNav": {
-            "signout": "Sign Outxx"
+            "signout": "Sign Out"
         },
         "navLinks": {
-            "homepage": "Homexx",
-            "patients": "Patientsxx",
-            "invoices": "Invoicesxx"
+            "homepage": "Home",
+            "patients": "Patients",
+            "invoices": "Invoices"
         },
         "card": {
-            "collected": "Collectedxx",
-            "pending": "Pendingxx",
-            "totalinvoices": "Total Invoicesxx",
-            "totalpatients": "Total Patientsxx"
+            "collected": "Collected",
+            "pending": "Pending",
+            "totalinvoices": "Total Invoices",
+            "totalpatients": "Total Patients"
         },
         "revenue": {
-            "recentrevenue": "Recent Revenuexx",
-            "in12months": "In 12 monthsxx"
+            "recentrevenue": "Recent Revenue",
+            "in12months": "In 12 months"
         },
         "latestinvoices": {
-            "title": "Latest Invoicesxx",
-            "updatedjustnow": "Updated just nowxx"
+            "title": "Latest Invoices",
+            "updatedjustnow": "Updated just now"
         },
-        "copyright": "© 2024. All rights reserved. Version {version}xx."
+        "copyright": "© 2024. All rights reserved. Version {version}."
     },
     "Patients": {
-        "title": "Patientsxx",
-        "searchplaceholder": "Search patients...xx",
-        "searchlabel": "Searchxx",
+        "title": "Patients",
+        "searchplaceholder": "Search patients...",
+        "searchlabel": "Search",
         "buttons": {
-            "createpatient": "Create Patientxx",
-            "cancel": "Cancelxx",
-            "save+continue": "Save & Continuexx",
-            "back": "Backxx",
-            "editpatientinfo": "Edit Patient Infoxx",
-            "editmedicalrecords": "Edit Medical Recordsxx",
-            "editdentalrecords": "Edit Dental Recordsxx",
-            "edittreatmentrecords": "Edit Treatment Recordsxx",
-            "createtreatmentrecord": "Create Treatment Recordxx",
-            "createcure": "Create Curexx",
-            "confirmrmrecord": "Are you sure to remove this record ?xx",
-            "confirmrmcure": "Are you sure to remove this cure ?xx",
-            "delete": "Deletexx",
-            "savetreatment": "Save Treatmentxx"
+            "createpatient": "Create Patient",
+            "cancel": "Cancel",
+            "save+continue": "Save & Continue",
+            "back": "Back",
+            "editpatientinfo": "Edit Patient Info",
+            "editmedicalrecords": "Edit Medical Records",
+            "editdentalrecords": "Edit Dental Records",
+            "edittreatmentrecords": "Edit Treatment Records",
+            "createtreatmentrecord": "Create Treatment Record",
+            "createcure": "Create Cure",
+            "confirmrmrecord": "Are you sure to remove this record ?",
+            "confirmrmcure": "Are you sure to remove this cure ?",
+            "delete": "Delete",
+            "savetreatment": "Save Treatment"
         },
         "checkboxes": {
-            "yes": "Yesxx",
-            "no": "Noxx",
-            "paid": "Paidxx",
-            "pending": "Pendingxx",
-            "done": "Donexx"
+            "yes": "Yes",
+            "no": "No",
+            "paid": "Paid",
+            "pending": "Pending",
+            "done": "Done"
         },
         "tabs": {
-            "info": "Infoxx",
-            "medicalRecords": "Medical Recordsxx",
-            "dentalRecords": "Dental Recordsxx",
-            "treatmentRecords": "Treatment Recordsxx"
+            "info": "Info",
+            "medicalRecords": "Medical Records",
+            "dentalRecords": "Dental Records",
+            "treatmentRecords": "Treatment Records"
         },
         "table": {
-            "name": "Namexx",
-            "birthyear": "Birth Yearxx",
-            "phone": "Phonexx",
-            "gender": "Genderxx",
-            "male": "Malexx",
-            "female": "Femalexx"
+            "name": "Name",
+            "birthyear": "Birth Year",
+            "phone": "Phone",
+            "gender": "Gender",
+            "male": "Male",
+            "female": "Female"
         },
         "create": {
-            "createtitle": "Create Patient Infoxx",
-            "nameplaceholder": "Enter Patient Namexx",
-            "birthyearplaceholder": "Enter Patient's Birth Yearxx",
-            "genderplaceholder": "Enter Patient's Phone Numberxx",
-            "addresslabel": "Addressxx",
-            "addressplaceholder": "Enter Patient's Addressxx"
+            "createtitle": "Create Patient Info",
+            "nameplaceholder": "Enter Patient Name",
+            "birthyearplaceholder": "Enter Patient's Birth Year",
+            "genderplaceholder": "Enter Patient's Phone Number",
+            "addresslabel": "Address",
+            "addressplaceholder": "Enter Patient's Address"
         },
         "viewInfo": {
-            "title": "View Patient Infoxx",
-            "phonelabel": "Phone Numberxx"
+            "title": "View Patient Info",
+            "phonelabel": "Phone Number"
         },
         "viewMedical": {
-            "title": "View Medical Recordsxx",
-            "height+m": "Height (m)xx",
-            "weight+kg": "Weight (kg)xx",
-            "bloodpressure+mmhg": "Blood Pressure (mmHg)xx",
-            "pulse": "Pulsexx",
-            "beenhospitalized": "Have you been hospitalized in 5 years recently?xx",
-            "hospitalizeddeclare": "Hospitalized declarationxx",
-            "sufferingdiseases": "Are you suffering from the following diseases?xx",
-            "highbooldpressure": "High Blood Pressurexx",
-            "ischemicheartdisease": "Ischemic Heart Diseasexx",
-            "diabetes": "Diabetesxx",
-            "bleedingdisorders": "Bleeding Disordersxx",
-            "allergies": "Allergies (Medication, Food)xx",
-            "asthma": "Asthmaxx",
-            "epileptic": "Epilepticxx",
-            "hepatitisB": "Hepatitis Bxx",
-            "pregnancy": "Pregnancyxx",
-            "otherdiseases": "Other Diseasesxx",
-            "otherdeclare": "Other diseases declarationxx"
+            "title": "View Medical Records",
+            "height+m": "Height (m)",
+            "weight+kg": "Weight (kg)",
+            "bloodpressure+mmhg": "Blood Pressure (mmHg)",
+            "pulse": "Pulse",
+            "beenhospitalized": "Have you been hospitalized in 5 years recently?",
+            "hospitalizeddeclare": "Hospitalized declaration",
+            "sufferingdiseases": "Are you suffering from the following diseases?",
+            "highbooldpressure": "High Blood Pressure",
+            "ischemicheartdisease": "Ischemic Heart Disease",
+            "diabetes": "Diabetes",
+            "bleedingdisorders": "Bleeding Disorders",
+            "allergies": "Allergies (Medication, Food)",
+            "asthma": "Asthma",
+            "epileptic": "Epileptic",
+            "hepatitisB": "Hepatitis B",
+            "pregnancy": "Pregnancy",
+            "otherdiseases": "Other Diseases",
+            "otherdeclare": "Other diseases declaration"
         },
         "viewDental": {
-            "title": "View Dental Recordsxx",
-            "toothchart": "Tooth Chartxx",
-            "upperright": "Upper Rightxx",
-            "upperleft": "Upper Leftxx",
-            "lowerright": "Lower Rightxx",
-            "lowerleft": "Lower Leftxx",
-            "ur": "URxx",
-            "ul": "ULxx",
-            "lr": "LRxx",
-            "ll": "LLxx",
-            "description": "Descriptionxx"
+            "title": "View Dental Records",
+            "toothchart": "Tooth Chart",
+            "upperright": "Upper Right",
+            "upperleft": "Upper Left",
+            "lowerright": "Lower Right",
+            "lowerleft": "Lower Left",
+            "ur": "UR",
+            "ul": "UL",
+            "lr": "LR",
+            "ll": "LL",
+            "description": "Description"
         },
         "viewTreatment": {
-            "title": "View Treatment Recordsxx",
-            "diagnoses": "Diagnosesxx",
-            "examinationdate": "Examination Datexx",
-            "amount": "Amountxx",
-            "payment": "Paymentxx",
-            "treatmentforexamination": "Treatment for the examination on {date}xx",
-            "treatmentplan": "Treatment Planxx",
-            "cure": "Curexx",
-            "date": "Datexx",
-            "status": "Statusxx"
+            "title": "View Treatment Records",
+            "diagnoses": "Diagnoses",
+            "examinationdate": "Examination Date",
+            "amount": "Amount",
+            "payment": "Payment",
+            "treatmentforexamination": "Treatment for the examination on {date}",
+            "treatmentplan": "Treatment Plan",
+            "cure": "Cure",
+            "date": "Date",
+            "status": "Status"
         },
         "editInfo": {
-            "title": "Edit Patient Infoxx",
-            "phonelabel": "Phone Numberxx"
+            "title": "Edit Patient Info",
+            "phonelabel": "Phone Number"
         },
         "editMedical": {
-            "title": "Edit Medical Recordsxx"
+            "title": "Edit Medical Records"
         },
         "editDental": {
-            "title": "Edit Dental Recordsxx",
-            "toothmissing": "Tooth Missingxx",
-            "rootproblem": "Root Problemxx",
-            "insidecavities": "Inside Cavitiesxx",
-            "outsidecavities": "Outside Cavitiesxx"
+            "title": "Edit Dental Records",
+            "toothmissing": "Tooth Missing",
+            "rootproblem": "Root Problem",
+            "insidecavities": "Inside Cavities",
+            "outsidecavities": "Outside Cavities"
         },
         "editTreatment": {
-            "title": "Edit Treatment Recordsxx"
+            "title": "Edit Treatment Records"
         }
     },
     "Invoices": {
-        "title": "Invoicesxx",
-        "searchplaceholder": "Search invoices...xx",
+        "title": "Invoices",
+        "searchplaceholder": "Search invoices...",
         "table": {
-            "examdate": "Examination Datexx",
-            "amount": "Amountxx",
-            "patient": "Patientxx",
-            "paid": "Paidxx",
-            "pending": "Pendingxx"
+            "examdate": "Examination Date",
+            "amount": "Amount",
+            "patient": "Patient",
+            "paid": "Paid",
+            "pending": "Pending"
         }
     }
 }

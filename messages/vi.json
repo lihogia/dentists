@@ -1,0 +1,158 @@
+{
+    "Home": {
+        "welcome": "<strong>Chào mừng đến Doma</strong>, Ứng dụng quản lý phòng nha khoa.",
+        "login": "Đăng nhập",
+        "dashboard": "Báo cáo tổng quan",
+        "sideNav": {
+            "signout": "Đăng xuất"
+        },
+        "navLinks": {
+            "homepage": "Trang chủ",
+            "patients": "Bệnh nhân",
+            "invoices": "Hoá đơn"
+        },
+        "card": {
+            "collected": "Thu được",
+            "pending": "Chưa thu",
+            "totalinvoices": "Tổng số hoá đơn",
+            "totalpatients": "Tổng số bệnh nhân"
+        },
+        "revenue": {
+            "recentrevenue": "Doanh thu gần đây",
+            "in12months": "Trong 12 tháng"
+        },
+        "latestinvoices": {
+            "title": "Hoá đơn gần đây",
+            "updatedjustnow": "Mới cập nhật"
+        },
+        "copyright": "© 2024. Toàn bộ bản quyền thuộc lilola. Phiên bản {version}."
+    },
+    "Patients": {
+        "title": "Bệnh nhân",
+        "searchplaceholder": "Tìm kiếm bệnh nhân...",
+        "searchlabel": "Tìm",
+        "buttons": {
+            "createpatient": "Tạo bệnh nhân",
+            "cancel": "Huỷ",
+            "save+continue": "Lưu & Tiếp tục",
+            "back": "Trở về",
+            "editpatientinfo": "Chỉnh sửa thông tin bệnh nhân",
+            "editmedicalrecords": "Chỉnh sửa hồ sơ y tế",
+            "editdentalrecords": "Chỉnh sửa hồ sơ nha khoa",
+            "edittreatmentrecords": "Chỉnh sửa hồ sơ điều trị nha",
+            "createtreatmentrecord": "Tạo hồ sơ điều trị nha khoa",
+            "createcure": "Tạo bước điều trị",
+            "confirmrmrecord": "Bạn có muốn xoá hồ sơ này ?",
+            "confirmrmcure": "Bạn có muốn xoá bước điều trị này ?",
+            "delete": "Xoá",
+            "savetreatment": "Lưu điều trị"
+        },
+        "checkboxes": {
+            "yes": "Đồng ý",
+            "no": "Không",
+            "paid": "Đã trả",
+            "pending": "Chờ xử lý",
+            "done": "Hoàn thành"
+        },
+        "tabs": {
+            "info": "Thông tin",
+            "medicalRecords": "Hồ sơ y tế",
+            "dentalRecords": "Hồ sơ nha khoa",
+            "treatmentRecords": "Hồ sơ điều trị nha khoa"
+        },
+        "table": {
+            "name": "Tên",
+            "birthyear": "Năm sinh",
+            "phone": "Điện thoại",
+            "gender": "Giới tính",
+            "male": "Nam",
+            "female": "Nữ"
+        },
+        "create": {
+            "createtitle": "Tạo thông tin bệnh nhân",
+            "nameplaceholder": "Nhập tên bệnh nhân",
+            "birthyearplaceholder": "Nhập năm sinh",
+            "genderplaceholder": "Nhập số điện thoại",
+            "addresslabel": "Địa chỉ",
+            "addressplaceholder": "Nhập địa chỉ"
+        },
+        "viewInfo": {
+            "title": "Xem thông tin bệnh nhân",
+            "phonelabel": "Số điện thoại"
+        },
+        "viewMedical": {
+            "title": "Xem hồ sơ y tế",
+            "height+m": "Chiều cao (m)",
+            "weight+kg": "Cân nặng (kg)",
+            "bloodpressure+mmhg": "Huyết áp (mmHg)",
+            "pulse": "Mạch",
+            "beenhospitalized": "Đã từng nằm viện điều trị trong 5 năm gần đây?",
+            "hospitalizeddeclare": "Điều trị bệnh gì ?",
+            "sufferingdiseases": "Đang mắc bệnh sau đây ?",
+            "highbooldpressure": "Cao huyết áp",
+            "ischemicheartdisease": "Thiếu máu cơ tim",
+            "diabetes": "Tiểu đường",
+            "bleedingdisorders": "Rối loạn chảy máu",
+            "allergies": "Dị ứng (Thuốc, Thức ăn)",
+            "asthma": "Suyễn",
+            "epileptic": "Động kinh",
+            "hepatitisB": "Viêm gan siêu vi B",
+            "pregnancy": "Thai kỳ",
+            "otherdiseases": "Bệnh khác",
+            "otherdeclare": "Chi tiết các bệnh khác"
+        },
+        "viewDental": {
+            "title": "Xem hồ sơ nha khoa",
+            "toothchart": "Sơ đồ răng",
+            "upperright": "Hàm trên phải",
+            "upperleft": "Hàm trên trái",
+            "lowerright": "Hàm dưới phải",
+            "lowerleft": "Hàm dưới trái",
+            "ur": "TP",
+            "ul": "TT",
+            "lr": "DP",
+            "ll": "DT",
+            "description": "Mô tả thêm"
+        },
+        "viewTreatment": {
+            "title": "Xem hồ sơ điều trị nha khoa",
+            "diagnoses": "Chẩn đoán",
+            "examinationdate": "Ngày khám",
+            "amount": "Số tiền",
+            "payment": "Thanh toán?",
+            "treatmentforexamination": "Điều trị cho ngày khám {date}",
+            "treatmentplan": "Kế hoạch điều trị",
+            "cure": "Điều trị",
+            "date": "Ngày",
+            "status": "Tình trạng"
+        },
+        "editInfo": {
+            "title": "Chỉnh sửa thông tin bệnh nhân",
+            "phonelabel": "Số điện thoại"
+        },
+        "editMedical": {
+            "title": "Chỉnh sửa hồ sơ y tế"
+        },
+        "editDental": {
+            "title": "Chỉnh sửa hồ sơ nha khoa",
+            "toothmissing": "Mất răng",
+            "rootproblem": "Sâu chân răng",
+            "insidecavities": "Sâu răng mặt nhai",
+            "outsidecavities": "Sâu răng mặt ngoài"
+        },
+        "editTreatment": {
+            "title": "Chỉnh sửa hồ sơ điều trị"
+        }
+    },
+    "Invoices": {
+        "title": "Hoá đơn",
+        "searchplaceholder": "Tìm kiếm hoá đơn...",
+        "table": {
+            "examdate": "Ngày khám",
+            "amount": "Số tiền",
+            "patient": "Bệnh nhân",
+            "paid": "Đã trả",
+            "pending": "Chờ xử lý"
+        }
+    }
+}
