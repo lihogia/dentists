@@ -48,7 +48,7 @@
             "savetreatment": "Lưu điều trị"
         },
         "checkboxes": {
-            "yes": "Đồng ý",
+            "yes": "Có",
             "no": "Không",
             "paid": "Đã trả",
             "pending": "Chờ xử lý",
