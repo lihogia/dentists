@@ -195,7 +195,7 @@ const MAP_OF_MONTHS: MonthAndLocale[] = [
     months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   },
   {
-    locale: 'vi-VN',
+    locale: 'vi',
     months: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12']
   }
 ];

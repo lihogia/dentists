@@ -11,7 +11,7 @@ export default function Page({ params }: { params : { id: string }}) {
         middle_name: '',
         last_name: '',
         birth_year: 1971,
-        gender: trans("table.female").toLowerCase(),
+        gender: "female",
         phone: '',
         address: ''
     };
