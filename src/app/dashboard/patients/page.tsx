@@ -19,6 +19,7 @@ export default function Page(
 
     const query: string = searchParams?.query || '';
     const currentPage: number = Number(searchParams?.page || 1);
+    const time = new Date();
 
     return (
         <div className="w-full">
@@ -32,7 +33,7 @@ export default function Page(
             <Suspense key={query + currentPage} fallback={<PatientsTableSkeleton />}>
                 <PatientsList query={query} currentPage={currentPage} />
             </Suspense>
-            <PagingPatients />
+            <PagingPatients query={query} />
         </div>
     );
 }
