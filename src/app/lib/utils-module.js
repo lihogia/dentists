@@ -24,6 +24,21 @@ const toTitleCase = (text) => {
   return utexts.join(' ');
 }
 
+const formatDateObjToLocal = (
+  dateObj,
+  locale = 'vi-VN',
+) => {
+
+  const options = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  };
+  const formatter = new Intl.DateTimeFormat(locale, options);
+  return formatter.format(dateObj);
+};
+
+
 const isLeapYear = (year) => {
   if (year % 100 == 0 && year % 400 == 0) return true;
   else if (year % 100 != 0 && year % 4 == 0) return true;
@@ -55,5 +70,6 @@ const checkAndConvertDate = (textDate) => {
 module.exports = {
   separateFullName,
   toTitleCase,
-  checkAndConvertDate
+  checkAndConvertDate,
+  formatDateObjToLocal
 }

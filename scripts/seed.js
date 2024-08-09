@@ -76,13 +76,18 @@ async function resetData(client) {
             COMMIT;
         `;
 
+        await createPatients(client, false);
+        await createMedicalRecords(client, false);
+        await createDentalRecords(client, false);
+        await createTreatementRecords(client, false);
+
     }catch (error) {
         console.error('Error with Database: ', error);
         throw error;
     }
 }
 
-async function createPatients(client) {
+async function createPatients(client, insertData = true) {
     try {
         // drop table patients;
         const createTable = await client.sql`
@@ -98,21 +103,24 @@ async function createPatients(client) {
         );
         `;
         console.log(`Created "patients" table`);
+        let insertedPatients = null;
 
+        if (insertData) {
         // Insert data into the "patients" table
-        const insertedPatients = await Promise.all(
-            patients.map(
-                (patient) => {
-                    const nNames = separateFullName(patient.name);
-                    console.log(nNames);
-                    return client.sql`
-                        INSERT INTO patients (first_name, middle_name, last_name, birth_year, gender, address, phone)
-                        VALUES (${nNames[0]}, ${nNames[1]}, ${nNames[2]}, ${patient.birth_year}, ${patient.gender}, ${patient.address}, ${patient.phone});
-                    `
-                }
-            ),
-        );
-        console.log(`Seeded ${insertedPatients.length} patients`);
+            insertedPatients = await Promise.all(
+                patients.map(
+                    (patient) => {
+                        const nNames = separateFullName(patient.name);
+                        console.log(nNames);
+                        return client.sql`
+                            INSERT INTO patients (first_name, middle_name, last_name, birth_year, gender, address, phone)
+                            VALUES (${nNames[0]}, ${nNames[1]}, ${nNames[2]}, ${patient.birth_year}, ${patient.gender}, ${patient.address}, ${patient.phone});
+                        `
+                    }
+                ),
+            );
+            console.log(`Seeded ${insertedPatients.length} patients`);
+        }
 
         return {
             createTable,
@@ -125,7 +133,7 @@ async function createPatients(client) {
     }
 }
 
-async function createMedicalRecords(client) {
+async function createMedicalRecords(client, insertData = true) {
     try {
         const createTable = await client.sql`
         CREATE TABLE IF NOT EXISTS medical_records (
@@ -142,18 +150,22 @@ async function createMedicalRecords(client) {
         `;
         console.log(`Created "medical_records" table`);
 
-        // Insert data into the "medical_records" table
-        const insertedMedicalInfo = await Promise.all(
-            patients.map(
-                (patient) => client.sql`
-                INSERT INTO medical_records (pid, height, weight, blood_pressure_sys, blood_pressure_dia, pulse, hospitalized, hospitalized_declare, suffered)
-                VALUES (${patient.id}, ${patient.medicalInfo.height}, ${patient.medicalInfo.weight}, ${patient.medicalInfo.blood_pressure_sys}, 
-                    ${patient.medicalInfo.blood_pressure_dia}, ${patient.medicalInfo.pulse}, ${patient.medicalInfo.hospitalized}, 
-                    ${patient.medicalInfo.hospitalized_declare}, ${patient.medicalInfo.suffered});
-            `,
-            ),
-        );
-        console.log(`Seeded ${insertedMedicalInfo.length} patients`);
+        let insertedMedicalInfo = null;
+
+        if (insertData) {
+            // Insert data into the "medical_records" table
+            insertedMedicalInfo = await Promise.all(
+                patients.map(
+                    (patient) => client.sql`
+                    INSERT INTO medical_records (pid, height, weight, blood_pressure_sys, blood_pressure_dia, pulse, hospitalized, hospitalized_declare, suffered)
+                    VALUES (${patient.id}, ${patient.medicalInfo.height}, ${patient.medicalInfo.weight}, ${patient.medicalInfo.blood_pressure_sys}, 
+                        ${patient.medicalInfo.blood_pressure_dia}, ${patient.medicalInfo.pulse}, ${patient.medicalInfo.hospitalized}, 
+                        ${patient.medicalInfo.hospitalized_declare}, ${patient.medicalInfo.suffered});
+                `,
+                ),
+            );
+            console.log(`Seeded ${insertedMedicalInfo.length} patients`);
+        }
 
         return {
             createTable,
@@ -166,7 +178,7 @@ async function createMedicalRecords(client) {
     }
 }
 
-async function createDentalRecords(client) {
+async function createDentalRecords(client, insertData = true) {
     try {
         const createTable = await client.sql`
         CREATE TABLE IF NOT EXISTS dental_records (
@@ -177,16 +189,21 @@ async function createDentalRecords(client) {
         `;
         console.log(`Created "dental_records" table`);
 
-        // Insert data into the "dental_records" table
-        const insertedDentalRecords = await Promise.all(
-            patients.map(
-                (patient) => client.sql`
-                INSERT INTO dental_records (pid, tooth_diagram, description)
-                VALUES (${patient.id}, ${patient.dentalRecords.tooth_diagram}, ${patient.dentalRecords.description})
-                `,
-            ),
-        );
-        console.log(`Seeded ${insertedDentalRecords.length} patients`);
+        let insertedDentalRecords = null;
+
+        if (insertData) {
+
+            // Insert data into the "dental_records" table
+            insertedDentalRecords = await Promise.all(
+                patients.map(
+                    (patient) => client.sql`
+                    INSERT INTO dental_records (pid, tooth_diagram, description)
+                    VALUES (${patient.id}, ${patient.dentalRecords.tooth_diagram}, ${patient.dentalRecords.description})
+                    `,
+                ),
+            );
+            console.log(`Seeded ${insertedDentalRecords.length} patients`);
+        }
 
         return {
             createTable,
@@ -220,7 +237,7 @@ async function insertTreatmentRecords(client, treatmentRecords, id) {
     return insertTreatmentRecords;
 }
 
-async function createTreatementRecords(client) {
+async function createTreatementRecords(client, insertData = true) {
     try {
         const createTable = await client.sql`
         CREATE TABLE IF NOT EXISTS treatment_records (
@@ -236,14 +253,18 @@ async function createTreatementRecords(client) {
         console.log(`Created "treatment_records" table`);
         //console.log(createTable);
 
-        // Insert data into the "treatment_records" table
-        const insertedTreatmentRecords = await Promise.all(
-            patients.map((patient) => insertTreatmentRecords(client, patient.treatmentRecords, patient.id)),
-        );
+        let insertedTreatmentRecords = null;
 
-        console.log(`Seeded ${insertedTreatmentRecords.length} treatment_records`);
-        console.log(insertedTreatmentRecords);
-        
+        if (insertData) {
+            // Insert data into the "treatment_records" table
+            insertedTreatmentRecords = await Promise.all(
+                patients.map((patient) => insertTreatmentRecords(client, patient.treatmentRecords, patient.id)),
+            );
+
+            console.log(`Seeded ${insertedTreatmentRecords.length} treatment_records`);
+            console.log(insertedTreatmentRecords);
+        }
+
         return {
             createTable,
             info: insertedTreatmentRecords,
@@ -273,14 +294,14 @@ async function main1() {
     //test1();
 }
 
-async function main2() {
+async function main() {
     const client = await db.connect();
     await resetData(client);
 
     await client.end();
 }
 
-async function main() {
+async function main3() {
     const client = await db.connect();
     
     //await createUsers(client);
