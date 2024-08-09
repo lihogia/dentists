@@ -21,9 +21,12 @@ import {
 import clsx from "clsx";
 
 export default function ViewTreatmentForm({
-    treatmentRecords
-}: {treatmentRecords: TreatmentRecordsForm[]}) {
+    pTreatmentRecords
+}: {pTreatmentRecords: TreatmentRecordsForm[]}) {
     const trans = useTranslations('Patients');
+
+    const numberOfItem = pTreatmentRecords.length;
+    const treatmentRecords = pTreatmentRecords.filter((item, index) => index < numberOfItem - 1);
     
     const [selectedTreatment, setSelectedTreatment] = useState(treatmentRecords[0]);
 
@@ -46,14 +49,22 @@ export default function ViewTreatmentForm({
                                             setSelectedTreatment(record);
                                         }}>
                                         <p className={clsx(selectedTreatment.exam_date === record.exam_date ? "text-blue-600" : "", "text-lg")}>
-                                            {record.diagnoses}
+                                            {formatDateToLocal(record.exam_date)}
                                         </p>
                                     </div>
-                                    <p className={clsx(selectedTreatment.exam_date === record.exam_date ? "text-blue-600" : "text-gray-500", "text-sm")}>{formatDateToLocal(record.exam_date)}</p>
+                                    <p className={clsx(selectedTreatment.exam_date === record.exam_date ? "text-blue-600" : "text-gray-500", "text-sm")}>
+                                        {formatCurrency(record.amount)}
+                                    </p>
                                 </div>
                                 <Status status={record.paid} text={trans("checkboxes.paid")} />
                             </div>
+                            <div className="flex w-full items-center justify-between pt-4">
+                                <div>
+                                    <p>{record.diagnoses}</p>
+                                </div>
+                            </div>
                         </div>
+
                     ))}
                     </div>
                     <table className="hidden min-w-full text-gray-900 md:table">
@@ -171,15 +182,7 @@ export default function ViewTreatmentForm({
                             {trans("checkboxes.paid")}
                         </label>
                         <div className="relative">
-                            <input
-                                id="paid"
-                                name="paid"
-                                type="text"
-                                className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                readOnly
-                                value={selectedTreatment.paid? trans("checkboxes.yes") : trans("checkboxes.no")}
-                            />
-                            <CalendarDaysIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                            <Status status={selectedTreatment.paid} text={trans("checkboxes.paid")} />
                         </div>
                     </div>
                     <div className="bg-gray-200 p-2">

@@ -59,7 +59,7 @@ export default async function Page({ params }: { params : { id: string }}) {
                 { label: 'tabs.treatmentRecords', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/view/treatmentRecords`, active: true}
                 ]}
             />
-            <ViewTreatmentForm treatmentRecords={arrTreatmentRecords}/>
+            <ViewTreatmentForm pTreatmentRecords={arrTreatmentRecords}/>
         </main>
     );
 
