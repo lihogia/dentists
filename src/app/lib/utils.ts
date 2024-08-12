@@ -132,7 +132,7 @@ export const separateFullName = (fullname: string) => {
 
 export const mergeToFullName = (names: string[]) => { // array created by separateFullName (array of 3 string)
   const nNames = names.filter((name) => name != '');
-  return nNames.join(' ');
+  return nNames.join(' ').toUpperCase();
 }
 
 export const generatePagination = (currentPage: number, totalPages: number) => {

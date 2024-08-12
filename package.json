@@ -8,6 +8,7 @@
     "start": "next start",
     "seed": "node -r dotenv/config ./scripts/seed.js",
     "migrate": "node -r dotenv/config ./scripts/migrate.js",
+    "backup": "node -r dotenv/config ./scripts/backup.js",
     "lint": "next lint"
   },
   "dependencies": {

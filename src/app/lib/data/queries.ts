@@ -136,7 +136,7 @@ export async function fetchPatientFullname(id: string) {
     `;
 
     const patient = data.rows[0];
-    return patient.fullname;
+    return patient.fullname.toUpperCase();
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch patient.');
@@ -297,7 +297,7 @@ export async function getEmptyTreatmentRecordsById(id: string) {
     WHERE p.id = ${id}
   `;
 
-  const patientName = data.rows[0].fullname;
+  const patientName = data.rows[0].fullname.toUpperCase();
   const today = new Date();
   
   const [iD, dateString] = checkAndConvertDate(formatDateObjToLocal(today, 'vi-VN'), false);
@@ -396,7 +396,7 @@ export async function fetchInvoices() {
     const invoices = data.rows.map((invoice) => ({
       exam_date: formatDateToLocal(invoice.exam_date),
       id: invoice.pid,
-      name: invoice.fullname,
+      name: invoice.fullname.toUpperCase(),
       amount: formatCurrency(invoice.amount),
       paid: invoice.paid
     }));
@@ -454,7 +454,7 @@ export async function fetchFilteredInvoices(query: string, currentPage: number) 
     const invoices = data.rows.map((invoice) => ({
       exam_date: formatDateToLocal(invoice.exam_date),
       id: invoice.id,
-      name: invoice.name,
+      name: invoice.name.toUpperCase(),
       amount: formatCurrency(invoice.amount),
       paid: invoice.paid
     }));
