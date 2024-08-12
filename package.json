@@ -9,6 +9,7 @@
     "seed": "node -r dotenv/config ./scripts/seed.js",
     "migrate": "node -r dotenv/config ./scripts/migrate.js",
     "backup": "node -r dotenv/config ./scripts/backup.js",
+    "restore": "node -r dotenv/config ./scripts/restore.js",
     "lint": "next lint"
   },
   "dependencies": {
