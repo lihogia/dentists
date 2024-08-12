@@ -261,33 +261,6 @@ export default function UpdateTreatmentRecord(
                                         key={`m_treatment_${workingRecord.exam_date}_${index}`} 
                                         className="flex items-center justify-between border-b border-gray-300 p-2 bg-white rounded-md mb-4">
                                         <div className="w-full">
-                                            <div className="mb-2 flex items-center w-full">
-                                                <input 
-                                                    id={`m_treatment_cure_${index}`}
-                                                    name={`m_treatment_cure_${index}`}
-                                                    type="text"
-                                                    defaultValue={treatment.cure}
-                                                    className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full"
-                                                    onChange={(e) => {
-                                                        //hideSubmitStateNotification();
-                                                        const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
-                                                        const newTreatment = {
-                                                            ...treatment
-                                                        }
-                                                        newTreatment.cure = e.currentTarget.value;
-
-                                                        const nTreatmentPlan = [...workingRecord.treatments];
-                                                        nTreatmentPlan[index] = newTreatment;
-                                                        input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
-
-                                                        const nRecord = {
-                                                            ...workingRecord,
-                                                            treatments: nTreatmentPlan
-                                                        }
-                                                        setWorkingRecord(nRecord);
-                                                    }}
-                                                />
-                                            </div>
                                             <div>
                                                 <input 
                                                     id={`m_treatment_cure_date_${index}`}
@@ -332,6 +305,33 @@ export default function UpdateTreatmentRecord(
                                                     }}
                                                 />
                                             </div>
+                                            <div className="mb-2 flex items-center w-full">
+                                                <input 
+                                                    id={`m_treatment_cure_${index}`}
+                                                    name={`m_treatment_cure_${index}`}
+                                                    type="text"
+                                                    defaultValue={treatment.cure}
+                                                    className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full"
+                                                    onChange={(e) => {
+                                                        //hideSubmitStateNotification();
+                                                        const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
+                                                        const newTreatment = {
+                                                            ...treatment
+                                                        }
+                                                        newTreatment.cure = e.currentTarget.value;
+
+                                                        const nTreatmentPlan = [...workingRecord.treatments];
+                                                        nTreatmentPlan[index] = newTreatment;
+                                                        input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
+
+                                                        const nRecord = {
+                                                            ...workingRecord,
+                                                            treatments: nTreatmentPlan
+                                                        }
+                                                        setWorkingRecord(nRecord);
+                                                    }}
+                                                />
+                                            </div>
                                             <div className="text-sm text-gray-500 flex items-center mt-2 ">
                                                 <input 
                                                     id={`m_treatment_status_${index}`}
@@ -373,8 +373,8 @@ export default function UpdateTreatmentRecord(
                             <table className="hidden md:table min-w-full bg-gray-100 rounded-md">
                                 <thead className="rounded-lg text-left text-sm font-normal">
                                     <tr>
-                                        <td className="p-2">{trans("viewTreatment.cure")}</td>
                                         <td className="p-2">{trans("viewTreatment.date")}</td>
+                                        <td className="p-2">{trans("viewTreatment.cure")}</td>
                                         <td className="p-2">{trans("viewTreatment.status")}</td>
                                         <td className="p-2">{trans("buttons.delete")}</td>
                                     </tr>
@@ -383,36 +383,6 @@ export default function UpdateTreatmentRecord(
                                     {workingRecord.treatments.map((treatment, index) => {
                                         return (
                                             <tr key={`treatment_${workingRecord.exam_date}_${index}`} className="bg-white">
-                                                <td className="p-2">
-                                                    <input 
-                                                        id={`treatment_cure_${index}`}
-                                                        name={`treatment_cure_${index}`}
-                                                        type="text"
-                                                        defaultValue={treatment.cure}
-                                                        className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full mr-2"
-                                                        onChange={(e) => {
-                                                            //hideSubmitStateNotification();
-                                                            const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
-                                                            //const treatmentsObjs = JSON.parse(input_TreatmentPlan.value);
-
-                                                            const newTreatment = {
-                                                                ...treatment
-                                                            }
-                                                            newTreatment.cure = e.currentTarget.value;
-
-                                                            const nTreatmentPlan = [...workingRecord.treatments];
-                                                            nTreatmentPlan[index] = newTreatment;
-                                                            input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
-
-                                                            const nRecord = {
-                                                                ...workingRecord,
-                                                                treatments: nTreatmentPlan 
-                                                            }
-                                                            setWorkingRecord(nRecord);
-    
-                                                        }}
-                                                    />    
-                                                </td>
                                                 <td className="p-2">
                                                     <input 
                                                         id={`treatment_cure_date_${index}`}
@@ -446,6 +416,36 @@ export default function UpdateTreatmentRecord(
                                                                 treatments: nTreatmentPlan 
                                                             }
                                                             setWorkingRecord(nRecord);    */
+                                                        }}
+                                                    />    
+                                                </td>
+                                                <td className="p-2">
+                                                    <input 
+                                                        id={`treatment_cure_${index}`}
+                                                        name={`treatment_cure_${index}`}
+                                                        type="text"
+                                                        defaultValue={treatment.cure}
+                                                        className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full mr-2"
+                                                        onChange={(e) => {
+                                                            //hideSubmitStateNotification();
+                                                            const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
+                                                            //const treatmentsObjs = JSON.parse(input_TreatmentPlan.value);
+
+                                                            const newTreatment = {
+                                                                ...treatment
+                                                            }
+                                                            newTreatment.cure = e.currentTarget.value;
+
+                                                            const nTreatmentPlan = [...workingRecord.treatments];
+                                                            nTreatmentPlan[index] = newTreatment;
+                                                            input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
+
+                                                            const nRecord = {
+                                                                ...workingRecord,
+                                                                treatments: nTreatmentPlan 
+                                                            }
+                                                            setWorkingRecord(nRecord);
+    
                                                         }}
                                                     />    
                                                 </td>

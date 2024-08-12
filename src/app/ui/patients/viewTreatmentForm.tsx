@@ -197,10 +197,10 @@ export default function ViewTreatmentForm({
                                     <div>
                                         <div className="mb-2 flex items-center">
                                             <p className="text-md">
-                                                {treatment.cure}
+                                                {formatDateToLocal(treatment.cure_date)}
                                             </p>
                                         </div>
-                                        <p className="text-sm text-gray-500">{formatDateToLocal(treatment.cure_date)}</p>
+                                        <p className="text-sm text-gray-500">{treatment.cure}</p>
                                     </div>
                                     {/*
                                     <PatientStatus status={patient.status} />
@@ -213,8 +213,8 @@ export default function ViewTreatmentForm({
                         <table className="hidden md:table min-w-full bg-gray-100 rounded-md">
                             <thead className="rounded-lg text-left text-sm font-normal">
                                 <tr>
-                                    <td className="p-2">{trans("viewTreatment.cure")}</td>
                                     <td className="p-2">{trans("viewTreatment.date")}</td>
+                                    <td className="p-2">{trans("viewTreatment.cure")}</td>
                                     <td className="p-2">{trans("viewTreatment.status")}</td>
                                 </tr>
                             </thead>
@@ -222,8 +222,8 @@ export default function ViewTreatmentForm({
                                 {selectedTreatment.treatments.map((treatment, index) => {
                                     return (
                                         <tr key={`treatment_${index}`} className="bg-white">
-                                            <td className="p-2">{treatment.cure}</td>
                                             <td className="p-2">{formatDateToLocal(treatment.cure_date)}</td>
+                                            <td className="p-2">{treatment.cure}</td>
                                             <td className="p-2"><Status status={treatment.status} text={trans("checkboxes.done")} /></td>
                                         </tr>
                                     );
