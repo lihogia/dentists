@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import "@/src/app/ui/globals.css";
 import type { Metadata } from "next";
 import { inter, opensans, lusitana } from '@/src/app/ui/fonts';
@@ -23,6 +24,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
