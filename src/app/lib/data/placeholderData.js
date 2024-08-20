@@ -17,12 +17,12 @@ const patients = [
         phone: '0903068892',
         medicalInfo: {
             height: 1.57,
-            weight: 50,
+            weight: 50.5,
             blood_pressure_sys: 125,
             blood_pressure_dia: 90,
             pulse: 80,
-            hospitalized: false,
-            hospitalized_declare: '',
+            hospitalized: true,
+            hospitalized_declare: 'Mổ ruột thừa',
             suffered: {
                 high_blood: false,
                 ischemic_heart: false,
@@ -96,7 +96,7 @@ const patients = [
         phone: '0907967892',
         medicalInfo: {
             height: 1.72,
-            weight: 55,
+            weight: 55.7,
             blood_pressure_sys: 128,
             blood_pressure_dia: 95,
             pulse: 90,
@@ -112,8 +112,8 @@ const patients = [
                 epileptic: false,
                 hepatitisB: false,
                 pregnancy: false,
-                other_diseases: false,
-                other_declare: ''        
+                other_diseases: true,
+                other_declare: 'Viêm gan siêu vi C'        
             }
         },
         dentalRecords: {

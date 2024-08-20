@@ -29,10 +29,13 @@ import {
     return (
       <>
         {/* NOTE: comment in this code when you get to this point in the course */}
-  
+        {
+          /*
         <Card key='collected' title={trans("card.collected")} value={formatCurrency(Number.parseInt(totalPaidInvoices))} type="collected" />
         <Card key='Pending' title={trans("card.pending")} value={formatCurrency(Number.parseInt(totalPendingInvoices))} type="pending" />
-        <Card key='totalInvoices' title={trans("card.totalinvoices")} value={numberOfInvoices} type="invoices" />
+        <Card key='totalInvoices' title={trans("card.totalinvoices")} value={numberOfInvoices} type="invoices" />          
+          */
+        }
         <Card key='totalPatients'
           title={trans("card.totalpatients")}
           value={numberOfPatients}

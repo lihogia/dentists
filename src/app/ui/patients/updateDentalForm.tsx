@@ -24,8 +24,8 @@ export default function ViewDentalForm({
     const [state, dispatch] = useFormState(updateDentalRecords, initialState);
 
 
-    const ordersU = [];
-    const ordersL = [];
+    const ordersU: number[] = [];
+    const ordersL: number[] = [];
     for (let i=8; i>=1; i--) {
         ordersU.push(i);
     }

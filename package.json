@@ -6,25 +6,31 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "seed": "node -r dotenv/config ./scripts/seed.js",
+    "seed": "node -r dotenv/config --import=tsx ./scripts/seed.ts",
     "migrate": "node -r dotenv/config ./scripts/migrate.js",
     "backup": "node -r dotenv/config ./scripts/backup.js",
     "restore": "node -r dotenv/config ./scripts/restore.js",
+    "test": "node -r dotenv/config --import=tsx ./scripts/test.ts",
     "lint": "next lint"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.4",
+    "@neondatabase/serverless": "^0.4.26",
     "@vercel/analytics": "^1.3.1",
     "@vercel/postgres": "^0.8.0",
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "dotenv-extended": "^2.9.0",
+    "kysely": "^0.27.4",
+    "kysely-neon": "^1.3.0",
     "next": "14.2.4",
     "next-intl": "^3.17.2",
+    "pg": "^8.12.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "use-debounce": "^10.0.1",
+    "ws": "^8.18.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -35,6 +41,7 @@
     "eslint-config-next": "14.2.4",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.17.0",
     "typescript": "^5"
   }
 }

@@ -86,7 +86,7 @@ export const checkAndConvertDate = (textDate: string, requiredZero: boolean = tr
 }
   
 export const formatPhoneNumber = (phone: string) => {
-  const nums = [];
+  const nums:any = [];
   for (let i = 0; i < phone.length; ) {
       if (i+3 < phone.length) {
           let subNums = phone.substring(i, i+3);
@@ -171,7 +171,7 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
 export const generateYAxis = (revenue: Revenue[]) => {
   // Calculate what labels we need to display on the y-axis
   // based on highest record and in 1000s
-  const yAxisLabels = [];
+  const yAxisLabels:any = [];
   const highestRecord = Math.max(...revenue.map((month) => month.revenue));
   const topLabel = Math.ceil(highestRecord / 500000) * 500000;
 
