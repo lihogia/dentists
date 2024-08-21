@@ -1,15 +1,12 @@
-import { fetchFilteredInvoicesPages } from '@/src/app/lib/data/queries';
+import { fetchFilteredInvoicesPages } from '@/src/app/lib/data/queriesKysely';
 import Pagination from '@/src/app/ui/patients/pagination';
 
 export default async function PagingInvoices(
-    { searchParams }:
-    { searchParams? : {
-        query?: string;
-        page?: string;
-        }; 
+    { query }:
+    { query : string
     }    
+
 ) {
-    const query: string = searchParams?.query || '';
     const totalPages = await fetchFilteredInvoicesPages(query);
 
     return (

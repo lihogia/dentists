@@ -1,6 +1,7 @@
 //import { Client } from '@neondatabase/serverless';
 //import ws from 'ws';
 import { db } from '@/src/app/lib/data/database';
+import { sql } from 'kysely';
 
 const ENV = process.env.NODE_ENV;
 
@@ -45,11 +46,61 @@ async function requestPatientsInfo() {
   console.log(showRes);
 }
 
+async function testQuery() {
+  const query = "mai";
+  const count = await db.selectFrom("treatment_records as t")
+                    .fullJoin("patients as p", "p.id", "t.pid")
+                    .select(({fn, val, ref}) => [
+                      fn.count<number>('t.pid').as('numpages')])
+                    .where((eb) => eb.or([
+                      eb("p.first_name", 'ilike', `%${query}%`),
+                      eb("p.middle_name", 'ilike', `%${query}%`),
+                      eb("p.last_name", 'ilike', `%${query}%`),
+                      eb(sql<string>`t.amount::text`, 'ilike', `%${query}%`)
+                      ]))
+                    .execute();
+
+  console.log(count);
+}
+
+async function testQuery2() {
+  const MAX_ITEMS_PER_PAGE = 10;
+  const offset = 0;
+  const query = "mai";
+  const data = await db.selectFrom("treatment_records as t")
+                      .fullJoin("patients as p", "p.id", "t.pid")
+                      .select(({fn, val, ref}) => [
+                        "t.pid as id",
+                        sql<string>`to_char(t.exam_date, 'YYYY-MM-DD')`.as("exam_date"),
+                        "t.amount",
+                        sql<string>`concat(
+                          ${ref('first_name')},
+                          ' ',
+                          ${ref('middle_name')},
+                          ' ',
+                          ${ref('last_name')}
+                        )`.as("name"),
+                        "t.paid"
+                      ])
+                      .where((eb) => eb.or([
+                        eb("p.first_name", 'ilike', `%${query}%`),
+                        eb("p.middle_name", 'ilike', `%${query}%`),
+                        eb("p.last_name", 'ilike', `%${query}%`),
+                        eb(sql<string>`t.amount::text`, 'ilike', `%${query}%`)
+                        ]))
+                      .orderBy("t.exam_date desc")
+                      .limit(MAX_ITEMS_PER_PAGE)
+                      .offset(offset)
+                      .execute();
+
+  console.log(data);
+}
 
 async function main() {
   console.log(`env: ${ENV}`);
   try {
-      await requestPatientsInfo();  
+      //await requestPatientsInfo();  
+      await testQuery2();
   }catch(error) {
       console.error('Error with Database: ', error);
   }finally {

@@ -1,5 +1,5 @@
 import InvoicesTableComponent from "./table";
-import { fetchFilteredInvoices } from "@/src/app/lib/data/queries";
+import { fetchFilteredInvoices } from "@/src/app/lib/data/queriesKysely";
 
 export default async function InvoicesList(
 { query, currentPage }: 

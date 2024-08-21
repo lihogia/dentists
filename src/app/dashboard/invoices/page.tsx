@@ -33,7 +33,7 @@ export default function Page(
             <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
                 <InvoicesList query={query} currentPage={currentPage} />                
             </Suspense>
-            <PagingInvoices />
+            <PagingInvoices query={query}/>
         </div>
     );
 }

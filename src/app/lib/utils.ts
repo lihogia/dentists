@@ -3,7 +3,7 @@ import { MedicalRecordsForm, Revenue } from '@/src/app/lib/data/definition';
 export const MAX_ITEMS_PER_PAGE = 10;
 
 export const formatCurrency = (
-    amount: number,
+    amount: number = 0,
     locale: string = 'vi-VN',
     currency: string = 'VND'
   ) => {
