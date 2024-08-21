@@ -5,7 +5,8 @@ import {
     InboxIcon,
   } from '@heroicons/react/24/outline';
   import { lusitana } from '@/src/app/ui/fonts';
-  import { fetchCardData } from '@/src/app/lib/data/insights';
+  //import { fetchCardData } from '@/src/app/lib/data/insights';
+  import { fetchTotalPatients } from '@/src/app/lib/data/insightsKysely';
   import { formatCurrency } from '@/src/app/lib/utils';
   import { useTranslations } from 'next-intl';
   
@@ -19,13 +20,15 @@ import {
   export default async function CardWrapper() {
     const trans = useTranslations('Home');
 
+    const numberOfPatients = await fetchTotalPatients();
+    /*
     const { 
       numberOfPatients,
       numberOfInvoices,
       totalPaidInvoices,
       totalPendingInvoices
      } = await fetchCardData();
-  
+  */
     return (
       <>
         {/* NOTE: comment in this code when you get to this point in the course */}
