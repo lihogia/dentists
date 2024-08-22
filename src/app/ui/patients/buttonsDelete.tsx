@@ -1,7 +1,7 @@
 import { useFormState } from "react-dom";
 import { TrashIcon, PlusIcon, PencilIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { DeletePatientState, deletePatient } from "@/src/app/lib/data/actions";
+import { DeletePatientState, deletePatient } from "@/src/app/lib/data/actionsKysely";
 
 
 export function DeletePatientComponent({id, handlePatientRemove}: {id: string, handlePatientRemove: Function}) {

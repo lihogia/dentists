@@ -1,5 +1,5 @@
 import { MedicalRecordsForm } from "@/src/app/lib/data/definition";
-import { fetchMedicalRecordsById } from "@/src/app/lib/data/queries";
+import { fetchMedicalRecordsById } from "@/src/app/lib/data/queriesKysely";
 import Breadcrumbs from '@/src/app/ui/patients/breadcrumbs';
 import Tabs from '@/src/app/ui/patients/tabs';
 import ViewMedicalForm from '@/src/app/ui/patients/viewMedicalForm';

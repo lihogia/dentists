@@ -1,6 +1,6 @@
 import Breadcrumbs from '@/src/app/ui/patients/breadcrumbs';
 import Tabs from '@/src/app/ui/patients/tabs';
-import { fetchTreatmentRecordsById } from "@/src/app/lib/data/queries";
+import { fetchTreatmentRecordsById } from "@/src/app/lib/data/queriesKysely";
 import UpdateTreatmentForm from '@/src/app/ui/patients/updateTreatmentForm';
 
 import { TreatmentRecordsForm, Task } from "@/src/app/lib/data/definition";

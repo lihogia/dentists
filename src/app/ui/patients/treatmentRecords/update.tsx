@@ -12,7 +12,7 @@ import {
     CurrencyDollarIcon,
   } from '@heroicons/react/24/outline';
 import { Button } from "@/src/app/ui/buttons";
-import { updateTreatmentRecords, TreatmentState } from '@/src/app/lib/data/actions';
+import { updateTreatmentRecords, TreatmentState } from '@/src/app/lib/data/actionsKysely';
 import { CreateTreatmentTask, DeleteTreatmentTask } from "@/src/app/ui/patients/treatmentRecords/buttons";
 import { stat } from "fs";
 

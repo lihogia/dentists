@@ -26,7 +26,7 @@ export default function ViewTreatmentForm({
     const trans = useTranslations('Patients');
 
     const numberOfItem = pTreatmentRecords.length;
-    const treatmentRecords = pTreatmentRecords.filter((item, index) => index < numberOfItem - 1);
+    const treatmentRecords = numberOfItem == 1 ? pTreatmentRecords : pTreatmentRecords.filter((item, index) => index < numberOfItem - 1);
     
     const [selectedTreatment, setSelectedTreatment] = useState(treatmentRecords[0]);
 

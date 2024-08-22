@@ -1,4 +1,4 @@
-import { fetchDentalRecordsById } from "@/src/app/lib/data/queries";
+import { fetchDentalRecordsById } from "@/src/app/lib/data/queriesKysely";
 import { DentalRecordsForm } from "@/src/app/lib/data/definition";
 import Breadcrumbs from '@/src/app/ui/patients/breadcrumbs';
 import Tabs from '@/src/app/ui/patients/tabs';

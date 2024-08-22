@@ -2,7 +2,7 @@ import { TrashIcon, PlusIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from 'next-intl';
 import { useFormState } from 'react-dom';
 import { TreatmentRecordsBoard, TreatmentRecordsForm } from "@/src/app/lib/data/definition";
-import { deleteTreatmentRecords, TreatmentDeleteState } from '@/src/app/lib/data/actions';
+import { deleteTreatmentRecords, TreatmentDeleteState } from '@/src/app/lib/data/actionsKysely';
 
 export function CreateTreatmentRecord({treatmentRecordsBoard, handleBoard}: {treatmentRecordsBoard: TreatmentRecordsBoard, handleBoard: Function}) {
   const trans = useTranslations('Patients');

@@ -1,4 +1,4 @@
-import { fetchPatientById } from "@/src/app/lib/data/queries";
+import { fetchPatientById } from "@/src/app/lib/data/queriesKysely";
 import Breadcrumbs from '@/src/app/ui/patients/breadcrumbs';
 import Tabs from '@/src/app/ui/patients/tabs';
 import UpdatePatientForm from "@/src/app/ui/patients/updateForm";

@@ -13,7 +13,7 @@ import {
 } from "@/src/app/lib/data/definition";
 
 import { formatCurrency, formatDateToLocal, formatDateObjToLocal, checkAndConvertDate, getNextDate, MAX_ITEMS_PER_PAGE } from '@/src/app/lib/utils';
-
+/*
 export async function fetchPatients() {
     noStore();
 
@@ -466,3 +466,4 @@ export async function fetchFilteredInvoices(query: string, currentPage: number) 
   }
 
 }
+*/

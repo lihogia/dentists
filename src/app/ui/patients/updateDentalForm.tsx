@@ -9,7 +9,7 @@ import clsx from "clsx";
 import {
     InformationCircleIcon,
   } from '@heroicons/react/24/outline';
-  import { updateDentalRecords, DentalState } from '@/src/app/lib/data/actions';
+  import { updateDentalRecords, DentalState } from '@/src/app/lib/data/actionsKysely';
 
 export default function ViewDentalForm({
     dentalRecords

@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect, RedirectType, permanentRedirect } from 'next/navigation';
 import { separateFullName, toTitleCase } from '@/src/app/lib/utils';
 import { Diseases, TeethStatus } from "@/src/app/lib/data/definition";
+/*
 import { 
   isExistedMedicalRecord, 
   isExistedDentalRecord,
@@ -102,7 +103,7 @@ export async function updatePatient(prevState: State, formData: FormData) {
   redirect(url);
 }
 
-/** Medical Records */
+/** Medical Records 
 
 const MedicalFormSchema = z.object({
   status: z.string(),
@@ -271,7 +272,7 @@ export async function updateMedicalReords(prevState: MedicalState, formData: For
   redirect(url);
 }
 
-/** Dental Records */
+/** Dental Records 
 const DentalFormSchema = z.object({
   status: z.string(),
   id: z.string(),
@@ -357,7 +358,7 @@ export async function updateDentalRecords(prevState: DentalState, formData: Form
   redirect(url);  
 }
 
-/** Treatment Records */
+/** Treatment Records 
 const TreatmentFormSchema = z.object({
   status: z.string(),
   id: z.string(),
@@ -517,7 +518,7 @@ export async function deleteTreatmentRecords(prevState: TreatmentDeleteState, fo
   }
 }
 
-/** Delete Patient */
+/** Delete Patient 
 const DeletePatient = FormSchema.omit({
   name: true,
   birth_year: true,
@@ -602,3 +603,4 @@ export async function deletePatient(prevState: DeletePatientState, formData: For
   }
 
 }
+*/

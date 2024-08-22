@@ -13,7 +13,7 @@ import {
     ArrowUpIcon,
     ScaleIcon
   } from '@heroicons/react/24/outline';
-import { updateMedicalReords, MedicalState } from '@/src/app/lib/data/actions';
+import { updateMedicalReords, MedicalState } from '@/src/app/lib/data/actionsKysely';
 import { formatPhoneNumber, mergeToFullName } from "@/src/app/lib/utils";
 
 export default function UpdateMedicalForm({

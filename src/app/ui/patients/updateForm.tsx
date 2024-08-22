@@ -12,7 +12,7 @@ import {
     HomeIcon,
     UserCircleIcon,
   } from '@heroicons/react/24/outline';
-import { updatePatient, State } from '@/src/app/lib/data/actions';
+import { updatePatient, State } from '@/src/app/lib/data/actionsKysely';
 import { formatPhoneNumber, mergeToFullName } from "@/src/app/lib/utils";
 
 
