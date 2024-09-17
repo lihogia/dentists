@@ -261,11 +261,11 @@ async function requestTreatmentRecordsInfo() {
 async function main() {
     console.log(`env: ${ENV}`);
     try {
-/*        await deleteMedicalRecordsTable();
-        await deleteDentalRecordsTable();*/
+        await deleteMedicalRecordsTable();
+        await deleteDentalRecordsTable();
         await deleteTreatmentRecordsTable();
 
-/*        await deletePatientsTable();
+        await deletePatientsTable();
         await createPatientsTable();
         await insertPatientsData();
         await requestPatientsInfo();  
@@ -277,7 +277,7 @@ async function main() {
 
         await createDentalRecordsTable();
         await insertDentalRecordsData();
-        await requestDentalRecordsInfo();*/
+        await requestDentalRecordsInfo();
 
         await createTreatmentRecordsTable();
         await insertTreatmentRecordsData();
