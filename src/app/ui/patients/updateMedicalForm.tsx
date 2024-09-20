@@ -13,13 +13,14 @@ import {
     ArrowUpIcon,
     ScaleIcon
   } from '@heroicons/react/24/outline';
-import { updateMedicalReords, MedicalState } from '@/src/app/lib/data/actionsKysely';
+import { updateMedicalReords, MedicalState } from '@/src/app/lib/data/actionsPrisma';
 import { formatPhoneNumber, mergeToFullName } from "@/src/app/lib/utils";
 
 export default function UpdateMedicalForm({
-    medicalRecords, status
-}: {medicalRecords: MedicalRecordsForm, status: string}) {
+    strMedicalRecord, status
+}: {strMedicalRecord: string, status: string}) {
 
+    const medicalRecords: MedicalRecordsForm = JSON.parse(strMedicalRecord);
     const trans = useTranslations('Patients');
     const isCreate = (status == 'create');
 

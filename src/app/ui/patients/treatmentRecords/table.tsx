@@ -24,8 +24,8 @@ export default function TreatmentRecordsTable({
             <div className="md:hidden">
             {treatmentRecords?.map((record, index) => (
                 <div 
-                    key={`m_trecord_${record.exam_date}`} 
-                    className={clsx(clsx(selectedRecords.exam_date === record.exam_date ? "bg-sky-100 text-blue-600" : "bg-white" , "mb-2 w-full rounded-md p-4"))}
+                    key={`m_trecord_${record.examdate}`} 
+                    className={clsx(clsx(selectedRecords.examdate === record.examdate ? "bg-sky-100 text-blue-600" : "bg-white" , "mb-2 w-full rounded-md p-4"))}
                     onClick={(e) => {
                         const newBoard = {
                             ...treatmentRecordsBoard,
@@ -40,11 +40,11 @@ export default function TreatmentRecordsTable({
                     <div className="flex items-center justify-between pb-2 ">
                         <div>
                         <div className="mb-2 flex items-center cursor-pointer">
-                            <p className={clsx(selectedRecords.exam_date === record.exam_date ? "text-blue-600" : "", "text-lg")}>
-                                {formatDateToLocal(record.exam_date)}
+                            <p className={clsx(selectedRecords.examdate === record.examdate ? "text-blue-600" : "", "text-lg")}>
+                                {formatDateToLocal(record.examdate)}
                             </p>
                         </div>
-                        <p className={clsx(selectedRecords.exam_date === record.exam_date ? "text-blue-600" : "text-gray-500", "text-sm")}>
+                        <p className={clsx(selectedRecords.examdate === record.examdate ? "text-blue-600" : "text-gray-500", "text-sm")}>
                             {formatCurrency(record.amount)}
                         </p>
                         </div>
@@ -52,7 +52,7 @@ export default function TreatmentRecordsTable({
                     </div>
                     <div className="flex w-full items-center justify-between pt-4">
                         <div>
-                            <p>{record.diagnoses}</p>
+                            <p>{record.diagnose}</p>
                         </div>
                         <div className="flex justify-end gap-2">
                             <DeleteTreatmentRecord record={record} index={index} handleRemove={handleRemove}/>
@@ -85,8 +85,8 @@ export default function TreatmentRecordsTable({
                 <tbody className="bg-white">
                     {treatmentRecords?.map((record, index) => (
                     <tr 
-                        key={`trecord_${record.exam_date}`}
-                        className={clsx(selectedRecords.exam_date === record.exam_date ? "bg-sky-100 text-blue-600" : " cursor-pointer", 
+                        key={`trecord_${record.examdate}`}
+                        className={clsx(selectedRecords.examdate === record.examdate ? "bg-sky-100 text-blue-600" : " cursor-pointer", 
                             "w-full border-b py-3 text-sm last-of-type:border-none")}
                         onClick={(e) => {
                             const newBoard = {
@@ -101,11 +101,11 @@ export default function TreatmentRecordsTable({
                         }}
                         >
                         <td className="whitespace-nowrap px-3 py-3">
-                            {formatDateToLocal(record.exam_date)}
+                            {formatDateToLocal(record.examdate)}
                         </td>
                         <td className="whitespace-nowrap py-3 pl-3 pr-3 cursor-pointer">
-                            <div className={clsx(selectedRecords.exam_date === record.exam_date ? "text-blue-600" : "","flex items-center gap-3")}>
-                            <p>{record.diagnoses}</p>
+                            <div className={clsx(selectedRecords.examdate === record.examdate ? "text-blue-600" : "","flex items-center gap-3")}>
+                            <p>{record.diagnose}</p>
                             </div>
                         </td>
                         <td className="whitespace-nowrap px-3 py-3">

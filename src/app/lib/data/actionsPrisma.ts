@@ -2,7 +2,6 @@
 
 import { z } from 'zod';
 import { db } from '@/src/app/lib/data/database';
-import { sql } from 'kysely';
 import { revalidatePath } from 'next/cache';
 import { redirect, RedirectType, permanentRedirect } from 'next/navigation';
 import { separateFullName, toTitleCase } from '@/src/app/lib/utils';
@@ -11,7 +10,7 @@ import {
     isExistedMedicalRecord, 
     isExistedDentalRecord,
     isExistedTreatmentRecord
-   } from './queriesKysely';  
+   } from './queriesPrisma';  
 
 const thisYear = (new Date()).getFullYear();
 
@@ -68,7 +67,7 @@ export async function updatePatient(prevState: State, formData: FormData) {
 
 
   const { id, name, birth_year, gender, phone, address } = validatedFields.data;
-  const nNames = separateFullName(toTitleCase(name));
+  const nNames = separateFullName(name.toLowerCase());
 
   const insertPatient = {
     first_name: nNames[0],
@@ -81,19 +80,23 @@ export async function updatePatient(prevState: State, formData: FormData) {
   };
   
   if (id.trim() === '') { // create
-    const result = await db
-                    .insertInto("patients")
-                    .values(insertPatient)
-                    .returning('id')
-                    .execute();
-    console.log(`Inserted 1 patient, id: ${result[0].id}`);
+    const result = await db.patient.create({
+      data: {
+        ...insertPatient
+      }
+    });
+
+    console.log(`Inserted 1 patient, id: ${result.id}`);
 
   }else { // edit
-    const result = await db
-                    .updateTable("patients")
-                    .set(insertPatient)
-                    .where('id', '=', Number.parseInt(id))
-                    .execute();
+    const result = await db.patient.update({
+      where: {
+        id: Number.parseInt(id)
+      },
+      data: {
+        ...insertPatient
+      }
+    });
     console.log(`Updated 1 patient, id: ${id}`);                
   }
   
@@ -251,20 +254,19 @@ export async function updateMedicalReords(prevState: MedicalState, formData: For
         suffered: suffered
     };
     
-    if (status.trim() === 'create') { // create
-        const result = await db
-                        .insertInto("medical_records")
-                        .values(insertMedicalInfo)
-                        .returning('pid')
-                        .execute();
-        console.log(`Inserted 1 medical_records, id: ${result[0].pid}`);
-    }else { // edit
-        const result = await db
-                        .updateTable("medical_records")
-                        .set(insertMedicalInfo)
-                        .where("pid", "=", Number.parseInt(id))
-                        .execute();  
-    }
+    const result = await db.medicalRecord.upsert({
+      where: {
+        pid: Number.parseInt(id)
+      },
+      update: {
+        ...insertMedicalInfo
+      },
+      create: {
+        ...insertMedicalInfo
+      }
+    });
+
+    console.log(`Updated or Inserted 1 medicalRecord, id: ${result.pid} - ${result.fullname}`);
     
     //const url = '/dashboard/patients';
     const url = `/dashboard/patients/${id}/edit/dentalRecords`;
@@ -329,29 +331,28 @@ const DentalFormSchema = z.object({
 
     const dentalItem = {
         pid: Number.parseInt(id),
-        tooth_diagram: tooth_diagram,
+        tooth_diagram: {
+          upper_left: tooth_diagram[0],
+          upper_right: tooth_diagram[1],
+          lower_left: tooth_diagram[2],
+          lower_right: tooth_diagram[3]
+        },
         description: description
     };
 
+    const result = await db.dentalRecord.upsert({
+      where: {
+        pid: Number.parseInt(id)
+      },
+      update: {
+        ...dentalItem
+      },
+      create: {
+        ...dentalItem
+      }
+    });
+    console.log(`Updated or Created 1 dentalRecord with pid = ${result.pid}`);
 
-    if (status === 'create') { // create
-        const result = await db
-                        .insertInto("dental_records")
-                        .values(dentalItem)
-                        .returning('pid')
-                        .execute();
-        console.log(`Inserted 1 dental_records, id: ${result[0].pid}`);
-
-    }else { // edit
-        const result = await db
-                        .updateTable("dental_records")
-                        .set(dentalItem)
-                        .where("pid", "=", Number.parseInt(id))
-                        .execute();  
-        console.log(`Updated dental_records, id: ${id}`);
-  
-    }
-    
     //const url = '/dashboard/patients';
     const url = `/dashboard/patients/${id}/edit/treatmentRecords`;
     revalidatePath(url);
@@ -362,12 +363,12 @@ const DentalFormSchema = z.object({
 const TreatmentFormSchema = z.object({
     status: z.string(),
     id: z.string(),
-    diagnoses: z.string(),
+    diagnose: z.string(),
     old_exam_date: z.string(),
     exam_date: z.string(),
     amount: z.coerce.number(),
     paid: z.boolean(),
-    treatments: z.string()
+    treatment: z.string()
   });
   
 const UpdateTreatmentsRecords = TreatmentFormSchema.omit({});
@@ -376,12 +377,12 @@ export type TreatmentState = {
     errors?: {
       status?: string[];
       id?: string[];
-      diagnoses?: string[];
+      diagnose?: string[];
       old_exam_date?: string[];
       exam_date?: string[];
       amount?: string[];
       paid?: string[];
-      treatments?: string[];
+      treatment?: string[];
     };
     message?: string | null;
     submitState?: number; // 0: new, 1: success, 2: fail
@@ -395,12 +396,12 @@ export async function updateTreatmentRecords(prevState: TreatmentState, formData
     const validatedFields = UpdateTreatmentsRecords.safeParse({
       status: formData.get('status'),
       id: formData.get('id'),
-      diagnoses: formData.get('diagnoses'),
+      diagnose: formData.get('diagnose'),
       old_exam_date: formData.get('old_exam_date'),
       exam_date: formData.get('hid_exam_date'),
       amount: formData.get('hid_amount'),
       paid: formData.get('paid') === "true",
-      treatments: formData.get('hid_treatmentplan'),
+      treatment: formData.get('treatment'),
     });
   
     if (!validatedFields.success) {
@@ -412,34 +413,37 @@ export async function updateTreatmentRecords(prevState: TreatmentState, formData
       };
     }
 
-    const { status, id, diagnoses, old_exam_date, exam_date, amount, paid, treatments } = validatedFields.data;
+    const { status, id, diagnose, old_exam_date, exam_date, amount, paid, treatment } = validatedFields.data;
   
     const treatmentItem: any = {
         pid: Number.parseInt(id),
-        exam_date: exam_date,
-        diagnoses: diagnoses,
+        exam_date: new Date(exam_date),
+        diagnose: diagnose,
         amount: amount,
         paid: paid,
-        treatments: JSON.stringify(JSON.parse(treatments))
+        treatment: treatment
     };
-  
+    
     if (status === 'create') { // create
-        const result = await db
-                        .insertInto("treatment_records")
-                        .values(treatmentItem)
-                        .returning('pid')
-                        .execute();
-        console.log(`Inserted 1 treatment, id: ${result[0].pid}`);       
-
+        const result = await db.treatmentRecord.create({
+          data: {
+            ...treatmentItem
+          }
+        });
+        console.log(`Inserted 1 treatment, id: ${result.pid}`);       
     } else {
-
-        const result = await db
-                        .updateTable("treatment_records")
-                        .set(treatmentItem)
-                        .where("pid", "=", Number.parseInt(id))
-                        .where("exam_date", "=", new Date(old_exam_date))
-                        .execute();  
-
+        const result = await db.treatmentRecord.update({
+          where: {
+            uniqueID: {
+              pid: Number.parseInt(id),
+              exam_date: new Date(old_exam_date)
+            }
+          },
+          data: {
+            ...treatmentItem
+          }
+        });
+        console.log(`Updated 1 treatment, id: ${result.pid}, ${result.exam_date}`);       
     }
   
     return {
@@ -456,11 +460,11 @@ export async function updateTreatmentRecords(prevState: TreatmentState, formData
   
   const DeleteTreatmentsRecords = TreatmentFormSchema.omit({
     status: true, 
-    diagnoses: true,
+    diagnose: true,
     old_exam_date: true,
     amount: true,
     paid: true,
-    treatments: true  
+    treatment: true  
   });
   
   export type TreatmentDeleteState = {
@@ -492,13 +496,16 @@ export async function updateTreatmentRecords(prevState: TreatmentState, formData
   
     const { id, exam_date } = validatedFields.data;
     const eExamDate = new Date(exam_date);
-    console.log(eExamDate);
-    const result = await db
-                    .deleteFrom("treatment_records")
-                    .where("pid", "=", Number.parseInt(id))
-                    .where("exam_date", "=", eExamDate)
-                    .executeTakeFirst();
-    console.log(`Deleted ${result.numDeletedRows} record. ${id} - ${exam_date}`)
+    //console.log(eExamDate);
+    const result = await db.treatmentRecord.delete({
+      where: {
+        uniqueID: {
+          pid: Number.parseInt(id),
+          exam_date: eExamDate
+        }
+      }
+    });
+    console.log(`Deleted 1 treatmentRecord record, id: ${result.pid}, exam_date: ${result.exam_date}`)
  
     return {
       message: 'Delete Record Successfully.',
@@ -546,38 +553,46 @@ export async function deletePatient(prevState: DeletePatientState, formData: For
     const isMR = await isExistedMedicalRecord(id);
     const isDR = await isExistedDentalRecord(id);
     const isTR = await isExistedTreatmentRecord(id);
+    const resultTrans: any = [];
 
     if (isMR) {
-        const result = await db
-                        .deleteFrom("medical_records")
-                        .where("pid", "=", Number.parseInt(id))
-                        .executeTakeFirst();
-        console.log(`Deleted ${result.numDeletedRows} medical_records' record. id = ${id}`);
+        const result = db.medicalRecord.delete({
+          where: {
+            pid: Number.parseInt(id)
+          }
+        });
+        resultTrans.push(result);
     }
-
+    
     if (isDR) {
-        const result = await db
-                        .deleteFrom("dental_records")
-                        .where("pid", "=", Number.parseInt(id))
-                        .executeTakeFirst();
-        console.log(`Deleted ${result.numDeletedRows} dental_records' record. id = ${id}`);
+      const result = db.dentalRecord.delete({
+          where: {
+            pid: Number.parseInt(id)
+          }
+        });
+        resultTrans.push(result);
     }
 
     if (isTR) {
-        const result = await db
-                        .deleteFrom("treatment_records")
-                        .where("pid", "=", Number.parseInt(id))
-                        .executeTakeFirst();
-        console.log(`Deleted ${result.numDeletedRows} dental_records' record. id = ${id}`);
+      const result = db.treatmentRecord.deleteMany({
+          where: {
+            pid: Number.parseInt(id)
+          }
+        });
+        resultTrans.push(result);
     }
 
-    const result = await db
-                    .deleteFrom("patients")
-                    .where("id", "=", Number.parseInt(id))
-                    .executeTakeFirst();
+    const result = db.patient.delete({
+      where: {
+        id: Number.parseInt(id)
+      }
+    });
+    resultTrans.push(result);
+    
+    const transaction = await prisma.$transaction(resultTrans);
 
-    //console.log(result);
-    console.log(`Deleted ${result.numDeletedRows} patients' record. id = ${id}`);
+    //console.log(transaction);
+    console.log(`Deleted 1 patient successfull, id = ${transaction.id}, name: ${transaction.fullname}`);
   
     return {
       message: 'Delete Patient Successfully.',

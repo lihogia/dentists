@@ -21,7 +21,12 @@ export default function ViewDentalForm({
         ordersL.push(i);
     }
 
-    const teethStatus = dentalRecords.tooth_diagram;
+    const teethStatus = [
+        dentalRecords.tooth_diagram.upper_left,
+        dentalRecords.tooth_diagram.upper_right,
+        dentalRecords.tooth_diagram.lower_left,
+        dentalRecords.tooth_diagram.lower_right
+    ];
 
     function getLayoutFromToothStatus(status: string) {
         let layout = ["", ""]; // 0: tailwind , 1: symbol

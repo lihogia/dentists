@@ -1,15 +1,13 @@
 import { useTranslations } from 'next-intl';
-import { PatientForm } from "@/src/app/lib/data/definition";
+import { PatientView } from "@/src/app/lib/data/definition";
 import Breadcrumbs from '@/src/app/ui/patients/breadcrumbs';
 import UpdatePatientForm from "@/src/app/ui/patients/updateForm";
 
 export default function Page({ params }: { params : { id: string }}) {
     const trans = useTranslations('Patients');
-    const patient: PatientForm = {
+    const patient: PatientView = {
         id: '',
-        first_name: '',
-        middle_name: '',
-        last_name: '',
+        fullname: '',
         birth_year: 1971,
         gender: "female",
         phone: '',
@@ -28,7 +26,7 @@ export default function Page({ params }: { params : { id: string }}) {
             },
             ]}
             />
-            <UpdatePatientForm patient={patient} />
+            <UpdatePatientForm strPatient={JSON.stringify(patient)} />
         </main>
     );
 

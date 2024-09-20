@@ -16,6 +16,15 @@ export type PatientsTable = {
     //latest_date: string;
 };
 
+export type PatientView = {
+    id: string;
+    fullname: string;
+    birth_year: number;
+    gender: string;
+    address: string;
+    phone: string;
+}
+
 export type PatientForm = {
     id: string;
     first_name: string;
@@ -59,29 +68,30 @@ export type Diseases = {
 export type DentalRecordsForm = {
     pid: string; // patient id
     fullname: string;
-    tooth_diagram: 
-        [[string, string, string, string, string, string, string, string], // up right 8 teeth
-        [string, string, string, string, string, string, string, string], // up left 8 teeth
-        [string, string, string, string, string, string, string, string], // bottom right 8 teeth
-        [string, string, string, string, string, string, string, string]]; // bottom left 8 teeth
+    tooth_diagram: {
+        upper_left: string[],   // up right 8 teeth
+        upper_right: string[],  // up left 8 teeth
+        lower_left: string[],   // bottom right 8 teeth
+        lower_right: string[]   // bottom left 8 teeth
+    };
     description: string;
     isCreated: boolean;
 }
 
 
 export type TeethStatus = [
-    [string, string, string, string, string, string, string, string],
-    [string, string, string, string, string, string, string, string],
-    [string, string, string, string, string, string, string, string],
-    [string, string, string, string, string, string, string, string]
+    string[],
+    string[],
+    string[],
+    string[]
 ]
 
 export type TreatmentRecordsForm = {
     pid: string;
     fullname: string;
-    exam_date: string; // YYYY-MM-DD
-    diagnoses: string;
-    treatments: Task[];
+    examdate: string; // YYYY-MM-DD
+    diagnose: string;
+    treatment: string;
     amount: number;
     paid: boolean;
     isCreated: boolean;

@@ -39,9 +39,9 @@ export default function UpdateTreatmentForm({
                 const emptyRecord: TreatmentRecordsForm = {
                     ...treatmentRecordsBoard.records[treatmentRecordsBoard.records.length-1]
                 }
-                if (emptyRecord.exam_date === record.exam_date) {
-                    emptyRecord.exam_date = getNextDate(emptyRecord.exam_date);
-                    emptyRecord.treatments[0].cure_date = emptyRecord.exam_date;
+                if (emptyRecord.examdate === record.examdate) {
+                    emptyRecord.examdate = getNextDate(emptyRecord.examdate);
+                    //emptyRecord.treatments[0].cure_date = emptyRecord.examdate;
                 }
 
                 const newRecords = [...newTreamentRecordsBoard.records, emptyRecord];
@@ -53,8 +53,8 @@ export default function UpdateTreatmentForm({
             }
 
             newTreamentRecordsBoard.records.sort((r1, r2) => {
-                const d1 = new Date(r1.exam_date);
-                const d2 = new Date(r2.exam_date);
+                const d1 = new Date(r1.examdate);
+                const d2 = new Date(r2.examdate);
 
                 if (d1 === d2) return 0;
                 else if (d1 > d2) return 1;
@@ -71,7 +71,7 @@ export default function UpdateTreatmentForm({
             state: pState
         }
 
-        const newRecords = newTreamentRecordsBoard.records.filter((record) => record.exam_date !== pRecord.exam_date);
+        const newRecords = newTreamentRecordsBoard.records.filter((record) => record.examdate !== pRecord.examdate);
         newTreamentRecordsBoard.records = newRecords;
 
         setTreatmentRecordsBoard(newTreamentRecordsBoard);
@@ -79,7 +79,7 @@ export default function UpdateTreatmentForm({
 
     function isDateExisting(dateToCheck: string) {
         const arrExamDate: string[] = treatmentRecordsBoard.records.filter((r, index) => index < treatmentRecordsBoard.records.length - 1).map((record) => {
-            return record.exam_date;
+            return record.examdate;
         });
 
         return arrExamDate.includes(dateToCheck);
@@ -93,8 +93,10 @@ export default function UpdateTreatmentForm({
             <div className="flex items-center justify-between gap-2 mb-3 ml-4">
                 <CreateTreatmentRecord treatmentRecordsBoard={treatmentRecordsBoard} handleBoard={setTreatmentRecordsBoard} />
             </div>
-            
             <TreatmentRecordsTable treatmentRecordsBoard={treatmentRecordsBoard} handleBoard={setTreatmentRecordsBoard} handleRemove={removeBoard}/>
+
+
+
             <hr className="m-3"/>
             {treatmentRecordsBoard.state.status === 1 &&  <div className="mt-1 flow-root bg-gray-100 p-2 bg-green-200">
                 <p className="text-sm">{treatmentRecordsBoard.state.message}</p>
@@ -103,8 +105,9 @@ export default function UpdateTreatmentForm({
                 <p className="text-sm">{treatmentRecordsBoard.state.message}</p>
             </div>}
             {(treatmentRecordsBoard.creatingNew || !selectedRecord.isCreated) && <>
-                <UpdateTreatmentRecord key={`${selectedRecord.exam_date}_${treatmentRecordsBoard.selectedIndex}`} record={selectedRecord} handlesBoard={[updateBoard, isDateExisting]}/>
+                <UpdateTreatmentRecord key={`${selectedRecord.examdate}_${treatmentRecordsBoard.selectedIndex}`} record={selectedRecord} handlesBoard={[updateBoard, isDateExisting]}/>
             </>}
+            
 
         </div>
     );

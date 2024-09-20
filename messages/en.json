@@ -117,6 +117,7 @@
         "viewTreatment": {
             "title": "View Treatment Records",
             "diagnoses": "Diagnoses",
+            "treatment": "Treatment",
             "examinationdate": "Examination Date",
             "amount": "Amount",
             "payment": "Payment",

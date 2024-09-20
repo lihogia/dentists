@@ -38,50 +38,26 @@ const patients = [
             }
         },
         dentalRecords: {
-            tooth_diagram: [
-                ["root_problem", "good", "good", "good", "good", "good", "outside_cavities", "good"],
-                ["good", "good", "good", "good", "good", "occlusal_incisal_cavities", "good", "good"],
-                ["good", "outside_cavities,occlusal_incisal_cavities", "good", "tooth_missing", "good", "good", "root_problem,outside_cavities,occlusal_incisal_cavities", "good"],
-                ["good", "good", "root_problem,outside_cavities", "good", "good", "good", "good", "good"]
-            ],
+            tooth_diagram: {
+                upper_left: ["root_problem", "good", "good", "good", "good", "good", "outside_cavities", "good"],
+                upper_right: ["good", "good", "good", "good", "good", "occlusal_incisal_cavities", "good", "good"],
+                lower_left: ["good", "outside_cavities,occlusal_incisal_cavities", "good", "tooth_missing", "good", "good", "root_problem,outside_cavities,occlusal_incisal_cavities", "good"],
+                lower_right: ["good", "good", "root_problem,outside_cavities", "good", "good", "good", "good", "good"],
+            },
             description: "Rang cua hoi khenh"
         },
         treatmentRecords: [
             {
-                exam_date: '2024-1-16',
-                diagnoses: 'viêm nướu',
-                treatments: [
-                    {
-                        cure: "cạo vôi răng, đánh bóng răng",
-                        cure_date: '2024-1-16',
-                        status: false
-                    },
-                    {
-                        cure: "tay răng, abc xyz",
-                        cure_date: '2024-1-18',
-                        status: true
-                    },
-
-                ],
+                exam_date: '2024-01-16',
+                diagnose: 'nhiễm trùng chóp, vôi răng',
+                treatment: "cạo vôi răng, đánh bóng răng, tay răng, abc xyz",
                 amount: 200000,
                 paid: true
             },
             {
-                exam_date: "2024-5-16",
-                diagnoses: 'sâu răng R16',
-                treatments: [
-                    {
-                        cure: "1. trám răng R16 ( xa trong ) GI \n2. đệm hàm PHHT cũ",
-                        cure_date: "2024-5-16",
-                        status: false
-                    }, 
-                    {
-                        cure: "lay tuy",
-                        cure_date: "2024-5-26",
-                        status: true
-                    }, 
-
-                ],
+                exam_date: "2024-05-16",
+                diagnose: 'sâu răng R16',
+                treatment: "trám răng R16 ( xa trong ) GI \n2. đệm hàm PHHT cũ",
                 amount: 500000,
                 paid: false                
             }
@@ -117,38 +93,26 @@ const patients = [
             }
         },
         dentalRecords: {
-            tooth_diagram: [
-                ["root_problem", "good", "good", "good", "good", "good", "outside_cavities", "good"],
-                ["good", "good", "good", "good", "good", "occlusal_incisal_cavities", "good", "good"],
-                ["good", "outside_cavities,occlusal_incisal_cavities", "good", "tooth_missing", "good", "good", "root_problem,outside_cavities,occlusal_incisal_cavities", "good"],
-                ["tooth_missing", "good", "root_problem,outside_cavities", "good", "tooth_missing", "good", "good", "good"]
-            ],
+            tooth_diagram: {
+                upper_left: ["root_problem", "good", "good", "good", "good", "good", "outside_cavities", "good"],
+                upper_right: ["good", "good", "good", "good", "good", "occlusal_incisal_cavities", "good", "good"],
+                lower_left: ["good", "outside_cavities,occlusal_incisal_cavities", "good", "tooth_missing", "good", "good", "root_problem,outside_cavities,occlusal_incisal_cavities", "good"],
+                lower_right: ["tooth_missing", "good", "root_problem,outside_cavities", "good", "tooth_missing", "good", "good", "good"]
+            },
             description: "Rang coi nho tren bi thieu san men"
         },
         treatmentRecords: [
             {
-                exam_date: '2024-4-16',
-                diagnoses: 'viêm nướu',
-                treatments: [
-                    {
-                        cure: "cạo vôi răng, đánh bóng răng",
-                        cure_date: '2024-4-16',
-                        status: true
-                    }
-                ],
+                exam_date: '2024-04-16',
+                diagnose: 'viêm nướu',
+                treatment: "cạo vôi răng, đánh bóng răng",
                 amount: 300000,
                 paid: true
             },
             {
-                exam_date: '2024-6-27',
-                diagnoses: 'sâu răng R16',
-                treatments: [
-                    {
-                        cure: "1. trám răng R16 ( xa trong ) GI \n2. đệm hàm PHHT cũ",
-                        cure_date: '2024-6-27',
-                        status: true
-                    }
-                ],
+                exam_date: '2024-06-27',
+                diagnose: 'sâu răng R16',
+                treatment: "1. trám răng R13 ( xa trong ) GI \n2. đệm hàm PHHT cũ",
                 amount: 600000,
                 paid: false                
             }

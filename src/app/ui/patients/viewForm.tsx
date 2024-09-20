@@ -1,7 +1,7 @@
 
 import Link from "next/link";
 import { useTranslations } from 'next-intl';
-import { PatientForm } from "@/src/app/lib/data/definition";
+import { PatientForm, PatientView } from "@/src/app/lib/data/definition";
 import { formatPhoneNumber, mergeToFullName } from "@/src/app/lib/utils";
 import {
     MinusIcon,
@@ -15,7 +15,7 @@ import {
 
 export default function ViewPatientForm({
     patient
-}: {patient: PatientForm}) {
+}: {patient: PatientView}) {
 
     const trans = useTranslations('Patients');
 
@@ -35,7 +35,7 @@ export default function ViewPatientForm({
                             autoComplete='off'
                             className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             readOnly
-                            value={mergeToFullName([patient.first_name, patient.middle_name, patient.last_name])}
+                            value={patient.fullname.toUpperCase()}
                         />
                         <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                     </div>

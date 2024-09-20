@@ -1,4 +1,5 @@
-import { fetchPatientById } from "@/src/app/lib/data/queriesKysely";
+import { PatientView } from "@/src/app/lib/data/definition";
+import { fetchPatientById } from "@/src/app/lib/data/queriesPrisma";
 import Breadcrumbs from '@/src/app/ui/patients/breadcrumbs';
 import Tabs from '@/src/app/ui/patients/tabs';
 import UpdatePatientForm from "@/src/app/ui/patients/updateForm";
@@ -11,9 +12,7 @@ import {
 
 export default async function Page({ params }: { params : { id: string }}) {
     const id = params.id;
-    const [ patient ] = await Promise.all([
-        fetchPatientById(id)
-    ]);
+    const patient: PatientView = await fetchPatientById(id);
 
     return (
         <main>
@@ -35,7 +34,7 @@ export default async function Page({ params }: { params : { id: string }}) {
                 { label: 'tabs.treatmentRecords', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/edit/treatmentRecords`}
                 ]}
             />
-            <UpdatePatientForm patient={patient} />
+            <UpdatePatientForm strPatient={JSON.stringify(patient)} />
         </main>
     );
 

@@ -9,12 +9,13 @@ import clsx from "clsx";
 import {
     InformationCircleIcon,
   } from '@heroicons/react/24/outline';
-  import { updateDentalRecords, DentalState } from '@/src/app/lib/data/actionsKysely';
+  import { updateDentalRecords, DentalState } from '@/src/app/lib/data/actionsPrisma';
 
 export default function ViewDentalForm({
-    dentalRecords
-}:{dentalRecords: DentalRecordsForm}) {
+    strDentalRecord
+}:{strDentalRecord: string}) {
 
+    const dentalRecords: DentalRecordsForm = JSON.parse(strDentalRecord);
     const trans = useTranslations('Patients');
 
     const initialState: DentalState = {
@@ -40,7 +41,12 @@ export default function ViewDentalForm({
     }
 
     const teethStatusForm = {
-        tooth_diagram: dentalRecords.tooth_diagram,
+        tooth_diagram: [
+            dentalRecords.tooth_diagram.upper_left,
+            dentalRecords.tooth_diagram.upper_right,
+            dentalRecords.tooth_diagram.lower_left,
+            dentalRecords.tooth_diagram.lower_right
+        ],
         selected_x: 0,
         selected_y: 0
     }

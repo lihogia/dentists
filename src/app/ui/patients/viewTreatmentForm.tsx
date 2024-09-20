@@ -40,7 +40,7 @@ export default function ViewTreatmentForm({
                 <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
                     <div className="md:hidden">
                     {treatmentRecords?.map((record, index) => (
-                        <div key={`m_trecord_${record.exam_date}`} className="mb-2 w-full rounded-md bg-white p-4">
+                        <div key={`m_trecord_${record.examdate}`} className="mb-2 w-full rounded-md bg-white p-4">
                             <div className="flex items-center justify-between pb-2">
                                 <div>
                                     <div 
@@ -48,11 +48,11 @@ export default function ViewTreatmentForm({
                                         onClick={(e) => {
                                             setSelectedTreatment(record);
                                         }}>
-                                        <p className={clsx(selectedTreatment.exam_date === record.exam_date ? "text-blue-600" : "", "text-lg")}>
-                                            {formatDateToLocal(record.exam_date)}
+                                        <p className={clsx(selectedTreatment.examdate === record.examdate ? "text-blue-600" : "", "text-lg")}>
+                                            {formatDateToLocal(record.examdate)}
                                         </p>
                                     </div>
-                                    <p className={clsx(selectedTreatment.exam_date === record.exam_date ? "text-blue-600" : "text-gray-500", "text-sm")}>
+                                    <p className={clsx(selectedTreatment.examdate === record.examdate ? "text-blue-600" : "text-gray-500", "text-sm")}>
                                         {formatCurrency(record.amount)}
                                     </p>
                                 </div>
@@ -60,7 +60,7 @@ export default function ViewTreatmentForm({
                             </div>
                             <div className="flex w-full items-center justify-between pt-4">
                                 <div>
-                                    <p>{record.diagnoses}</p>
+                                    <p>{record.diagnose}</p>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,7 @@ export default function ViewTreatmentForm({
                         </thead>
                         <tbody className="bg-white">
                             {treatmentRecords?.map((record) => (
-                            <tr key={`trecord_${record.exam_date}`}
+                            <tr key={`trecord_${record.examdate}`}
                             className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                                 <td 
                                     className="whitespace-nowrap py-3 pl-3 pr-3 cursor-pointer"
@@ -97,12 +97,12 @@ export default function ViewTreatmentForm({
                                         setSelectedTreatment(record);
                                     }}
                                 >
-                                    <div className={clsx(selectedTreatment.exam_date === record.exam_date ? "text-blue-600" : "","flex items-center gap-3")}>
-                                    <p>{record.diagnoses}</p>
+                                    <div className={clsx(selectedTreatment.examdate === record.examdate ? "text-blue-600" : "","flex items-center gap-3")}>
+                                    <p>{record.diagnose}</p>
                                     </div>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3">
-                                    {formatDateToLocal(record.exam_date)}
+                                    {formatDateToLocal(record.examdate)}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-3">
                                     {formatCurrency(record.amount)}
@@ -126,7 +126,7 @@ export default function ViewTreatmentForm({
             </div>
             <fieldset className="mb-4 mt-5">
                 <legend className="mb-2 block text-sm font-medium">
-                    {trans("viewTreatment.treatmentforexamination", {date: formatDateToLocal(selectedTreatment.exam_date, 'vi-VN')})}
+                    {trans("viewTreatment.treatmentforexamination", {date: formatDateToLocal(selectedTreatment.examdate, 'vi-VN')})}
                 </legend>
                 <div className="border border-gray-100 bg-white w-full">
                     <div className="bg-gray-200 p-2">
@@ -140,7 +140,7 @@ export default function ViewTreatmentForm({
                                 type="text"
                                 className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 readOnly
-                                value={selectedTreatment.exam_date}
+                                value={selectedTreatment.examdate}
                             />
                             <CalendarDaysIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                         </div>
@@ -150,17 +150,32 @@ export default function ViewTreatmentForm({
                             {trans("viewTreatment.diagnoses")}
                         </label>
                         <div className="relative">
-                            <input
+                            <textarea
                                 id="diagnoses"
                                 name="diagnoses"
-                                type="text"
                                 className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 readOnly
-                                value={selectedTreatment.diagnoses}
+                                value={selectedTreatment.diagnose}
                             />
                             <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                         </div>
                     </div>
+                    <div className="bg-gray-200 p-2">
+                        <label htmlFor="diagnoses" className="mb-2 block text-sm font-medium">
+                            {trans("viewTreatment.treatment")}
+                        </label>
+                        <div className="relative">
+                            <textarea
+                                id="treatment"
+                                name="treatment"
+                                className="peer block w-full rounded-md border border-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                readOnly
+                                value={selectedTreatment.treatment}
+                            />
+                            <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                        </div>
+                    </div>
+
                     <div className="bg-gray-200 p-2">
                         <label htmlFor="amount" className="mb-2 block text-sm font-medium">
                             {trans("viewTreatment.amount")}
@@ -184,55 +199,6 @@ export default function ViewTreatmentForm({
                         <div className="relative">
                             <Status status={selectedTreatment.paid} text={trans("checkboxes.paid")} />
                         </div>
-                    </div>
-                    <div className="bg-gray-200 p-2">
-                        <div className="bg-gray-200 p-1 pb-1">
-                            <span className="mb-2 block text-sm font-medium">
-                                {trans("viewTreatment.treatmentplan")}
-                            </span>
-                        </div>
-                        <div className="md:hidden">
-                            {selectedTreatment.treatments.map((treatment, index) => (
-                                <div key={`m_treatment_${index}`} className="flex items-center justify-between border-b pb-4 p-2 bg-white rounded-md mb-1">
-                                    <div>
-                                        <div className="mb-2 flex items-center">
-                                            <p className="text-md">
-                                                {formatDateToLocal(treatment.cure_date)}
-                                            </p>
-                                        </div>
-                                        <p className="text-sm text-gray-500">{treatment.cure}</p>
-                                    </div>
-                                    {/*
-                                    <PatientStatus status={patient.status} />
-                                    */
-                                    }
-                                </div>
-                            )
-                            )}
-                        </div>
-                        <table className="hidden md:table min-w-full bg-gray-100 rounded-md">
-                            <thead className="rounded-lg text-left text-sm font-normal">
-                                <tr>
-                                    <td className="p-2">{trans("viewTreatment.date")}</td>
-                                    <td className="p-2">{trans("viewTreatment.cure")}</td>
-                                    <td className="p-2">{trans("viewTreatment.status")}</td>
-                                </tr>
-                            </thead>
-                            <tbody className="text-sm">
-                                {selectedTreatment.treatments.map((treatment, index) => {
-                                    return (
-                                        <tr key={`treatment_${index}`} className="bg-white">
-                                            <td className="p-2">{formatDateToLocal(treatment.cure_date)}</td>
-                                            <td className="p-2">{treatment.cure}</td>
-                                            <td className="p-2"><Status status={treatment.status} text={trans("checkboxes.done")} /></td>
-                                        </tr>
-                                    );
-                                })
-                                }
-                                
-                            </tbody>
-                        </table>
-
                     </div>
 
                 </div>

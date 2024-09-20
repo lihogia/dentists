@@ -1,6 +1,6 @@
 import Breadcrumbs from '@/src/app/ui/patients/breadcrumbs';
 import Tabs from '@/src/app/ui/patients/tabs';
-import { fetchTreatmentRecordsById } from "@/src/app/lib/data/queriesKysely";
+import { fetchTreatmentRecordsById } from "@/src/app/lib/data/queriesPrisma";
 import ViewTreatmentForm from '@/src/app/ui/patients/viewTreatmentForm';
 
 import { TreatmentRecordsForm, Task } from "@/src/app/lib/data/definition";
@@ -14,31 +14,8 @@ import {
 export default async function Page({ params }: { params : { id: string }}) {
 
     const id = params.id;
-
-    const [ arrTreatmentRecords ]: [ TreatmentRecordsForm[] ] = await Promise.all([
-        fetchTreatmentRecordsById(id)
-    ]);
-
+    const treatmentRecords: TreatmentRecordsForm[] = await fetchTreatmentRecordsById(id);
     
-/*    const arrTreatmentRecords : TreatmentRecordsForm[] = patients[0].treatmentRecords.map((record) => {
-
-        const arrTreatments : Task[] = record.treatments.map(treatment => {
-            return (
-                {...treatment}
-            );
-        });
-        return (
-            { 
-                pid: id,
-                ...record,
-                treatments: arrTreatments,
-                fullname: patients[0].name,
-                isCreated: false
-            }
-        );
-    });
-*/    
-
     return (
         <main>
             <Breadcrumbs
@@ -59,7 +36,7 @@ export default async function Page({ params }: { params : { id: string }}) {
                 { label: 'tabs.treatmentRecords', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/view/treatmentRecords`, active: true}
                 ]}
             />
-            <ViewTreatmentForm pTreatmentRecords={arrTreatmentRecords}/>
+            <ViewTreatmentForm pTreatmentRecords={treatmentRecords}/>
         </main>
     );
 

@@ -1,4 +1,4 @@
-import { fetchFilteredPatientsPages } from "@/src/app/lib/data/queriesKysely";
+import { fetchFilteredPatientsPages } from "@/src/app/lib/data/queriesPrisma";
 import Pagination from '@/src/app/ui/patients/pagination';
 
 export default async function PagingPatients(

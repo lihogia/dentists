@@ -1,5 +1,5 @@
 import { MedicalRecordsForm } from "@/src/app/lib/data/definition";
-import { fetchMedicalRecordsById } from "@/src/app/lib/data/queriesKysely";
+import { fetchMedicalRecordsById } from "@/src/app/lib/data/queriesPrisma";
 import Breadcrumbs from '@/src/app/ui/patients/breadcrumbs';
 import Tabs from '@/src/app/ui/patients/tabs';
 import UpdateMedicalForm from '@/src/app/ui/patients/updateMedicalForm';
@@ -34,7 +34,7 @@ export default async function Page({ params }: { params : { id: string }}) {
                 { label: 'tabs.treatmentRecords', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/edit/treatmentRecords`}
                 ]}
             />
-            <UpdateMedicalForm medicalRecords={medicalRecords} status={medicalRecords.height == 0 ? "create" : "edit"}/>
+            <UpdateMedicalForm strMedicalRecord={JSON.stringify(medicalRecords)} status={medicalRecords.height == 0 ? "create" : "edit"}/>
         </main>
     );
 

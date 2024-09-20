@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "relationJoins"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DentalRecord {
+  pid           Int      @id @default(autoincrement())
+  tooth_diagram Json     @db.Json
+  description   String?
+  Patient       Patient  @relation(fields: [pid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "DR_pid_fkey")
+}
+
+model MedicalRecord {
+  pid                  Int     @id @default(autoincrement())
+  height               Decimal @db.Decimal(3, 1)
+  weight               Decimal @db.Decimal(3, 1)
+  blood_pressure_sys   Int
+  blood_pressure_dia   Int
+  pulse                Int
+  hospitalized         Boolean @default(false)
+  hospitalized_declare String?
+  suffered             Json    @db.Json
+  Patient              Patient @relation(fields: [pid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "MR_pid_fkey")
+}
+
+model Patient {
+  id              Int               @id @default(autoincrement())
+  first_name      String            @db.VarChar(255)
+  middle_name     String            @db.VarChar(255)
+  last_name       String            @db.VarChar(255)
+  birth_year      Int
+  gender          String            @db.VarChar
+  phone           String?           @db.VarChar
+  address         String?           @db.VarChar
+  DentalRecord    DentalRecord?
+  MedicalRecord   MedicalRecord?
+  TreatmentRecord TreatmentRecord[]
+}
+
+model TreatmentRecord {
+  pid       Int
+  exam_date DateTime @db.Date
+  diagnose String?
+  amount    Int      @default(0)
+  paid      Boolean  @default(false)
+  treatment String?
+  Patient   Patient  @relation(fields: [pid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "TR_pid_fkey")
+
+  @@id(name: "uniqueID", [pid, exam_date])
+}

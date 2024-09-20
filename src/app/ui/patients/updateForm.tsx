@@ -3,7 +3,7 @@ import { useFormState } from 'react-dom';
 import Link from "next/link";
 import { useTranslations } from 'next-intl';
 import { Button } from "@/src/app/ui/buttons";
-import { PatientForm } from "@/src/app/lib/data/definition";
+import { PatientView } from "@/src/app/lib/data/definition";
 import {
     MinusIcon,
     PlusIcon,
@@ -12,7 +12,7 @@ import {
     HomeIcon,
     UserCircleIcon,
   } from '@heroicons/react/24/outline';
-import { updatePatient, State } from '@/src/app/lib/data/actionsKysely';
+import { updatePatient, State } from '@/src/app/lib/data/actionsPrisma';
 import { formatPhoneNumber, mergeToFullName } from "@/src/app/lib/utils";
 
 
@@ -21,10 +21,11 @@ import { formatPhoneNumber, mergeToFullName } from "@/src/app/lib/utils";
  * @param1: status = 'create' | 'edit'
  * @param2: patient = null | PatientForm
  */
-export default function UpdatePatientForm({patient}: {
-    patient: PatientForm
+export default function UpdatePatientForm({strPatient}: {
+    strPatient: string
 }) {
 
+    const patient = JSON.parse(strPatient);
     const trans = useTranslations('Patients');
     const initialState: State = {
         errors: {},
@@ -50,7 +51,7 @@ export default function UpdatePatientForm({patient}: {
                             required={true}
                             placeholder={trans("create.nameplaceholder")}
                             className="peer block w-full rounded-md border border-gray-500 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                            defaultValue={mergeToFullName([patient.first_name, patient.middle_name, patient.last_name])}
+                            defaultValue={patient.fullname.toUpperCase()}
                         />
                         <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                     </div>

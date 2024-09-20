@@ -12,7 +12,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
   const { replace } = useRouter();
 
   const handleSearch = useDebouncedCallback((term) => {
-    console.log(`Searching ... ${term}`);
+    //console.log(`Searching ... ${term}`);
 
     const params = new URLSearchParams(searchParams);
     if (term) {
@@ -35,7 +35,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
           name="txtSearch"
           placeholder={placeholder}
           onChange={(e) => {
-            handleSearch(e.currentTarget.value);
+            handleSearch(e.currentTarget.value.trim().toLowerCase());
           }}
           defaultValue={searchParams.get('query')?.toString()}
         />

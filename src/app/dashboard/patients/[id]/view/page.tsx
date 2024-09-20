@@ -1,4 +1,4 @@
-import { fetchPatientById } from "@/src/app/lib/data/queriesKysely";
+import { fetchPatientById } from "@/src/app/lib/data/queriesPrisma";
 import Breadcrumbs from '@/src/app/ui/patients/breadcrumbs';
 import Tabs from '@/src/app/ui/patients/tabs';
 import ViewPatientForm from '@/src/app/ui/patients/viewForm';
@@ -11,9 +11,7 @@ import {
 
 export default async function Page({ params }: { params : { id: string }}) {
     const id = params.id;
-    const [ patient ] = await Promise.all([
-        fetchPatientById(id)
-    ]);
+    const patient = await fetchPatientById(id);
 
     return (
         <main>

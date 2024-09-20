@@ -2,7 +2,7 @@ import { TrashIcon, PlusIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from 'next-intl';
 import { useFormState } from 'react-dom';
 import { TreatmentRecordsBoard, TreatmentRecordsForm } from "@/src/app/lib/data/definition";
-import { deleteTreatmentRecords, TreatmentDeleteState } from '@/src/app/lib/data/actionsKysely';
+import { deleteTreatmentRecords, TreatmentDeleteState } from '@/src/app/lib/data/actionsPrisma';
 
 export function CreateTreatmentRecord({treatmentRecordsBoard, handleBoard}: {treatmentRecordsBoard: TreatmentRecordsBoard, handleBoard: Function}) {
   const trans = useTranslations('Patients');
@@ -79,7 +79,7 @@ export function DeleteTreatmentRecord({record, index, handleRemove}: {record: Tr
     return (
         <form id={`form_${index}`} name={`form_${index}`} action={dispatch}>
             <input type='hidden' name='id' defaultValue={record.pid} />
-            <input type='hidden' id='examDate' name='examDate' defaultValue={record.exam_date} />
+            <input type='hidden' id='examDate' name='examDate' defaultValue={record.examdate} />
             
             <button 
               type="submit"

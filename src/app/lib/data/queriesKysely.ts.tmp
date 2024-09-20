@@ -328,7 +328,7 @@ export async function getEmptyTreatmentRecordsById(id: string) {
 
   */
 }
-
+/*
 function createListOfTreatmenRecords(listOfRecords: TreatmentRecordsForm[], emptyRecord: TreatmentRecordsForm) {
   const dateToCheck = emptyRecord.exam_date;
   const arrExamDate: string[] = listOfRecords.map((record) => {
@@ -352,7 +352,7 @@ function createListOfTreatmenRecords(listOfRecords: TreatmentRecordsForm[], empt
     return [...listOfRecords, emptyRecord];
   }
 }
-
+*/
 export async function fetchTreatmentRecordsById(id: string) {
   noStore();
 

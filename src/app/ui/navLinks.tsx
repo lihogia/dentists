@@ -18,7 +18,7 @@ export default function NavLinks() {
   const links = [
     { name: trans("navLinks.homepage"), href: '/dashboard/home', icon: HomeIcon },
     { name: trans("navLinks.patients"), href: '/dashboard/patients', icon: UserGroupIcon },
-    //{ name: trans("navLinks.invoices"), href: '/dashboard/invoices', icon: DocumentDuplicateIcon }
+    { name: trans("navLinks.invoices"), href: '/dashboard/invoices', icon: DocumentDuplicateIcon }
   ]; 
 
   const pathname = usePathname();

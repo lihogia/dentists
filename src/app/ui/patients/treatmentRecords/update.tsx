@@ -12,7 +12,7 @@ import {
     CurrencyDollarIcon,
   } from '@heroicons/react/24/outline';
 import { Button } from "@/src/app/ui/buttons";
-import { updateTreatmentRecords, TreatmentState } from '@/src/app/lib/data/actionsKysely';
+import { updateTreatmentRecords, TreatmentState } from '@/src/app/lib/data/actionsPrisma';
 import { CreateTreatmentTask, DeleteTreatmentTask } from "@/src/app/ui/patients/treatmentRecords/buttons";
 import { stat } from "fs";
 
@@ -42,11 +42,11 @@ export default function UpdateTreatmentRecord(
         state.id = "0";
         //state = initialState;
     }
-
+/*
     function hideSubmitStateNotification() {
        // handleBoard(null, {status: 0, message: ''})
     }
-
+*/
     function disableSubmitButton(isDisabled: boolean) {
         const subBut = document.getElementById('submitButton') as HTMLInputElement;
         subBut.disabled = isDisabled;
@@ -57,7 +57,7 @@ export default function UpdateTreatmentRecord(
         }
         
     }
-
+/*
     function addNewTreatmentTask() {
 
         const today = new Date();
@@ -69,7 +69,7 @@ export default function UpdateTreatmentRecord(
             status: false
         
         }
-        const newTreatments = [...workingRecord.treatments, newTask];
+        const newTreatments = [...workingRecord.treatment, newTask];
         const newRecord = {
             ...workingRecord,
             treatments: newTreatments
@@ -90,25 +90,26 @@ export default function UpdateTreatmentRecord(
         input_TreatmentPlan.value = JSON.stringify(newTreatments);
         setWorkingRecord(newRecord);
     }
-
+*/
     return(
         <form id="update_form" action={dispatch}>
             <input type='hidden' name='status' defaultValue={record.isCreated ? "create" : "edit"} />
             <input type='hidden' name='id' defaultValue={record.pid} />
-            <input type='hidden' id='old_exam_date' name='old_exam_date' defaultValue={record.exam_date} />
-            <input type="hidden" id="hid_exam_date" name="hid_exam_date" defaultValue={workingRecord.exam_date}/>
+            <input type='hidden' id='old_exam_date' name='old_exam_date' defaultValue={record.examdate} />
+            <input type="hidden" id="hid_exam_date" name="hid_exam_date" defaultValue={workingRecord.examdate}/>
             <input type="hidden" id="hid_amount" name="hid_amount" defaultValue={workingRecord.amount}/>
+            {/*}
             <textarea 
-                    key={`${workingRecord.exam_date}_treatments`}
+                    key={`${workingRecord.examdate}_treatments`}
                     id="hid_treatmentplan" 
                     name="hid_treatmentplan" 
                     defaultValue={JSON.stringify(workingRecord.treatments)} 
                     className="w-full hidden"/>
-
+*/}
             <div className="mt-1 flow-root bg-gray-100">
-                <fieldset className="mt-1" key={`${workingRecord.exam_date}`}>
+                <fieldset className="mt-1" key={`${workingRecord.examdate}`}>
                     <legend className="block text-sm font-bold bg-gray-100 w-full p-2 pb-0">
-                        {trans("viewTreatment.treatmentforexamination", {date: formatDateToLocal(workingRecord.exam_date, 'vi-VN')})}
+                        {trans("viewTreatment.treatmentforexamination", {date: formatDateToLocal(workingRecord.examdate, 'vi-VN')})}
                     </legend>
                     <div className="border border-gray-100 w-full p-2 rounded-md">
                         <div className="p-2">
@@ -122,7 +123,7 @@ export default function UpdateTreatmentRecord(
                                     type="text"
                                     className="peer block w-full rounded-md border border-gray-600 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"                                 
                                     placeholder="dd/mm/yyyy"
-                                    defaultValue={formatDateToLocal(workingRecord.exam_date)}
+                                    defaultValue={formatDateToLocal(workingRecord.examdate)}
                                     pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
                                     onChange={(e) => {
                                         const [isDate, newDate] = checkAndConvertDate(e.currentTarget.value);
@@ -146,7 +147,7 @@ export default function UpdateTreatmentRecord(
 
                                         const nRecord = {
                                             ...workingRecord,
-                                            exam_date: newDate
+                                            examdate: newDate
                                         }
                                         setWorkingRecord(nRecord);
                                     }}
@@ -155,20 +156,20 @@ export default function UpdateTreatmentRecord(
                             </div>
                         </div>
                         <div className="p-2">
-                            <label htmlFor="diagnoses" className="mb-2 block text-sm font-medium">
+                            <label htmlFor="diagnose" className="mb-2 block text-sm font-medium">
                                 {trans("viewTreatment.diagnoses")}
                             </label>
                             <div className="relative">
                                 <textarea
-                                    id="diagnoses"
-                                    name="diagnoses"
-                                    className="peer block w-full rounded-md border border-gray-600 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                    defaultValue={workingRecord.diagnoses}
+                                    id="diagnose"
+                                    name="diagnose"
+                                    className="peer block w-full rounded-md border border-gray-600 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 h-20"
+                                    defaultValue={workingRecord.diagnose}
                                     onChange={(e) => {
                                         
                                         const nRecord = {
                                             ...workingRecord,
-                                            diagnoses: e.currentTarget.value
+                                            diagnose: e.currentTarget.value
                                         }
                                         setWorkingRecord(nRecord);                                        
 
@@ -177,6 +178,30 @@ export default function UpdateTreatmentRecord(
                                 <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/3 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                             </div>
                         </div>
+                        <div className="p-2">
+                            <label htmlFor="treatment" className="mb-2 block text-sm font-medium">
+                                {trans("viewTreatment.treatment")}
+                            </label>
+                            <div className="relative">
+                                <textarea
+                                    id="treatment"
+                                    name="treatment"
+                                    className="peer block w-full rounded-md border border-gray-600 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 h-40"
+                                    defaultValue={workingRecord.treatment}
+                                    onChange={(e) => {
+                                        
+                                        const nRecord = {
+                                            ...workingRecord,
+                                            treatment: e.currentTarget.value
+                                        }
+                                        setWorkingRecord(nRecord);                                        
+
+                                    }}
+                                />
+                                <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/3 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                            </div>
+                        </div>
+
                         <div className="p-2">
                             <label htmlFor="amount" className="mb-2 block text-sm font-medium">
                                 {trans("viewTreatment.amount")}
@@ -190,7 +215,7 @@ export default function UpdateTreatmentRecord(
                                     className="peer block w-full rounded-md border border-gray-600 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                     defaultValue={workingRecord.amount}
                                     onChange={(e) => {
-                                        hideSubmitStateNotification();
+                                        //hideSubmitStateNotification();
                                         let textValue = e.currentTarget.value;
 
                                         let nValue = Number.parseInt(textValue);
@@ -246,254 +271,6 @@ export default function UpdateTreatmentRecord(
                                 </label>
                             </div>
                         </div>
-                        <div className="p-2 border border-gray-300 rounded-full rounded-md">
-                            <div className="p-1 pb-1">
-                                <span className="mb-2 block text-sm font-medium">
-                                    {trans("viewTreatment.treatmentplan")}
-                                </span>
-                            </div>
-                            <div className="flex items-center justify-between gap-2 m-2 mt-1">
-                                <CreateTreatmentTask handleRecord={addNewTreatmentTask}/>
-                            </div>
-                            <div className="md:hidden">
-                                {workingRecord.treatments.map((treatment, index) => (
-                                    <div 
-                                        key={`m_treatment_${workingRecord.exam_date}_${index}`} 
-                                        className="flex items-center justify-between border-b border-gray-300 p-2 bg-white rounded-md mb-4">
-                                        <div className="w-full">
-                                            <div>
-                                                <input 
-                                                    id={`m_treatment_cure_date_${index}`}
-                                                    name={`m_treatment_cure_date_${index}`}
-                                                    type="text"
-                                                    defaultValue={formatDateToLocal(treatment.cure_date)}
-                                                    className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full mr-2"
-                                                    onChange={(e) => {
-                                                        hideSubmitStateNotification();
-                                                        const textValue = e.currentTarget.value;
-                                                        if (textValue.length != 10) {
-                                                            e.currentTarget.className = "p-2 cursor-pointer focus:bg-red-300 border-2 border-red-600 bg-white rounded-md w-full mr-2";
-                                                            disableSubmitButton(true);
-                                                            return false;
-                                                        }
-                    
-                                                        const [isDate, newDate] = checkAndConvertDate(textValue);
-                                                        if (isDate !== "true") {
-                                                            e.currentTarget.className = "p-2 cursor-pointer focus:bg-red-300 border-2 border-red-600 bg-white rounded-md w-full mr-2";
-                                                            disableSubmitButton(true);
-                                                            return false;                                        
-                                                        }
-                                                        
-                                                        e.currentTarget.className = "p-2 cursor-pointer border-2 border-gray-300 bg-white rounded-md w-full mr-2";
-
-                                                        const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
-                                                        const newTreatment = {
-                                                            ...treatment
-                                                        }
-                                                        newTreatment.cure_date = newDate;
-                                                        const nTreatmentPlan = [...workingRecord.treatments];
-                                                        nTreatmentPlan[index] = newTreatment;
-                                                        input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
-                                                        disableSubmitButton(false);
-
-                                                        const nRecord = {
-                                                            ...workingRecord,
-                                                            treatments: nTreatmentPlan
-                                                        }
-                                                        setWorkingRecord(nRecord);                
-
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="mb-2 flex items-center w-full">
-                                                <input 
-                                                    id={`m_treatment_cure_${index}`}
-                                                    name={`m_treatment_cure_${index}`}
-                                                    type="text"
-                                                    defaultValue={treatment.cure}
-                                                    className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full"
-                                                    onChange={(e) => {
-                                                        //hideSubmitStateNotification();
-                                                        const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
-                                                        const newTreatment = {
-                                                            ...treatment
-                                                        }
-                                                        newTreatment.cure = e.currentTarget.value;
-
-                                                        const nTreatmentPlan = [...workingRecord.treatments];
-                                                        nTreatmentPlan[index] = newTreatment;
-                                                        input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
-
-                                                        const nRecord = {
-                                                            ...workingRecord,
-                                                            treatments: nTreatmentPlan
-                                                        }
-                                                        setWorkingRecord(nRecord);
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="text-sm text-gray-500 flex items-center mt-2 ">
-                                                <input 
-                                                    id={`m_treatment_status_${index}`}
-                                                    name={`m_treatment_status_${index}`}
-                                                    type="checkbox"
-                                                    value="true"
-                                                    defaultChecked={treatment.status}
-                                                    className="cursor-pointer border border-gray-600 bg-white rounded-md"
-                                                    onChange={(e) => {
-                                                        hideSubmitStateNotification();
-                                                        const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
-                                                        const newTreatment = {
-                                                            ...treatment
-                                                        }
-                                                        newTreatment.status = e.currentTarget.checked;
-                                                        const nTreatmentPlan = [...workingRecord.treatments];
-                                                        nTreatmentPlan[index] = newTreatment;
-                                                        input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
-
-                                                        const nRecord = {
-                                                            ...workingRecord,
-                                                            treatments: nTreatmentPlan 
-                                                        }
-                                                        setWorkingRecord(nRecord);
-                                                    }}
-                                                /> 
-                                                <label 
-                                                    htmlFor={`treatment_status_${index}`} 
-                                                    className="flex cursor-pointer items-center rounded-full px-2 font-medium text-gray-600">
-                                                    <Status status={treatment.status} text={trans("checkboxes.done")} />
-                                                </label>
-                                                {workingRecord.treatments.length > 1 && <DeleteTreatmentTask index={index} handleRemove={removeTreatmentTask} />}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                                )}
-                            </div>
-                            <table className="hidden md:table min-w-full bg-gray-100 rounded-md">
-                                <thead className="rounded-lg text-left text-sm font-normal">
-                                    <tr>
-                                        <td className="p-2">{trans("viewTreatment.date")}</td>
-                                        <td className="p-2">{trans("viewTreatment.cure")}</td>
-                                        <td className="p-2">{trans("viewTreatment.status")}</td>
-                                        <td className="p-2">{trans("buttons.delete")}</td>
-                                    </tr>
-                                </thead>
-                                <tbody className="text-sm">
-                                    {workingRecord.treatments.map((treatment, index) => {
-                                        return (
-                                            <tr key={`treatment_${workingRecord.exam_date}_${index}`} className="bg-white">
-                                                <td className="p-2">
-                                                    <input 
-                                                        id={`treatment_cure_date_${index}`}
-                                                        name={`treatment_cure_date_${index}`}
-                                                        type="text"
-                                                        defaultValue={formatDateToLocal(treatment.cure_date)}
-                                                        className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full mr-2"
-                                                        onChange={(e) => {
-                                                            //hideSubmitStateNotification();
-                                                            const textValue = e.currentTarget.value;
-                        
-                                                            const [isDate, newDate] = checkAndConvertDate(textValue);
-                                                            if (isDate !== "true") {
-                                                                e.currentTarget.className = "p-2 cursor-pointer focus:bg-red-300 border-2 border-red-600 bg-white rounded-md w-full mr-2";
-                                                                return false;                                        
-                                                            }
-                                                            
-                                                            e.currentTarget.className = "p-2 cursor-pointer border-2 border-gray-300 bg-white rounded-md w-full mr-2";
-
-                                                            const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
-                                                            const newTreatment = {
-                                                                ...treatment
-                                                            }
-                                                            newTreatment.cure_date = newDate;
-                                                            const nTreatmentPlan = [...workingRecord.treatments];
-                                                            nTreatmentPlan[index] = newTreatment;
-                                                            input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
-
-                                                            /*const nRecord = {
-                                                                ...workingRecord,
-                                                                treatments: nTreatmentPlan 
-                                                            }
-                                                            setWorkingRecord(nRecord);    */
-                                                        }}
-                                                    />    
-                                                </td>
-                                                <td className="p-2">
-                                                    <input 
-                                                        id={`treatment_cure_${index}`}
-                                                        name={`treatment_cure_${index}`}
-                                                        type="text"
-                                                        defaultValue={treatment.cure}
-                                                        className="p-2 cursor-pointer border border-gray-600 bg-white rounded-md w-full mr-2"
-                                                        onChange={(e) => {
-                                                            //hideSubmitStateNotification();
-                                                            const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
-                                                            //const treatmentsObjs = JSON.parse(input_TreatmentPlan.value);
-
-                                                            const newTreatment = {
-                                                                ...treatment
-                                                            }
-                                                            newTreatment.cure = e.currentTarget.value;
-
-                                                            const nTreatmentPlan = [...workingRecord.treatments];
-                                                            nTreatmentPlan[index] = newTreatment;
-                                                            input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
-
-                                                            const nRecord = {
-                                                                ...workingRecord,
-                                                                treatments: nTreatmentPlan 
-                                                            }
-                                                            setWorkingRecord(nRecord);
-    
-                                                        }}
-                                                    />    
-                                                </td>
-                                                <td className="p-2">
-                                                    <div className="flex items-center px-3">
-                                                    <input 
-                                                        id={`treatment_status_${index}`}
-                                                        name={`treatment_status_${index}`}
-                                                        type="checkbox"
-                                                        value="true"
-                                                        defaultChecked={treatment.status}
-                                                        className="cursor-pointer border-2 border-gray-300 bg-white rounded-md"
-                                                        onChange={(e) => {
-                                                            hideSubmitStateNotification();
-                                                            const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
-                                                            const newTreatment = {
-                                                                ...treatment
-                                                            }
-                                                            newTreatment.status = e.currentTarget.checked;
-                                                            const nTreatmentPlan = [...workingRecord.treatments];
-                                                            nTreatmentPlan[index] = newTreatment;
-                                                            input_TreatmentPlan.value = JSON.stringify(nTreatmentPlan);
-
-                                                            const nRecord = {
-                                                                ...workingRecord,
-                                                                treatments: nTreatmentPlan 
-                                                            }
-                                                            setWorkingRecord(nRecord);
-                                                        }}
-                                                    /> 
-                                                    <label 
-                                                        htmlFor={`treatment_status_${index}`} 
-                                                        className="flex cursor-pointer items-center rounded-full px-2 font-medium text-gray-600">
-                                                        <Status status={treatment.status} text={trans("checkboxes.done")} />
-                                                    </label>
-                                                    </div>
-                                                </td>
-                                                <td className="p-2">
-                                                    {workingRecord.treatments.length > 1 && <DeleteTreatmentTask index={index} handleRemove={removeTreatmentTask} />}
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                    }
-                                </tbody>
-                            </table>
-
-                        </div>
                     </div>
                 </fieldset>
             </div>
@@ -509,13 +286,13 @@ export default function UpdateTreatmentRecord(
                     type="submit"
                     onClick={(e) => {
                         const hidExamDate = document.getElementById("hid_exam_date") as HTMLInputElement;
-                        const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
+                        //const input_TreatmentPlan = document.getElementById("hid_treatmentplan") as HTMLTextAreaElement;
                         //if (hidExamDate.value !== workingRecord.exam_date) {
                         //console.log(hidExamDate.value);
                             const nRecord = {
                                 ...workingRecord,
                                 exam_date: hidExamDate.value, 
-                                treatments: JSON.parse(input_TreatmentPlan.value)
+                                //treatment: JSON.parse(input_TreatmentPlan.value)
                             }
                             setWorkingRecord(nRecord);    
                         //}

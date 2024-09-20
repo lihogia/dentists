@@ -1,4 +1,4 @@
-
+'use client';
 import Link from "next/link";
 import { useTranslations } from 'next-intl';
 import { MedicalRecordsForm } from "@/src/app/lib/data/definition";
@@ -11,9 +11,11 @@ import {
 import clsx from "clsx";
 
 export default function ViewMedicalForm({
-    medicalRecords
-}: {medicalRecords: MedicalRecordsForm}) {
+    strMedicalRecords
+}: {strMedicalRecords: string}) {
     const trans = useTranslations('Patients');
+
+    const medicalRecords: MedicalRecordsForm = JSON.parse(strMedicalRecords);
 
     return (
         <form>

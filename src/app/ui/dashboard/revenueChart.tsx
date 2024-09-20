@@ -2,7 +2,7 @@ import { generateYAxis, localeOfMonth } from '@/src/app/lib/utils';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/src/app/ui/fonts';
 //import { Revenue } from '@/app/lib/definitions';
-import { fetchRevenue } from '@/src/app/lib/data/insights';
+import { fetchRevenue } from '@/src/app/lib/data/insightsPrisma';
 import { useTranslations } from 'next-intl';
 import { getLocale } from 'next-intl/server';
 

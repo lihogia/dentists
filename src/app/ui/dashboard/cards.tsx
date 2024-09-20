@@ -6,7 +6,8 @@ import {
   } from '@heroicons/react/24/outline';
   import { lusitana } from '@/src/app/ui/fonts';
   //import { fetchCardData } from '@/src/app/lib/data/insights';
-  import { fetchTotalPatients } from '@/src/app/lib/data/insightsKysely';
+  //import { fetchTotalPatients } from '@/src/app/lib/data/insightsKysely';
+  import { fetchTotalPatients } from '@/src/app/lib/data/insightsPrisma';
   import { formatCurrency } from '@/src/app/lib/utils';
   import { useTranslations } from 'next-intl';
   

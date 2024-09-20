@@ -50,7 +50,7 @@
         "checkboxes": {
             "yes": "Có",
             "no": "Không",
-            "paid": "Đã trả",
+            "paid": "Thanh toán",
             "pending": "Chờ xử lý",
             "done": "Hoàn thành"
         },
@@ -117,6 +117,7 @@
         "viewTreatment": {
             "title": "Xem hồ sơ điều trị nha khoa",
             "diagnoses": "Chẩn đoán",
+            "treatment": "Điều trị",
             "examinationdate": "Ngày khám",
             "amount": "Số tiền",
             "payment": "Thanh toán?",

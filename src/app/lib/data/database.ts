@@ -1,19 +1,48 @@
-import { Database } from "./type";
-import { Kysely } from 'kysely';
-import { NeonDialect } from 'kysely-neon';
-import { neonConfig } from "@neondatabase/serverless";
-import ws from 'ws';
+import { convertDateToYYYYMMDD } from "@/src/app/lib/utils";
+import { PrismaClient } from "@prisma/client";
 
-neonConfig.webSocketConstructor = ws;
-if (process.env.POSTGRES_HOST == "localhost") {
-    neonConfig.wsProxy = (host) => `${host}:5433/v1`;
-    neonConfig.useSecureWebSocket = false;
-    neonConfig.pipelineTLS = false;
-    neonConfig.pipelineConnect = false;    
+declare global {
+    var prisma;//: PrismaClient;
 }
 
-export const db = new Kysely<Database>({
-    dialect: new NeonDialect({
-        connectionString: process.env.POSTGRES_URL,
-    }),
-});
+const prismaExt = new PrismaClient().$extends({
+    result: {
+      patient: {
+        fullname: {
+          needs: { first_name: true, middle_name: true, last_name: true },
+          compute(patient) {
+            return `${patient.first_name} ${patient.middle_name} ${patient.last_name}`
+          },
+        },
+      },
+      treatmentRecord: {
+        examdate: {
+          needs: { exam_date: true },
+          compute(treatmentRecord) {
+            return convertDateToYYYYMMDD(new Date(treatmentRecord.exam_date)) // to return YYYY-MM-DD
+          }
+        },
+        isCreated: {
+          compute(treatmentRecord) {
+            return false;
+          }
+        }/*,
+        exammonth: {
+          needs: { exam_date: true },
+          compute(treatmentRecord) {
+            return (new Date(treatmentRecord.exam_date)).getMonth() + 1
+          }
+        },
+        examyear: {
+          needs: { exam_date: true },
+          compute(treatmentRecord) {
+            return (new Date(treatmentRecord.exam_date)).getFullYear()
+          }
+        }*/
+      }
+    },
+  });
+
+export const db = globalThis.prisma || prismaExt;
+
+if (process.env.NODE_ENV != "production") globalThis.prisma = db;

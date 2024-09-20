@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/ui/patients/editForm.tsx1", "src/app/ui/patients/createForm.tsx1", "src/app/lib/utils.ts", "src/app/dashboard/patients/[id]/edit/treatmentRecords/page copy.tsx.tmp", "src/app/ui/patients/updateTreatmentForm copy.tsx.tmp", "src/app/dashboard/patients/page copy.tsx.tmp"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/ui/patients/editForm.tsx1", "src/app/ui/patients/createForm.tsx1", "src/app/lib/utils.ts", "src/app/dashboard/patients/[id]/edit/treatmentRecords/page copy.tsx.tmp", "src/app/ui/patients/updateTreatmentForm copy.tsx.tmp", "src/app/dashboard/patients/page copy.tsx.tmp", "src/app/lib/data/insightsKysely.ts.tmp", "src/app/lib/data/queriesKysely.ts.tmp", "src/app/lib/data/actionsKysely.ts.tmp", "scripts/seed_kysely.ts.tmp", "src/app/lib/data/actions.ts.tmp"],
   "exclude": ["node_modules"]
 }

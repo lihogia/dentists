@@ -1,6 +1,6 @@
 import Breadcrumbs from '@/src/app/ui/patients/breadcrumbs';
 import Tabs from '@/src/app/ui/patients/tabs';
-import { fetchTreatmentRecordsById } from "@/src/app/lib/data/queriesKysely";
+import { fetchTreatmentRecordsById } from "@/src/app/lib/data/queriesPrisma";
 import UpdateTreatmentForm from '@/src/app/ui/patients/updateTreatmentForm';
 
 import { TreatmentRecordsForm, Task } from "@/src/app/lib/data/definition";
@@ -14,9 +14,7 @@ import {
 export default async function Page({ params }: { params : { id: string }}) {
     const id = params.id;
 
-    const [ arrTreatmentRecords ]: [ TreatmentRecordsForm[] ] = await Promise.all([
-        fetchTreatmentRecordsById(id)
-    ]);
+    const treatmentRecords: TreatmentRecordsForm[] = await fetchTreatmentRecordsById(id);
 
     return (
         <main>
@@ -38,7 +36,7 @@ export default async function Page({ params }: { params : { id: string }}) {
                 { label: 'tabs.treatmentRecords', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/edit/treatmentRecords`, active: true}
                 ]}
             />
-            <UpdateTreatmentForm treatmentRecords={arrTreatmentRecords}/>
+            <UpdateTreatmentForm treatmentRecords={treatmentRecords}/>
         </main>
     );
 

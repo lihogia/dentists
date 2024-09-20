@@ -26,6 +26,7 @@ export const formatDateObjToLocal = (
     year: 'numeric',
   };
   const formatter = new Intl.DateTimeFormat(locale, options);
+  
   return formatter.format(dateObj);
 };
 
@@ -53,6 +54,15 @@ export const getNextDate = (startDate: string) => { // format: YYYY-MM-DD
   const dateString = formatDateObjToLocal(nextDate);
   const [iD, convertedDateStr] = checkAndConvertDate(dateString);
   return convertedDateStr;
+}
+
+export const convertDateToYYYYMMDD = (theDate: Date) => {
+  const nDD = theDate.getDate();
+  const nMM = theDate.getMonth() + 1;
+  const nYYYY = theDate.getFullYear();
+
+  const nDate = `${nYYYY}-${nMM < 10 ? `0${nMM}` : nMM}-${nDD < 10 ? `0${nDD}` : nDD }`;
+  return nDate;
 }
 
 export const checkAndConvertDate = (textDate: string, requiredZero: boolean = true) => { // dd/mm/yyyy

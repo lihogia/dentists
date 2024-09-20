@@ -1,4 +1,4 @@
-import { fetchDentalRecordsById } from "@/src/app/lib/data/queriesKysely";
+import { fetchDentalRecordsById } from "@/src/app/lib/data/queriesPrisma";
 import { DentalRecordsForm } from "@/src/app/lib/data/definition";
 import Breadcrumbs from '@/src/app/ui/patients/breadcrumbs';
 import Tabs from '@/src/app/ui/patients/tabs';
@@ -13,9 +13,7 @@ import {
 export default async function Page({ params }: { params : { id: string }}) {
 
     const id = params.id;
-    const [dentalRecords] = await Promise.all([
-        fetchDentalRecordsById(id)]
-    ) as [DentalRecordsForm];
+    const dentalRecords: DentalRecordsForm = await fetchDentalRecordsById(id);
 
     return (
         <main>
@@ -37,7 +35,7 @@ export default async function Page({ params }: { params : { id: string }}) {
                 { label: 'tabs.treatmentRecords', icon: ArrowPathRoundedSquareIcon, href: `/dashboard/patients/${id}/edit/treatmentRecords`}
                 ]}
             />
-            <UpdateDentalForm dentalRecords={dentalRecords}/>
+            <UpdateDentalForm strDentalRecord={JSON.stringify(dentalRecords)}/>
         </main>
     );
 
