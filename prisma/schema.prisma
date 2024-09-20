@@ -8,6 +8,60 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          UserRole @default(USER)
+  accounts      Account[]
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+
+model Patient {
+  id              Int               @id @default(autoincrement())
+  first_name      String            @db.VarChar(255)
+  middle_name     String            @db.VarChar(255)
+  last_name       String            @db.VarChar(255)
+  birth_year      Int
+  gender          String            @db.VarChar
+  phone           String?           @db.VarChar
+  address         String?           @db.VarChar
+  DentalRecord    DentalRecord?
+  MedicalRecord   MedicalRecord?
+  TreatmentRecord TreatmentRecord[]
+}
+
 model DentalRecord {
   pid           Int      @id @default(autoincrement())
   tooth_diagram Json     @db.Json
@@ -26,20 +80,6 @@ model MedicalRecord {
   hospitalized_declare String?
   suffered             Json    @db.Json
   Patient              Patient @relation(fields: [pid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "MR_pid_fkey")
-}
-
-model Patient {
-  id              Int               @id @default(autoincrement())
-  first_name      String            @db.VarChar(255)
-  middle_name     String            @db.VarChar(255)
-  last_name       String            @db.VarChar(255)
-  birth_year      Int
-  gender          String            @db.VarChar
-  phone           String?           @db.VarChar
-  address         String?           @db.VarChar
-  DentalRecord    DentalRecord?
-  MedicalRecord   MedicalRecord?
-  TreatmentRecord TreatmentRecord[]
 }
 
 model TreatmentRecord {
