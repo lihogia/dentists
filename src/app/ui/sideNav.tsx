@@ -4,9 +4,14 @@ import UserLogo from "@/src/app/ui/userLogo";
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'next-intl';
 //import { signOut } from '@/auth';
+import { auth } from "@/auth";
 
-export default function SideNav() {
+export default async function SideNav() {
   const trans = useTranslations('Home');
+
+  const session = await auth();
+  console.log(`session`);
+  console.log(session);
 
   return (
     <div className="flex h-full flex-col px-3 py-3 md:py-2 md:px-2">
