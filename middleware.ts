@@ -14,13 +14,15 @@ export default auth((req) => {
     const { nextUrl } = req;
     const isLoggedIn = !!req.auth;
 
+    //console.log(`is loggedin: ${isLoggedIn}`);
+
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-    if (isApiAuthRoute) return;
-    
-    console.log(`isAuthRoute: ${isAuthRoute}`);
+    if (isApiAuthRoute) { 
+        return;
+    }
     
     if (isAuthRoute) {
         if (isLoggedIn) {
@@ -34,16 +36,14 @@ export default auth((req) => {
     }
 
     return;
+})
 
-}); 
-
-// Optionally, don't invoke Middleware on some paths
+// Those below will invoke the auth function above
 export const config = {
     //matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
-    //matcher: ["/auth/login"],
     matcher: [
         '/((?!.+\\.[\\w]+$|_next).*)',
         '/',
         '/(api|trpc)(.*)',
-    ],
-  }
+    ]
+}

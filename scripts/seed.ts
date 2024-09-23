@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import { users, patients } from '@/src/app/lib/data/placeholderData';
-import { separateFullName } from '@/src/app/lib/utils';
-import { CreatePatient } from '@/src/app/ui/patients/buttons';
+import { users, patients } from '@/app/lib/data/placeholderData';
+import { separateFullName } from '@/app/lib/utils';
+import { CreatePatient } from '@/app/ui/patients/buttons';
 
 const prisma = new PrismaClient();
 const ENV = process.env.NODE_ENV;

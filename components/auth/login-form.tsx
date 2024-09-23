@@ -46,8 +46,8 @@ export const LoginForm = () => {
                 .then((data: any) => {
                     console.log('Get data info....');
                     console.log(data);
-                    if (data.error) setError(data.error);
-                    if (data.success) setSuccess(data.success);
+                    if (data !=null && data.error) setError(data.error);
+                    if (data !=null && data.success) setSuccess(data.success);
                 })
         });
     }
@@ -102,8 +102,8 @@ export const LoginForm = () => {
                             )}
                         />
                     </div>
-                    <FormSuccess message={success}/>
-                    <FormError message={error}/>
+                    { success && <FormSuccess message={success}/>}
+                    { error && <FormError message={error}/>}
                     <Button
                         disabled={isPending}
                         type="submit"

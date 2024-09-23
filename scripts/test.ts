@@ -1,6 +1,6 @@
 //import { Client } from '@neondatabase/serverless';
 //import ws from 'ws';
-import { db } from '@/src/app/lib/data/database';
+import { db } from '@/app/lib/data/database';
 import { sql } from 'kysely';
 
 const ENV = process.env.NODE_ENV;

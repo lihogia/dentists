@@ -3,8 +3,8 @@ import authConfig from "@/auth.config";
 import { UserRole } from "@prisma/client";
 
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { db } from "@/src/app/lib/data/database";
-import { getUserById } from "@/src/app/lib/data/authPrisma";
+import { db } from "@/app/lib/data/database";
+import { getUserById } from "@/app/lib/data/authPrisma";
 
 //import { JWT } from "@auth/core/jwt";
 
@@ -38,14 +38,11 @@ export const {
             if (token.role && session.user) {
                 session.user.role = token.role;
             }
-
-            console.log({ sessionToken: token,
-                session
-             });
-
+            //console.log({ sessionToken: token, session});
             return session;
         },
         async jwt({ token }) {
+            //console.log(`token : ${token}, ${token.sub}`);
             if (!token.sub) return token;
             const existingUser = await getUserById(token.sub);
             if (!existingUser) return token;
@@ -57,4 +54,3 @@ export const {
     session: { strategy: "jwt" },
     ...authConfig,
 });
-
