@@ -4,7 +4,6 @@ import { UserRole } from "@prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/app/lib/data/database";
 import { getUserById } from "@/app/lib/data/authPrisma";
-//import { JWT } from "@auth/core/jwt";
 
 export type ExtendedUser = DefaultSession["user"] & {
     role: UserRole;

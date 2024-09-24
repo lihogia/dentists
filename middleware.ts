@@ -31,7 +31,6 @@ export default auth((req) => {
     }
     return;
 })
-
 // Those below will invoke the auth function above
 export const config = {
     matcher: [
