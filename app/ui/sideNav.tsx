@@ -10,8 +10,6 @@ export default async function SideNav() {
   const trans = useTranslations('Home');
 
   const session = await auth();
-  //console.log(`session`);
-  //console.log(session);
 
   return (
     <div className="flex h-full flex-col px-3 py-3 md:py-2 md:px-2">
@@ -25,17 +23,16 @@ export default async function SideNav() {
       </Link>
 
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-        <div>{session?.user.name}</div>
-        <NavLinks />
+        <NavLinks isAdmin={session?.user.role == "ADMIN"}/>
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
         <form id='signOutForm'
           action={async () => {
             'use server';
-            await signOut();
+            await signOut({redirect: true, redirectTo: "/"});
           }}>
           <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-100 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
             <PowerIcon className="w-6" />
-            <div className="hidden md:block">{trans("sideNav.signout")}</div>
+            <div className="hidden md:block">{trans("sideNav.signout")} - {session?.user.name}</div>
           </button>
         </form>
       </div>

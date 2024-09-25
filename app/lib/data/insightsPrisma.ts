@@ -3,6 +3,7 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { formatDateToLocal, formatCurrency, MAX_ITEMS_PER_PAGE } from '@/app/lib/utils';
 import { Prisma } from '@prisma/client';
 import { group } from 'console';
+import { equal } from 'assert';
 
 export async function fetchLatestInvoices() {
     noStore();
@@ -39,6 +40,48 @@ export async function fetchTotalPatients() {
 
     const result = await db.patient.count({});
     return result;
+}
+
+export async function fetchNumberOfInvoices() {
+  noStore();
+
+  const result = await db.treatmentRecord.count({
+    where: {
+      amount: {
+        gt: 0
+      }
+    }
+  });
+  return result;
+}
+
+export async function fetchTotalPaidInvoices() {
+  noStore();
+
+  const result = await db.treatmentRecord.aggregate({
+    _sum: {
+      amount: true
+    },
+    where: {
+      paid: true
+    }
+  });
+  return result._sum.amount;
+}
+
+export async function fetchTotalPendingInvoices() {
+  noStore();
+
+  const result = await db.treatmentRecord.aggregate({
+    _sum: {
+      amount: true
+    },
+    where: {
+      paid: false
+    }
+  });
+
+  return result._sum.amount;
 }
 
 export async function fetchRevenue(year = 2024) {

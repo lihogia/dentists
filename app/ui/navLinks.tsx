@@ -12,14 +12,20 @@ import { useTranslations } from 'next-intl';
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
+interface NavLinksProps {
+  isAdmin: boolean
+}
 
-export default function NavLinks() {
+export default function NavLinks({ isAdmin }: NavLinksProps) {
+
   const trans = useTranslations('Home');
   const links = [
     { name: trans("navLinks.homepage"), href: '/dashboard/home', icon: HomeIcon },
     { name: trans("navLinks.patients"), href: '/dashboard/patients', icon: UserGroupIcon },
-    { name: trans("navLinks.invoices"), href: '/dashboard/invoices', icon: DocumentDuplicateIcon }
   ]; 
+  if (isAdmin) {
+    links.push({ name: trans("navLinks.invoices"), href: '/dashboard/invoices', icon: DocumentDuplicateIcon });
+  }
 
   const pathname = usePathname();
 

@@ -7,9 +7,17 @@ import {
   import { lusitana } from '@/app/ui/fonts';
   //import { fetchCardData } from '@/src/app/lib/data/insights';
   //import { fetchTotalPatients } from '@/src/app/lib/data/insightsKysely';
-  import { fetchTotalPatients } from '@/app/lib/data/insightsPrisma';
+  import { 
+    fetchTotalPatients, 
+    fetchNumberOfInvoices,
+    fetchTotalPaidInvoices,
+    fetchTotalPendingInvoices } 
+    from '@/app/lib/data/insightsPrisma';
+
   import { formatCurrency } from '@/app/lib/utils';
-  import { useTranslations } from 'next-intl';
+  import {getTranslations} from 'next-intl/server';
+  
+  import { auth } from "@/auth";
   
   const iconMap = {
     collected: BanknotesIcon,
@@ -19,27 +27,35 @@ import {
   };
   
   export default async function CardWrapper() {
-    const trans = useTranslations('Home');
-
+    const session = await auth();
+    const isAdmin = session?.user.role == "ADMIN";
+    const trans = await getTranslations('Home');
+    
     const numberOfPatients = await fetchTotalPatients();
-    /*
-    const { 
-      numberOfPatients,
-      numberOfInvoices,
-      totalPaidInvoices,
-      totalPendingInvoices
-     } = await fetchCardData();
-  */
+    let numberOfInvoices = 0;
+    let totalPaidInvoices = 0;
+    let totalPendingInvoices = 0;
+
+    if (isAdmin) {
+      numberOfInvoices = await fetchNumberOfInvoices();
+      totalPaidInvoices = await fetchTotalPaidInvoices();
+      totalPendingInvoices = await fetchTotalPendingInvoices();
+    }     
+
     return (
       <>
-        {/* NOTE: comment in this code when you get to this point in the course */}
-        {
-          /*
-        <Card key='collected' title={trans("card.collected")} value={formatCurrency(Number.parseInt(totalPaidInvoices))} type="collected" />
-        <Card key='Pending' title={trans("card.pending")} value={formatCurrency(Number.parseInt(totalPendingInvoices))} type="pending" />
-        <Card key='totalInvoices' title={trans("card.totalinvoices")} value={numberOfInvoices} type="invoices" />          
-          */
-        }
+        
+        {isAdmin && <>          
+          
+          {/*
+          <Card key='collected' title={trans("card.collected")} value={formatCurrency(Number.parseInt(totalPaidInvoices))} type="collected" />
+          <Card key='Pending' title={trans("card.pending")} value={formatCurrency(Number.parseInt(totalPendingInvoices))} type="pending" />
+          
+          */}
+          <Card key='collected' title={trans("card.collected")} value={formatCurrency(totalPaidInvoices)} type="collected" />
+          <Card key='Pending' title={trans("card.pending")} value={formatCurrency(totalPendingInvoices)} type="pending" />
+          <Card key='totalInvoices' title={trans("card.totalinvoices")} value={numberOfInvoices} type="invoices" />          
+          </>}
         <Card key='totalPatients'
           title={trans("card.totalpatients")}
           value={numberOfPatients}

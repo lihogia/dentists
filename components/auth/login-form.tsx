@@ -54,7 +54,8 @@ export const LoginForm = () => {
 
     return (
         <CardWrapper
-            headerLabel="Welcome back"
+            headerTitle="Login"
+            headerLabel="Welcome to Doma"
             backButtonLabel="Don't have an account?"
             backButtonHref="/register"
             showSocial
@@ -64,44 +65,6 @@ export const LoginForm = () => {
                     onSubmit={form.handleSubmit(onSubmit) }
                     className="space-y-6"
                 >
-                    <div className="space-y-4">
-                        <FormField 
-                            control={form.control}
-                            name="email"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Email</FormLabel>
-                                    <FormControl>
-                                        <Input 
-                                            {...field}
-                                            disabled={isPending}
-                                            placeholder="john.doe@example.com"
-                                            type="email"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField 
-                            control={form.control}
-                            name="password"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <Input 
-                                            {...field}
-                                            disabled={isPending}
-                                            placeholder="******"
-                                            type="password"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
                     { success && <FormSuccess message={success}/>}
                     { error && <FormError message={error}/>}
                     <Button
