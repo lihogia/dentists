@@ -60,12 +60,14 @@ export const CardWrapper = ({
                 </Button>
     
             </CardContent>
+            {/*}
             <CardFooter>
                 <BackButton 
                     label={backButtonLabel}
                     href={backButtonHref}
                 />
             </CardFooter>
+            */}
         </Card>
     );
 };
