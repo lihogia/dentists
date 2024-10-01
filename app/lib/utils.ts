@@ -8,7 +8,7 @@ export const formatCurrency = (
     currency: string = 'VND'
   ) => {
 
-  const formatAmount = amount;
+  const formatAmount = amount == null ? 0 : amount;
   return (formatAmount).toLocaleString(locale, {
     style: "currency",
     currency: currency,
